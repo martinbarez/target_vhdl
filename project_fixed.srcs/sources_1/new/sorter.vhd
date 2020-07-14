@@ -47,12 +47,12 @@ begin
       case (state) is
         when IDLE =>
           storage_wea <= "0";
+          res_valid <= '0';
           if (switch = '1') then
             write_addr   <= 0;
             storage_wea  <= "1";
             storage_dina <= (others => '0');
             switched := false;
-            res_valid <= '0';
             state        <= INITIALIZE;
           end if;
 
@@ -78,9 +78,11 @@ begin
             storage_wea  <= "1";
             storage_dina <= compare;
             swap         <= storage_doutb;
+            res <= compare(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
           else
             storage_wea <= "0";
             swap        <= compare;
+            res <= storage_doutb(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
           end if;
 
           if (read_addr /= n_bands-1) then
@@ -107,7 +109,6 @@ begin
     end if;
   end process sort_proc;
 
-  res <= storage_doutb(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
   storage_addra <= std_logic_vector(to_unsigned(write_addr, storage_addra'length));
   storage_addrb <= std_logic_vector(to_unsigned(read_addr, storage_addra'length));
 

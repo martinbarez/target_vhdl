@@ -167,8 +167,7 @@ begin
         when RES_READ =>
           res_fifo_wr_en <= res_valid;
           res_fifo_din   <= res;
-          res_valid2     <= res_valid;
-          if (res_valid = '0' and res_valid2 = '1') then
+          if (res_valid = '0') then
             state <= IDLE;
           end if;
       end case;
