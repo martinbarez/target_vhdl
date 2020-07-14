@@ -1,0 +1,4 @@
+vhdl xil_defaultlib  \
+"../../../ip/mean_subtracter/sim/mean_subtracter.vhd" \
+
+nosort

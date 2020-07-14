@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="mult_st_multiplier_synth_1" LaunchPart="xc7a200tfbg676-2" LaunchTime="1594039902">
+  <File Type="PA-TCL" Name="mult_st_multiplier.tcl"/>
+  <File Type="RDS-UTIL" Name="mult_st_multiplier_utilization_synth.rpt"/>
+  <File Type="REPORTS-TCL" Name="mult_st_multiplier_reports.tcl"/>
+  <File Type="RDS-UTIL-PB" Name="mult_st_multiplier_utilization_synth.pb"/>
+  <File Type="RDS-RDS" Name="mult_st_multiplier.vds"/>
+  <File Type="RDS-DCP" Name="mult_st_multiplier.dcp"/>
+  <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/mult_st_multiplier">
+    <File Path="$PSRCDIR/sources_1/ip/mult_st_multiplier/mult_st_multiplier.xci">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_multiplier/mult_st_multiplier.xci"/>
+        <Attr Name="ImportTime" Val="1593610316"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/ip/mult_st_multiplier.xcix">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_multiplier.xcix"/>
+        <Attr Name="ImportTime" Val="1593610362"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="mult_st_multiplier"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="BlockSrcs" RelSrcDir="$PSRCDIR/mult_st_multiplier">
+    <File Path="$PSRCDIR/sources_1/ip/mult_st_multiplier/mult_st_multiplier.xci">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_multiplier/mult_st_multiplier.xci"/>
+        <Attr Name="ImportTime" Val="1593610316"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PSRCDIR/sources_1/ip/mult_st_multiplier.xcix">
+      <FileInfo>
+        <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_multiplier.xcix"/>
+        <Attr Name="ImportTime" Val="1593610362"/>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="mult_st_multiplier"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+    <Filter Type="Utils"/>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
+    <Step Id="synth_design"/>
+  </Strategy>
+</GenRun>

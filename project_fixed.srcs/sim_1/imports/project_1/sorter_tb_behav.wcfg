@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="cpu_simulator_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="cpu_simulator" />
+            <top_module name="rx" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="727043fs"></ZoomStartTime>
+      <ZoomEndTime time="1054592fs"></ZoomEndTime>
+      <Cursor1Time time="1000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="197"></NameColumnWidth>
+      <ValueColumnWidth column_width="264"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="19" />
+   <wave_markers>
+      <marker label="" time="172670501" />
+   </wave_markers>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/sorter_instance/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/sorter_instance/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/sorter_instance/switch">
+      <obj_property name="ElementShortName">switch</obj_property>
+      <obj_property name="ObjectShortName">switch</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/sorter_instance/value">
+      <obj_property name="ElementShortName">value[47:0]</obj_property>
+      <obj_property name="ObjectShortName">value[47:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/sorter_instance/valid">
+      <obj_property name="ElementShortName">valid</obj_property>
+      <obj_property name="ObjectShortName">valid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/sorter_instance/coord">
+      <obj_property name="ElementShortName">coord[6:0]</obj_property>
+      <obj_property name="ObjectShortName">coord[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/sorter_instance/res">
+      <obj_property name="ElementShortName">res[6:0]</obj_property>
+      <obj_property name="ObjectShortName">res[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/sorter_instance/res_valid">
+      <obj_property name="ElementShortName">res_valid</obj_property>
+      <obj_property name="ObjectShortName">res_valid</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/sorter_instance/state">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/sorter_instance/storage_ena">
+      <obj_property name="ElementShortName">storage_ena</obj_property>
+      <obj_property name="ObjectShortName">storage_ena</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/sorter_instance/storage_enb">
+      <obj_property name="ElementShortName">storage_enb</obj_property>
+      <obj_property name="ObjectShortName">storage_enb</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/sorter_instance/storage_wea">
+      <obj_property name="ElementShortName">storage_wea[0:0]</obj_property>
+      <obj_property name="ObjectShortName">storage_wea[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/sorter_instance/storage_addra">
+      <obj_property name="ElementShortName">storage_addra[5:0]</obj_property>
+      <obj_property name="ObjectShortName">storage_addra[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/sorter_instance/storage_addrb">
+      <obj_property name="ElementShortName">storage_addrb[5:0]</obj_property>
+      <obj_property name="ObjectShortName">storage_addrb[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/sorter_instance/storage_dina">
+      <obj_property name="ElementShortName">storage_dina[54:0]</obj_property>
+      <obj_property name="ObjectShortName">storage_dina[54:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/sorter_instance/storage_doutb">
+      <obj_property name="ElementShortName">storage_doutb[54:0]</obj_property>
+      <obj_property name="ObjectShortName">storage_doutb[54:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/sorter_instance/read_addr">
+      <obj_property name="ElementShortName">read_addr</obj_property>
+      <obj_property name="ObjectShortName">read_addr</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/sorter_instance/write_addr">
+      <obj_property name="ElementShortName">write_addr</obj_property>
+      <obj_property name="ObjectShortName">write_addr</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/sorter_instance/swap">
+      <obj_property name="ElementShortName">swap[54:0]</obj_property>
+      <obj_property name="ObjectShortName">swap[54:0]</obj_property>
+   </wvobject>
+</wave_config>

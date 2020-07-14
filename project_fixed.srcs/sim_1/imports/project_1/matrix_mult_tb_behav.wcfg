@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="cpu_simulator_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="cpu_simulator" />
+            <top_module name="rx" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="217220432fs"></ZoomStartTime>
+      <ZoomEndTime time="228919296fs"></ZoomEndTime>
+      <Cursor1Time time="228800000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="202"></NameColumnWidth>
+      <ValueColumnWidth column_width="93"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="49" />
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/start">
+      <obj_property name="ElementShortName">start</obj_property>
+      <obj_property name="ObjectShortName">start</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/ready">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/diff">
+      <obj_property name="ElementShortName">diff[23:0]</obj_property>
+      <obj_property name="ObjectShortName">diff[23:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/inv_addrb">
+      <obj_property name="ElementShortName">inv_addrb[5:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_addrb[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/inv_doutb">
+      <obj_property name="ElementShortName">inv_doutb[2309:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_doutb[2309:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/sorter_switch">
+      <obj_property name="ElementShortName">sorter_switch</obj_property>
+      <obj_property name="ObjectShortName">sorter_switch</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/sorter_value">
+      <obj_property name="ElementShortName">sorter_value[47:0]</obj_property>
+      <obj_property name="ObjectShortName">sorter_value[47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/sorter_valid">
+      <obj_property name="ElementShortName">sorter_valid</obj_property>
+      <obj_property name="ObjectShortName">sorter_valid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/sorter_coord">
+      <obj_property name="ElementShortName">sorter_coord[6:0]</obj_property>
+      <obj_property name="ObjectShortName">sorter_coord[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/delay_fifo_rd_en">
+      <obj_property name="ElementShortName">delay_fifo_rd_en</obj_property>
+      <obj_property name="ObjectShortName">delay_fifo_rd_en</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/delay_fifo_dout">
+      <obj_property name="ElementShortName">delay_fifo_dout[23:0]</obj_property>
+      <obj_property name="ObjectShortName">delay_fifo_dout[23:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/delay_fifo_empty">
+      <obj_property name="ElementShortName">delay_fifo_empty</obj_property>
+      <obj_property name="ObjectShortName">delay_fifo_empty</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/delay_fifo_wr_en">
+      <obj_property name="ElementShortName">delay_fifo_wr_en</obj_property>
+      <obj_property name="ObjectShortName">delay_fifo_wr_en</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/delay_fifo_din">
+      <obj_property name="ElementShortName">delay_fifo_din[23:0]</obj_property>
+      <obj_property name="ObjectShortName">delay_fifo_din[23:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/delay_fifo_full">
+      <obj_property name="ElementShortName">delay_fifo_full</obj_property>
+      <obj_property name="ObjectShortName">delay_fifo_full</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_valid">
+      <obj_property name="ElementShortName">first_valid[20:0]</obj_property>
+      <obj_property name="ObjectShortName">first_valid[20:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_mult_a">
+      <obj_property name="ElementShortName">first_mult_a[0:54][41:0]</obj_property>
+      <obj_property name="ObjectShortName">first_mult_a[0:54][41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_mult_b">
+      <obj_property name="ElementShortName">first_mult_b[23:0]</obj_property>
+      <obj_property name="ObjectShortName">first_mult_b[23:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_mult_p">
+      <obj_property name="ElementShortName">first_mult_p[0:54][44:0]</obj_property>
+      <obj_property name="ObjectShortName">first_mult_p[0:54][44:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_accum_in">
+      <obj_property name="ElementShortName">first_accum_in[0:54][44:0]</obj_property>
+      <obj_property name="ObjectShortName">first_accum_in[0:54][44:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_accum_last_in">
+      <obj_property name="ElementShortName">first_accum_last_in</obj_property>
+      <obj_property name="ObjectShortName">first_accum_last_in</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_accum_out">
+      <obj_property name="ElementShortName">first_accum_out[0:54][47:0]</obj_property>
+      <obj_property name="ObjectShortName">first_accum_out[0:54][47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_accum_last_out">
+      <obj_property name="ElementShortName">first_accum_last_out</obj_property>
+      <obj_property name="ObjectShortName">first_accum_last_out</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_mult_a_v">
+      <obj_property name="ElementShortName">second_mult_a_v</obj_property>
+      <obj_property name="ObjectShortName">second_mult_a_v</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_mult_a">
+      <obj_property name="ElementShortName">second_mult_a[23:0]</obj_property>
+      <obj_property name="ObjectShortName">second_mult_a[23:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_mult_b_v">
+      <obj_property name="ElementShortName">second_mult_b_v</obj_property>
+      <obj_property name="ObjectShortName">second_mult_b_v</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_mult_b">
+      <obj_property name="ElementShortName">second_mult_b[47:0]</obj_property>
+      <obj_property name="ObjectShortName">second_mult_b[47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_mult_p_v">
+      <obj_property name="ElementShortName">second_mult_p_v</obj_property>
+      <obj_property name="ObjectShortName">second_mult_p_v</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_mult_p">
+      <obj_property name="ElementShortName">second_mult_p[47:0]</obj_property>
+      <obj_property name="ObjectShortName">second_mult_p[47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_accum_in">
+      <obj_property name="ElementShortName">second_accum_in[47:0]</obj_property>
+      <obj_property name="ObjectShortName">second_accum_in[47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_accum_in_v">
+      <obj_property name="ElementShortName">second_accum_in_v</obj_property>
+      <obj_property name="ObjectShortName">second_accum_in_v</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_accum_last_in">
+      <obj_property name="ElementShortName">second_accum_last_in</obj_property>
+      <obj_property name="ObjectShortName">second_accum_last_in</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_accum_out">
+      <obj_property name="ElementShortName">second_accum_out[47:0]</obj_property>
+      <obj_property name="ObjectShortName">second_accum_out[47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_accum_out_v">
+      <obj_property name="ElementShortName">second_accum_out_v</obj_property>
+      <obj_property name="ObjectShortName">second_accum_out_v</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_accum_last_out">
+      <obj_property name="ElementShortName">second_accum_last_out</obj_property>
+      <obj_property name="ObjectShortName">second_accum_last_out</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_state">
+      <obj_property name="ElementShortName">first_state</obj_property>
+      <obj_property name="ObjectShortName">first_state</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_state">
+      <obj_property name="ElementShortName">second_state</obj_property>
+      <obj_property name="ObjectShortName">second_state</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/matrix_mult_module/write_state">
+      <obj_property name="ElementShortName">write_state</obj_property>
+      <obj_property name="ObjectShortName">write_state</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/inter_res">
+      <obj_property name="ElementShortName">inter_res[0:54][47:0]</obj_property>
+      <obj_property name="ObjectShortName">inter_res[0:54][47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/matrix_mult_module/write_finish">
+      <obj_property name="ElementShortName">write_finish</obj_property>
+      <obj_property name="ObjectShortName">write_finish</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/matrix_mult_module/inv_address">
+      <obj_property name="ElementShortName">inv_address</obj_property>
+      <obj_property name="ObjectShortName">inv_address</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/matrix_mult_module/first_dev_counter">
+      <obj_property name="ElementShortName">first_dev_counter</obj_property>
+      <obj_property name="ObjectShortName">first_dev_counter</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/matrix_mult_module/second_dev_counter">
+      <obj_property name="ElementShortName">second_dev_counter</obj_property>
+      <obj_property name="ObjectShortName">second_dev_counter</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/diff_delay1">
+      <obj_property name="ElementShortName">diff_delay1[23:0]</obj_property>
+      <obj_property name="ObjectShortName">diff_delay1[23:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/diff_delay2">
+      <obj_property name="ElementShortName">diff_delay2[23:0]</obj_property>
+      <obj_property name="ObjectShortName">diff_delay2[23:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/matrix_mult_module/diff_delay3">
+      <obj_property name="ElementShortName">diff_delay3[23:0]</obj_property>
+      <obj_property name="ObjectShortName">diff_delay3[23:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/matrix_mult_module/coord">
+      <obj_property name="ElementShortName">coord</obj_property>
+      <obj_property name="ObjectShortName">coord</obj_property>
+   </wvobject>
+</wave_config>

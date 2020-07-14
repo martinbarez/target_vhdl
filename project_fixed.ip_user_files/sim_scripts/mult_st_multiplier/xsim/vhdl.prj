@@ -1,0 +1,4 @@
+vhdl xil_defaultlib  \
+"../../../ip/mult_st_multiplier/sim/mult_st_multiplier.vhd" \
+
+nosort

@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="cpu_simulator_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="cpu_simulator" />
+            <top_module name="rx" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="15136110fs"></ZoomStartTime>
+      <ZoomEndTime time="15404779fs"></ZoomEndTime>
+      <Cursor1Time time="15282125fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="197"></NameColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="56" />
+   <wave_markers>
+      <marker label="" time="15250000" />
+   </wave_markers>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/start">
+      <obj_property name="ElementShortName">start</obj_property>
+      <obj_property name="ObjectShortName">start</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/ready">
+      <obj_property name="ElementShortName">ready</obj_property>
+      <obj_property name="ObjectShortName">ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/cov_addra">
+      <obj_property name="ElementShortName">cov_addra[2:0]</obj_property>
+      <obj_property name="ObjectShortName">cov_addra[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/cov_dina">
+      <obj_property name="ElementShortName">cov_dina[335:0]</obj_property>
+      <obj_property name="ObjectShortName">cov_dina[335:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/cov_wea">
+      <obj_property name="ElementShortName">cov_wea[0:0]</obj_property>
+      <obj_property name="ObjectShortName">cov_wea[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/cov_addrb">
+      <obj_property name="ElementShortName">cov_addrb[2:0]</obj_property>
+      <obj_property name="ObjectShortName">cov_addrb[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/cov_doutb">
+      <obj_property name="ElementShortName">cov_doutb[335:0]</obj_property>
+      <obj_property name="ObjectShortName">cov_doutb[335:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/inv_addra">
+      <obj_property name="ElementShortName">inv_addra[2:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_addra[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/inv_dina">
+      <obj_property name="ElementShortName">inv_dina[335:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_dina[335:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/inv_wea">
+      <obj_property name="ElementShortName">inv_wea[0:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_wea[0:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/inv_addrb">
+      <obj_property name="ElementShortName">inv_addrb[2:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_addrb[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/inv_doutb">
+      <obj_property name="ElementShortName">inv_doutb[335:0]</obj_property>
+      <obj_property name="ObjectShortName">inv_doutb[335:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/tempj_din">
+      <obj_property name="ElementShortName">tempj_din[335:0]</obj_property>
+      <obj_property name="ObjectShortName">tempj_din[335:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/tempj_dout">
+      <obj_property name="ElementShortName">tempj_dout[335:0]</obj_property>
+      <obj_property name="ObjectShortName">tempj_dout[335:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/tempj_wr_en">
+      <obj_property name="ElementShortName">tempj_wr_en</obj_property>
+      <obj_property name="ObjectShortName">tempj_wr_en</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/tempj_rd_en">
+      <obj_property name="ElementShortName">tempj_rd_en</obj_property>
+      <obj_property name="ObjectShortName">tempj_rd_en</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/dividend">
+      <obj_property name="ElementShortName">dividend[41:0]</obj_property>
+      <obj_property name="ObjectShortName">dividend[41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/divisor">
+      <obj_property name="ElementShortName">divisor[41:0]</obj_property>
+      <obj_property name="ObjectShortName">divisor[41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/div_dout">
+      <obj_property name="ElementShortName">div_dout[34:0]</obj_property>
+      <obj_property name="ObjectShortName">div_dout[34:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/div_valid">
+      <obj_property name="ElementShortName">div_valid</obj_property>
+      <obj_property name="ObjectShortName">div_valid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/div_ready">
+      <obj_property name="ElementShortName">div_ready</obj_property>
+      <obj_property name="ObjectShortName">div_ready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_a">
+      <obj_property name="ElementShortName">mul_cov_a[0:7][41:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_cov_a[0:7][41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_a[0]">
+         <obj_property name="ElementShortName">[0][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_a[1]">
+         <obj_property name="ElementShortName">[1][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_a[2]">
+         <obj_property name="ElementShortName">[2][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_a[3]">
+         <obj_property name="ElementShortName">[3][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_a[4]">
+         <obj_property name="ElementShortName">[4][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_a[5]">
+         <obj_property name="ElementShortName">[5][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_a[6]">
+         <obj_property name="ElementShortName">[6][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_a[7]">
+         <obj_property name="ElementShortName">[7][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][41:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_a">
+      <obj_property name="ElementShortName">mul_inv_a[0:7][41:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_inv_a[0:7][41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_a[0]">
+         <obj_property name="ElementShortName">[0][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_a[1]">
+         <obj_property name="ElementShortName">[1][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_a[2]">
+         <obj_property name="ElementShortName">[2][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_a[3]">
+         <obj_property name="ElementShortName">[3][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_a[4]">
+         <obj_property name="ElementShortName">[4][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_a[5]">
+         <obj_property name="ElementShortName">[5][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_a[6]">
+         <obj_property name="ElementShortName">[6][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_a[7]">
+         <obj_property name="ElementShortName">[7][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][41:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_b">
+      <obj_property name="ElementShortName">mul_cov_b[0:7][34:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_cov_b[0:7][34:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_b[0]">
+         <obj_property name="ElementShortName">[0][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][34:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_b[1]">
+         <obj_property name="ElementShortName">[1][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_b[2]">
+         <obj_property name="ElementShortName">[2][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_b[3]">
+         <obj_property name="ElementShortName">[3][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_b[4]">
+         <obj_property name="ElementShortName">[4][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_b[5]">
+         <obj_property name="ElementShortName">[5][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_b[6]">
+         <obj_property name="ElementShortName">[6][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_b[7]">
+         <obj_property name="ElementShortName">[7][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][34:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_b">
+      <obj_property name="ElementShortName">mul_inv_b[0:7][34:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_inv_b[0:7][34:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_b[0]">
+         <obj_property name="ElementShortName">[0][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][34:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_b[1]">
+         <obj_property name="ElementShortName">[1][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_b[2]">
+         <obj_property name="ElementShortName">[2][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_b[3]">
+         <obj_property name="ElementShortName">[3][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_b[4]">
+         <obj_property name="ElementShortName">[4][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_b[5]">
+         <obj_property name="ElementShortName">[5][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_b[6]">
+         <obj_property name="ElementShortName">[6][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][34:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_b[7]">
+         <obj_property name="ElementShortName">[7][34:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][34:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_p">
+      <obj_property name="ElementShortName">mul_cov_p[0:7][47:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_cov_p[0:7][47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_p[0]">
+         <obj_property name="ElementShortName">[0][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][47:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_p[1]">
+         <obj_property name="ElementShortName">[1][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_p[2]">
+         <obj_property name="ElementShortName">[2][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_p[3]">
+         <obj_property name="ElementShortName">[3][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_p[4]">
+         <obj_property name="ElementShortName">[4][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_p[5]">
+         <obj_property name="ElementShortName">[5][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_p[6]">
+         <obj_property name="ElementShortName">[6][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_cov_p[7]">
+         <obj_property name="ElementShortName">[7][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][47:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_p">
+      <obj_property name="ElementShortName">mul_inv_p[0:7][47:0]</obj_property>
+      <obj_property name="ObjectShortName">mul_inv_p[0:7][47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_p[0]">
+         <obj_property name="ElementShortName">[0][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][47:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_p[1]">
+         <obj_property name="ElementShortName">[1][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_p[2]">
+         <obj_property name="ElementShortName">[2][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_p[3]">
+         <obj_property name="ElementShortName">[3][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_p[4]">
+         <obj_property name="ElementShortName">[4][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_p[5]">
+         <obj_property name="ElementShortName">[5][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_p[6]">
+         <obj_property name="ElementShortName">[6][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/mul_inv_p[7]">
+         <obj_property name="ElementShortName">[7][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][47:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_a">
+      <obj_property name="ElementShortName">sub_cov_a[0:7][41:0]</obj_property>
+      <obj_property name="ObjectShortName">sub_cov_a[0:7][41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_a[0]">
+         <obj_property name="ElementShortName">[0][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_a[1]">
+         <obj_property name="ElementShortName">[1][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_a[2]">
+         <obj_property name="ElementShortName">[2][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_a[3]">
+         <obj_property name="ElementShortName">[3][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_a[4]">
+         <obj_property name="ElementShortName">[4][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_a[5]">
+         <obj_property name="ElementShortName">[5][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_a[6]">
+         <obj_property name="ElementShortName">[6][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][41:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_a[7]">
+         <obj_property name="ElementShortName">[7][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][41:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_a">
+      <obj_property name="ElementShortName">sub_inv_a[0:7][41:0]</obj_property>
+      <obj_property name="ObjectShortName">sub_inv_a[0:7][41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_b">
+      <obj_property name="ElementShortName">sub_cov_b[0:7][47:0]</obj_property>
+      <obj_property name="ObjectShortName">sub_cov_b[0:7][47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_b[0]">
+         <obj_property name="ElementShortName">[0][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][47:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_b[1]">
+         <obj_property name="ElementShortName">[1][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_b[2]">
+         <obj_property name="ElementShortName">[2][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_b[3]">
+         <obj_property name="ElementShortName">[3][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_b[4]">
+         <obj_property name="ElementShortName">[4][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_b[5]">
+         <obj_property name="ElementShortName">[5][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_b[6]">
+         <obj_property name="ElementShortName">[6][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_b[7]">
+         <obj_property name="ElementShortName">[7][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][47:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_b">
+      <obj_property name="ElementShortName">sub_inv_b[0:7][47:0]</obj_property>
+      <obj_property name="ObjectShortName">sub_inv_b[0:7][47:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_b[0]">
+         <obj_property name="ElementShortName">[0][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][47:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_b[1]">
+         <obj_property name="ElementShortName">[1][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_b[2]">
+         <obj_property name="ElementShortName">[2][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_b[3]">
+         <obj_property name="ElementShortName">[3][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_b[4]">
+         <obj_property name="ElementShortName">[4][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_b[5]">
+         <obj_property name="ElementShortName">[5][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_b[6]">
+         <obj_property name="ElementShortName">[6][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][47:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_b[7]">
+         <obj_property name="ElementShortName">[7][47:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][47:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_s">
+      <obj_property name="ElementShortName">sub_cov_s[0:7][41:0]</obj_property>
+      <obj_property name="ObjectShortName">sub_cov_s[0:7][41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_s[0]">
+         <obj_property name="ElementShortName">[0][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_s[1]">
+         <obj_property name="ElementShortName">[1][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_s[2]">
+         <obj_property name="ElementShortName">[2][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_s[3]">
+         <obj_property name="ElementShortName">[3][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_s[4]">
+         <obj_property name="ElementShortName">[4][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_s[5]">
+         <obj_property name="ElementShortName">[5][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_s[6]">
+         <obj_property name="ElementShortName">[6][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_cov_s[7]">
+         <obj_property name="ElementShortName">[7][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_s">
+      <obj_property name="ElementShortName">sub_inv_s[0:7][41:0]</obj_property>
+      <obj_property name="ObjectShortName">sub_inv_s[0:7][41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_s[0]">
+         <obj_property name="ElementShortName">[0][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_s[1]">
+         <obj_property name="ElementShortName">[1][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_s[2]">
+         <obj_property name="ElementShortName">[2][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_s[3]">
+         <obj_property name="ElementShortName">[3][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_s[4]">
+         <obj_property name="ElementShortName">[4][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_s[5]">
+         <obj_property name="ElementShortName">[5][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_s[6]">
+         <obj_property name="ElementShortName">[6][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/sub_inv_s[7]">
+         <obj_property name="ElementShortName">[7][41:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][41:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/gauss_instance/state">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/gauss_instance/counter_i">
+      <obj_property name="ElementShortName">counter_i</obj_property>
+      <obj_property name="ObjectShortName">counter_i</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/i_ready">
+      <obj_property name="ElementShortName">i_ready</obj_property>
+      <obj_property name="ObjectShortName">i_ready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/i_ready_delay">
+      <obj_property name="ElementShortName">i_ready_delay</obj_property>
+      <obj_property name="ObjectShortName">i_ready_delay</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/i_ready_delay2">
+      <obj_property name="ElementShortName">i_ready_delay2</obj_property>
+      <obj_property name="ObjectShortName">i_ready_delay2</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/row_i_cov">
+      <obj_property name="ElementShortName">row_i_cov[0:7][41:0]</obj_property>
+      <obj_property name="ObjectShortName">row_i_cov[0:7][41:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/row_i_inv">
+      <obj_property name="ElementShortName">row_i_inv[0:7][41:0]</obj_property>
+      <obj_property name="ObjectShortName">row_i_inv[0:7][41:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/gauss_instance/counter_read_cov">
+      <obj_property name="ElementShortName">counter_read_cov</obj_property>
+      <obj_property name="ObjectShortName">counter_read_cov</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/gauss_instance/counter_read_inv">
+      <obj_property name="ElementShortName">counter_read_inv</obj_property>
+      <obj_property name="ObjectShortName">counter_read_inv</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/gauss_instance/counter_write">
+      <obj_property name="ElementShortName">counter_write</obj_property>
+      <obj_property name="ObjectShortName">counter_write</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/write_control">
+      <obj_property name="ElementShortName">write_control</obj_property>
+      <obj_property name="ObjectShortName">write_control</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/valid">
+      <obj_property name="ElementShortName">valid[0:127]</obj_property>
+      <obj_property name="ObjectShortName">valid[0:127]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/rename">
+      <obj_property name="ElementShortName">rename[0:7]</obj_property>
+      <obj_property name="ObjectShortName">rename[0:7]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/stall">
+      <obj_property name="ElementShortName">stall</obj_property>
+      <obj_property name="ObjectShortName">stall</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/stall_delay">
+      <obj_property name="ElementShortName">stall_delay</obj_property>
+      <obj_property name="ObjectShortName">stall_delay</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/stall_delay2">
+      <obj_property name="ElementShortName">stall_delay2</obj_property>
+      <obj_property name="ObjectShortName">stall_delay2</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/cpu_simulator/DUT/gauss_instance/stall_delay3">
+      <obj_property name="ElementShortName">stall_delay3</obj_property>
+      <obj_property name="ObjectShortName">stall_delay3</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/cpu_simulator/DUT/gauss_instance/trash">
+      <obj_property name="ElementShortName">trash[5:0]</obj_property>
+      <obj_property name="ObjectShortName">trash[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/gauss_instance/div_lat">
+      <obj_property name="ElementShortName">div_lat</obj_property>
+      <obj_property name="ObjectShortName">div_lat</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/gauss_instance/mul_lat">
+      <obj_property name="ElementShortName">mul_lat</obj_property>
+      <obj_property name="ObjectShortName">mul_lat</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/cpu_simulator/DUT/gauss_instance/sub_lat">
+      <obj_property name="ElementShortName">sub_lat</obj_property>
+      <obj_property name="ObjectShortName">sub_lat</obj_property>
+   </wvobject>
+</wave_config>
