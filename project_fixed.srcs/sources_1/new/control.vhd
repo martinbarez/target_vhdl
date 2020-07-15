@@ -275,8 +275,8 @@ begin
       mean_fifo_dout  => mean_fifo_dout,
       mean_fifo_empty => mean_fifo_empty,
 
-      diff       => diff,
-      diff_ready => diff_ready
+      deviation       => diff,
+      dev_ready => diff_ready
     );
 
 
@@ -288,12 +288,12 @@ begin
       start => start_mul,
       ready => ready_mul,
 
-      diff => diff,
+      deviation => diff,
 
       inv_addrb => inv_addrb_mul,
       inv_doutb => inv_doutb,
 
-      sorter_switch => sorter_switch,
+      sorter_start => sorter_switch,
       sorter_value  => sorter_value0,
       sorter_valid  => sorter_valid0,
       sorter_coord  => sorter_coord0
@@ -317,7 +317,7 @@ begin
       clk => clk,
       rst => rst,
 
-      switch => sorter_switch,
+      start => sorter_switch,
 
       value => sorter_value2,
       valid => sorter_valid2,

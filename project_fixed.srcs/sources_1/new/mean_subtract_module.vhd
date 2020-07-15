@@ -1,6 +1,10 @@
---Notice: reads till fifos are empty
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+--------------------------------------------------------------------------------
+-- Mean subtract
+-- Substracts the mean (stored in a circular buffer) from all the pixels in the
+-- FIFO. This is the deviation
+--------------------------------------------------------------------------------
+library ieee;
+use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 library work;
@@ -16,8 +20,8 @@ entity mean_subtract_module is port(
     mean_fifo_dout  : in  std_logic_vector;
     mean_fifo_empty : in  std_logic;
 
-    diff       : out std_logic_vector;
-    diff_ready : out std_logic
+    deviation       : out std_logic_vector;
+    dev_ready : out std_logic
   );
 end mean_subtract_module;
 
@@ -28,6 +32,7 @@ architecture behavioral of mean_subtract_module is
 
   type valid_array is array (mean_sub_latency downto 0) of std_logic;
   signal valid : valid_array;
+
   signal sub_a : std_logic_vector(mean_sub_a_precision-1 downto 0);
   signal sub_b : std_logic_vector(mean_sub_b_precision-1 downto 0);
   signal sub_p : std_logic_vector(mean_sub_s_precision-1 downto 0);
@@ -46,22 +51,21 @@ begin
     variable v : std_logic;
   begin
     if (rst = '1') then
-      mean_fifo_rd_en <= '0';
-      diff_ready      <= '0';
-      state           <= IDLE;
+      valid <= (others => '0');
+      state <= IDLE;
     elsif rising_edge(clk) then
       v := '0';
       case (state) is
         when IDLE =>
-          mean_fifo_rd_en <= '0';
           if (start = '1') then
             addr            <= 0;
             mean_fifo_rd_en <= '1';
             state           <= FIFO_LAT;
+          else
+            mean_fifo_rd_en <= '0';
           end if;
 
         when FIFO_LAT =>
-          buffer_ena <= '1';
           buffer_wea <= "1";
           state      <= READ;
 
@@ -85,20 +89,33 @@ begin
           sub_b           <= std_logic_vector(resize(signed(buffer_douta), mean_sub_b_precision));
           mean_fifo_rd_en <= '1';
           v               := '1';
+
           if (addr /= n_bands-1) then
             addr <= addr +1;
           else
             addr <= 0;
           end if;
+
           if(mean_fifo_empty = '1')then
             state <= IDLE;
           end if;
       end case;
-      valid      <= valid(valid'length-2 downto 0)&v;
-      diff_ready <= valid(valid'length-1);
-      diff       <= sub_p;
+
+      valid     <= valid(valid'length-2 downto 0)&v;
+      dev_ready <= valid(valid'length-1);
+      deviation       <= sub_p;
     end if;
   end process calc_proc;
+
+  buffer_enable : process (state)
+  begin
+    case (state) is
+      when IDLE =>
+        buffer_ena <= '0';
+      when others =>
+        buffer_ena <= '1';
+    end case;
+  end process buffer_enable;
 
   subtracter_inst : mean_subtracter
     PORT MAP (
@@ -111,6 +128,7 @@ begin
 
   buffer_dina  <= mean_fifo_dout;
   buffer_addra <= std_logic_vector(to_unsigned(addr, buffer_addra'length));
+
   mean_buffer_instance : entity work.mean_buffer
     PORT MAP (
       clka  => clk,

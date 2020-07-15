@@ -1,3 +1,8 @@
+--------------------------------------------------------------------------------
+-- Sorter
+-- Sorts coords according to their values
+-- Outputs everything at reaching the last coord
+--------------------------------------------------------------------------------
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -10,7 +15,7 @@ entity sorter is
     clk : in std_logic;
     rst : in std_logic;
 
-    switch : in std_logic;
+    start : in std_logic;
 
     value : in std_logic_vector;
     valid : in std_logic;
@@ -38,8 +43,7 @@ architecture behavioral of sorter is
 begin
 
   sort_proc : process (clk, rst)
-    variable compare  : std_logic_vector(storage_dina'length-1 downto 0);
-    variable switched : boolean;
+    variable compare : std_logic_vector(storage_dina'length-1 downto 0);
   begin
     if (rst = '1') then
       state <= IDLE;
@@ -48,15 +52,12 @@ begin
         when IDLE =>
           storage_wea <= "0";
           res_valid   <= '0';
-          if (switch = '1') then
+          if (start = '1') then
             write_addr   <= 0;
             storage_wea  <= "1";
             storage_dina <= (others => '0');
-            switched     := false;
             state        <= INITIALIZE;
             read_addr    <= 1;
-            storage_ena  <= '1';
-            storage_enb  <= '1';
           end if;
 
         when INITIALIZE =>
@@ -104,6 +105,18 @@ begin
       end case;
     end if;
   end process sort_proc;
+
+  ram_enable : process (state)
+  begin
+    case (state) is
+      when IDLE =>
+        storage_ena <= '0';
+        storage_enb <= '0';
+      when others =>
+        storage_ena <= '1';
+        storage_enb <= '1';
+    end case;
+  end process ram_enable;
 
   storage_addra <= std_logic_vector(to_unsigned(write_addr, storage_addra'length));
   storage_addrb <= std_logic_vector(to_unsigned(read_addr, storage_addra'length));
