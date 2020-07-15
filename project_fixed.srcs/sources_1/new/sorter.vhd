@@ -33,12 +33,12 @@ architecture behavioral of sorter is
 
   signal read_addr, write_addr : natural range n_bands-1 downto 0;
 
-  signal swap                                                : std_logic_vector(storage_dina'length-1 downto 0);
+  signal swap : std_logic_vector(storage_dina'length-1 downto 0);
 
 begin
 
   sort_proc : process (clk, rst)
-    variable compare : std_logic_vector(storage_dina'length-1 downto 0);
+    variable compare  : std_logic_vector(storage_dina'length-1 downto 0);
     variable switched : boolean;
   begin
     if (rst = '1') then
@@ -47,24 +47,24 @@ begin
       case (state) is
         when IDLE =>
           storage_wea <= "0";
-          res_valid <= '0';
+          res_valid   <= '0';
           if (switch = '1') then
             write_addr   <= 0;
             storage_wea  <= "1";
             storage_dina <= (others => '0');
-            switched := false;
+            switched     := false;
             state        <= INITIALIZE;
-            read_addr   <= 1;
-            storage_ena <= '1';
-            storage_enb <= '1';
+            read_addr    <= 1;
+            storage_ena  <= '1';
+            storage_enb  <= '1';
           end if;
 
         when INITIALIZE =>
           if (write_addr /= n_bands-1) then
             write_addr <= write_addr +1;
           else
-            write_addr  <= n_bands-1;
-            state       <= READ;
+            write_addr <= n_bands-1;
+            state      <= READ;
           end if;
 
         when READ =>
@@ -77,11 +77,11 @@ begin
             storage_wea  <= "1";
             storage_dina <= compare;
             swap         <= storage_doutb;
-            res <= compare(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
+            res          <= compare(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
           else
             storage_wea <= "0";
             swap        <= compare;
-            res <= storage_doutb(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
+            res         <= storage_doutb(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
           end if;
 
           if (read_addr /= n_bands-1) then
@@ -96,10 +96,10 @@ begin
           end if;
 
           if (unsigned(coord) = n_pixels-1) then
-              res_valid <= '1';
-              if (read_addr = n_bands-1) then
-                state <= IDLE;
-              end if;
+            res_valid <= '1';
+            if (read_addr = n_bands-1) then
+              state <= IDLE;
+            end if;
           end if;
       end case;
     end if;

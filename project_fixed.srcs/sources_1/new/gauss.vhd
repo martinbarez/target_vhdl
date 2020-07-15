@@ -45,11 +45,11 @@ architecture behavioral of gauss_module is
   signal tempj_din, tempj_dout    : std_logic_vector(ram_precision*n_bands-1 downto 0);
   signal tempj_wr_en, tempj_rd_en : std_logic;
 
-  signal dividend             : std_logic_vector(dividend_precision-1 DOWNTO 0);
-  signal divisor              : std_logic_vector(divisor_precision-1 DOWNTO 0);
+  signal dividend                            : std_logic_vector(dividend_precision-1 DOWNTO 0);
+  signal divisor                             : std_logic_vector(divisor_precision-1 DOWNTO 0);
   signal dividend_internal, divisor_internal : std_logic_vector(47 downto 0);
-  signal quotient             : std_logic_vector(quotient_precision-1 DOWNTO 0);
-  signal div_valid, div_ready : std_logic;
+  signal quotient                            : std_logic_vector(quotient_precision-1 DOWNTO 0);
+  signal div_valid, div_ready                : std_logic;
 
   signal mul_cov_a, mul_inv_a : gauss_mul_a_array;
   signal mul_cov_b, mul_inv_b : gauss_mul_b_array;
@@ -78,7 +78,7 @@ architecture behavioral of gauss_module is
   signal write_control                      : std_logic;
 
   type control_array_t is array (0 to 127) of std_logic;
-  signal valid : control_array_t;
+  signal valid             : control_array_t;
   signal invert_div_result : control_array_t;
 
   type address_table is array (0 to n_bands-1) of natural range n_bands-1 downto 0;
@@ -431,7 +431,7 @@ begin
           end if;
       end case;
 
-      valid <= v & valid(0 to valid'length-2);
+      valid                                  <= v & valid(0 to valid'length-2);
       invert_div_result(1 to valid'length-1) <= invert_div_result(0 to valid'length-2);
     end if;
   end process counter_proc;
@@ -440,70 +440,70 @@ begin
   divisor_proc : process (clk, div_valid, divisor, dividend, quotient_internal)
   begin
     if (div_valid = '1') then
-    if (signed(dividend) < 0 and signed(divisor) > 0)
-    and (signed(not(dividend))+1 > signed(divisor)) then --aboslute value is higher
-      dividend_internal <= std_logic_vector(resize(signed(not(dividend))+1, dividend_internal'length));
-      invert_div_result(0) <= '1';
-    else
-      dividend_internal <= std_logic_vector(resize(signed(dividend), dividend_internal'length));
-      invert_div_result(0) <= '0';
-    end if;
+      if (signed(dividend) < 0 and signed(divisor) > 0)
+        and (signed(not(dividend))+1 > signed(divisor)) then --aboslute value is higher
+        dividend_internal    <= std_logic_vector(resize(signed(not(dividend))+1, dividend_internal'length));
+        invert_div_result(0) <= '1';
+      else
+        dividend_internal    <= std_logic_vector(resize(signed(dividend), dividend_internal'length));
+        invert_div_result(0) <= '0';
+      end if;
       divisor_internal <= std_logic_vector(resize(signed(divisor), divisor_internal'length));
     else
-    invert_div_result(0) <= '0';
-    dividend_internal <= (others => '-');
-    divisor_internal <= (others => '-');
+      invert_div_result(0) <= '0';
+      dividend_internal    <= (others => '-');
+      divisor_internal     <= (others => '-');
     end if;
-  
+
     -- if the result is less than 0, only the fraction gets the sign bit, so we need some logic
     if (div_ready = '0' or (quotient_internal(quotient_internal'length-1) = '1' and quotient_internal(30) = '0')) then
       quotient_sign_removed <= (others => '-');
-      
+
     elsif (quotient_internal(quotient_internal'length-1) = '0' and quotient_internal(30) = '0') then
       quotient_sign_removed <= quotient_internal(quotient_internal'length-1 downto 31)&quotient_internal(29 downto 0);
 
     elsif (quotient_internal(quotient_internal'length-1) = '0' and quotient_internal(30) = '1') then
-      quotient_sign_removed <= (others => '1');
+      quotient_sign_removed              <= (others => '1');
       quotient_sign_removed(29 downto 0) <= quotient_internal(29 downto 0);
 
     elsif (quotient_internal(quotient_internal'length-1) = '1' and quotient_internal(30) = '1') then
       quotient_sign_removed <= quotient_internal(quotient_internal'length-1 downto 31)&quotient_internal(29 downto 0);
-      --if (unsigned(not(quotient_internal(quotient_internal'length-1 downto 31))) = 0) then --all are '1'
-      --  quotient_sign_removed <= quotient_internal(quotient_internal'length-2 downto 31)&'0'&quotient_internal(29 downto 0);
-      --else
-      --  quotient_sign_removed <= quotient_internal(quotient_internal'length-2 downto 31)&'1'&quotient_internal(29 downto 0);
-      --end if;
+    --if (unsigned(not(quotient_internal(quotient_internal'length-1 downto 31))) = 0) then --all are '1'
+    --  quotient_sign_removed <= quotient_internal(quotient_internal'length-2 downto 31)&'0'&quotient_internal(29 downto 0);
+    --else
+    --  quotient_sign_removed <= quotient_internal(quotient_internal'length-2 downto 31)&'1'&quotient_internal(29 downto 0);
+    --end if;
     end if;
   end process divisor_proc;
-    
-    
+
+
   shift_proc : process (clk, state, quotient_sign_removed, mul_cov_p_internal, mul_inv_p_internal)
   begin
     for I in 0 to n_bands-1 loop
       case (state) is
         when FORWARDS =>
           if (invert_div_result(gauss_div_latency) = '0') then
-          quotient     <= quotient_sign_removed(quotient_precision+30-forw-1 downto 30-forw);
+            quotient <= quotient_sign_removed(quotient_precision+30-forw-1 downto 30-forw);
           else
-          quotient     <= std_logic_vector(signed(not(quotient_sign_removed(quotient_precision+30-forw-1 downto 30-forw)))+1);
+            quotient <= std_logic_vector(signed(not(quotient_sign_removed(quotient_precision+30-forw-1 downto 30-forw)))+1);
           end if;
           mul_cov_p(I) <= mul_cov_p_internal(I)(gauss_mul_p_precision+forw-1 downto forw);
           mul_inv_p(I) <= mul_inv_p_internal(I)(gauss_mul_p_precision+forw-1 downto forw);
 
         when BACKWARDS =>
           if (invert_div_result(gauss_div_latency) = '0') then
-          quotient     <= quotient_sign_removed(quotient_precision+30-back-1 downto 30-back);
+            quotient <= quotient_sign_removed(quotient_precision+30-back-1 downto 30-back);
           else
-          quotient     <= std_logic_vector(signed(not(quotient_sign_removed(quotient_precision+30-back-1 downto 30-back)))+1);
+            quotient <= std_logic_vector(signed(not(quotient_sign_removed(quotient_precision+30-back-1 downto 30-back)))+1);
           end if;
           mul_cov_p(I) <= mul_cov_p_internal(I)(gauss_mul_p_precision+back-1 downto back);
           mul_inv_p(I) <= mul_inv_p_internal(I)(gauss_mul_p_precision+back-1 downto back);
 
         when DIAGONAL =>
           if (invert_div_result(gauss_div_latency) = '0') then
-          quotient     <= quotient_sign_removed(quotient_precision+30-diag-1 downto 30-diag);
+            quotient <= quotient_sign_removed(quotient_precision+30-diag-1 downto 30-diag);
           else
-          quotient     <= std_logic_vector(signed(not(quotient_sign_removed(quotient_precision+30-diag-1 downto 30-diag)))+1);
+            quotient <= std_logic_vector(signed(not(quotient_sign_removed(quotient_precision+30-diag-1 downto 30-diag)))+1);
           end if;
           mul_cov_p(I) <= mul_cov_p_internal(I)(gauss_mul_p_precision+diag-1 downto diag);
           mul_inv_p(I) <= mul_inv_p_internal(I)(gauss_mul_p_precision+diag-1 downto diag);
@@ -536,13 +536,13 @@ begin
 
   divider_inst : divider
     port map (
-      aclk                                => clk,
-      s_axis_divisor_tvalid               => div_valid,
+      aclk                   => clk,
+      s_axis_divisor_tvalid  => div_valid,
       s_axis_divisor_tdata   => divisor_internal,
-      s_axis_dividend_tvalid              => div_valid,
+      s_axis_dividend_tvalid => div_valid,
       s_axis_dividend_tdata  => dividend_internal,
-      m_axis_dout_tvalid                  => div_ready,
-      m_axis_dout_tdata                   => quotient_internal
+      m_axis_dout_tvalid     => div_ready,
+      m_axis_dout_tdata      => quotient_internal
     );
 
   operations_array : for i in 0 to n_bands-1 generate

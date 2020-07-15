@@ -226,8 +226,8 @@ begin
             end if;
           end if;
           if (second_dev_counter = 8) then
-              write_state   <= IDLE;
-            end if;
+            write_state <= IDLE;
+          end if;
       end case;
     end if;
   end process write_proc;
