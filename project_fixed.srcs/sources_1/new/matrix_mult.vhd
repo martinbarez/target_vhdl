@@ -224,11 +224,10 @@ begin
             else
               coord <= coord +1;
             end if;
-            if (second_dev_counter = 6) then
-              write_state   <= IDLE;
-              sorter_switch <= '1';
-            end if;
           end if;
+          if (second_dev_counter = 8) then
+              write_state   <= IDLE;
+            end if;
       end case;
     end if;
   end process write_proc;

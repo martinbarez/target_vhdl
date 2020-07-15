@@ -95,14 +95,11 @@ begin
             write_addr <= 0;
           end if;
 
-          if (switched) then
-                res_valid <= '1';
+          if (unsigned(coord) = n_pixels-1) then
+              res_valid <= '1';
               if (read_addr = n_bands-1) then
                 state <= IDLE;
               end if;
-          end if;
-          if (switch = '1') then
-              switched := true;
           end if;
       end case;
     end if;

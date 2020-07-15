@@ -163,6 +163,8 @@ begin
             cov_enb <= '0';
             inv_enb <= '0';
           end if;
+          res_fifo_wr_en <= res_valid;
+          res_fifo_din   <= res;
 
         when RES_READ =>
           res_fifo_wr_en <= res_valid;
