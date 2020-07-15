@@ -54,17 +54,16 @@ begin
             storage_dina <= (others => '0');
             switched := false;
             state        <= INITIALIZE;
+            read_addr   <= 1;
+            storage_ena <= '1';
+            storage_enb <= '1';
           end if;
 
         when INITIALIZE =>
           if (write_addr /= n_bands-1) then
             write_addr <= write_addr +1;
           else
-            swap        <= (others => '0');
-            read_addr   <= 2;
-            write_addr  <= 0;
-            storage_ena <= '1';
-            storage_enb <= '1';
+            write_addr  <= n_bands-1;
             state       <= READ;
           end if;
 
