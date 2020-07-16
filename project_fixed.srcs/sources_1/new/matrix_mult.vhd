@@ -62,7 +62,7 @@ architecture behavioral of matrix_mult is
   type first_state_t is (IDLE, CALC);
   signal first_state : first_state_t;
 
-  type second_state_t is (CLEAN, LOAD, CALC);
+  type second_state_t is (IDLE, CALC);
   signal second_state : second_state_t;
 
   type write_state_t is (IDLE, WRITING);
@@ -76,7 +76,7 @@ architecture behavioral of matrix_mult is
   signal inv_address : natural range n_bands-1 downto 0;
 
   signal first_dev_counter  : natural range n_pixels downto 0; --no -1
-  signal second_dev_counter : natural range n_bands*n_pixels-1 downto 0;
+  signal second_dev_counter : natural range n_pixels downto 0;
 
   signal deviation_delay1, deviation_delay2, deviation_delay3 : std_logic_vector(deviation'length-1 downto 0);
 
@@ -131,38 +131,30 @@ begin
   second_mac : process (clk, rst)
   begin
     if (rst = '1') then
-      second_state <= CLEAN;
+      second_state <= IDLE;
     elsif rising_edge(clk) then
       case (second_state) is
-        when CLEAN =>
+        when IDLE =>
           delay_fifo_rd_en <= '0';
           if (valid(st_mul+st_acc) = '1') then
             delay_fifo_rd_en   <= '1';
-            second_dev_counter <= 0;
-            second_state       <= LOAD;
           end if;
-
-        when LOAD =>
-          delay_fifo_rd_en <= '0';
-          if (valid(st_mul+st_acc) = '1') then
-            delay_fifo_rd_en   <= '1';
-            second_dev_counter <= second_dev_counter +1;
-            inter_res          <= first_accum_out;
+          if (valid(st_mul+st_acc+n_bands) = '1') then
+            --delay_fifo_rd_en   <= '1';
+            second_dev_counter <= 0;
             second_state       <= CALC;
           end if;
 
         when CALC =>
-          if (valid(st_mul+st_acc) = '1') then
+          if (valid(st_mul+st_acc+n_bands) = '1') then
+            second_dev_counter <= second_dev_counter +1;
             inter_res <= first_accum_out;
           else
             inter_res(0 to n_bands-2) <= inter_res(1 to n_bands-1);
             inter_res(n_bands-1)      <= (others => '-');
           end if;
-          if (second_dev_counter = n_bands*n_pixels-1) then
-            second_dev_counter <= 0;
-            second_state       <= CLEAN;
-          else
-            second_dev_counter <= second_dev_counter +1;
+          if (second_dev_counter = n_pixels) then
+            second_state       <= IDLE;
           end if;
       end case;
     end if;
