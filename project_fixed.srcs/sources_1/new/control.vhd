@@ -64,7 +64,7 @@ architecture behavioral of control is
   signal diff       : std_logic_vector(mean_sub_s_precision-1 downto 0);
   signal diff_ready : std_logic;
 
-  signal sorter_switch, sorter_valid0, sorter_valid1, sorter_valid2 : std_logic;
+  signal sorter_start, sorter_valid0, sorter_valid1, sorter_valid2 : std_logic;
   signal sorter_value0, sorter_value1, sorter_value2                : std_logic_vector(sorter_precision-1 downto 0);
   signal sorter_coord0, sorter_coord1, sorter_coord2                : std_logic_vector(log_pixels-1 downto 0);
   signal res                                                        : std_logic_vector(log_pixels-1 downto 0);
@@ -292,7 +292,7 @@ begin
       inv_addrb => inv_addrb_mul,
       inv_doutb => inv_doutb,
 
-      sorter_start => sorter_switch,
+      sorter_start => sorter_start,
       sorter_value  => sorter_value0,
       sorter_valid  => sorter_valid0,
       sorter_coord  => sorter_coord0
@@ -316,11 +316,11 @@ begin
       clk => clk,
       rst => rst,
 
-      start => sorter_switch,
+      start => sorter_start,
 
-      value => sorter_value2,
-      valid => sorter_valid2,
-      coord => sorter_coord2,
+      value => sorter_value1,
+      valid => sorter_valid1,
+      coord => sorter_coord1,
 
       res       => res,
       res_valid => res_valid

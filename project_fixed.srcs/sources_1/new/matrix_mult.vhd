@@ -62,10 +62,10 @@ architecture behavioral of matrix_mult is
   type first_state_t is (IDLE, CALC);
   signal first_state : first_state_t;
 
-  type second_state_t is (CLEAN, LOAD, CALC, LAST, REP);
+  type second_state_t is (CLEAN, LOAD, CALC);
   signal second_state : second_state_t;
 
-  type write_state_t is (IDLE, PREP, WRITING);
+  type write_state_t is (IDLE, WRITING);
   signal write_state : write_state_t;
 
   -- Keep the result of the first multiplication
@@ -88,11 +88,12 @@ begin
   begin
     if (rst = '1') then
       first_state <= IDLE;
+      valid       <= (others => '0');
     elsif rising_edge(clk) then
       v := '0';
       case (first_state) is
         when IDLE =>
-          delay_fifo_wr_en  <= '0';
+          delay_fifo_wr_en <= '0';
           if (start = '1') then
             first_dev_counter <= 0;
             inv_address       <= 0;
@@ -122,8 +123,7 @@ begin
           end if;
 
       end case;
-      valid      <= valid(valid'length-2 downto 0)&v;
-      first_load <= valid(mult_st_multiplier_latency);
+      valid <= valid(valid'length-2 downto 0)&v;
     end if;
   end process first_mac;
 
@@ -160,18 +160,9 @@ begin
           end if;
           if (second_dev_counter = n_bands*n_pixels-1) then
             second_dev_counter <= 0;
-            second_state       <= LAST;
+            second_state       <= CLEAN;
           else
             second_dev_counter <= second_dev_counter +1;
-          end if;
-
-        when LAST =>
-          second_state <= REP;
-
-        when REP =>
-          second_dev_counter <= second_dev_counter +1;
-          if (second_dev_counter = n_bands-1) then
-            second_state <= CLEAN;
           end if;
       end case;
     end if;
@@ -190,29 +181,26 @@ begin
           write_finish <= '1';
           sorter_start <= '0';
           sorter_valid <= '0';
-          if (valid(st_mul+st_acc+nd_mul+nd_acc) = '1' and first_dev_counter = 1) then
-            write_state <= PREP;
+          if (valid(st_mul+st_acc+nd_mul+nd_acc+n_bands) = '1') then
+            write_state  <= WRITING;
+            write_finish <= '0';
+            sorter_start <= '1';
           end if;
-
-        when PREP =>
-          write_state  <= WRITING;
-          write_finish <= '0';
-          sorter_start <= '1';
 
         when WRITING =>
           sorter_start <= '0';
           sorter_valid <= '0';
-          if (valid(st_mul+st_acc+nd_mul+nd_acc) = '1') then
+          if (valid(st_mul+st_acc+nd_mul+nd_acc+n_bands) = '1') then
             sorter_value <= second_accum_out;
             sorter_valid <= '1';
             if (coord = n_pixels-1) then
               coord := 0;
+            elsif (coord = n_pixels-2) then
+              coord := coord +1;
+              write_state <= IDLE;
             else
               coord := coord +1;
             end if;
-          end if;
-          if (second_dev_counter = 8) then
-            write_state <= IDLE;
           end if;
       end case;
     end if;
@@ -233,9 +221,9 @@ begin
   end process deviation_delay;
 
 
+  first_mult_a <= ram_to_mult_mul(inv_doutb);
+  first_mult_b <= deviation_delay3;
   first : for i in 0 to n_bands-1 generate
-    first_mult_a <= ram_to_mult_mul(inv_doutb);
-    first_mult_b <= deviation_delay3;
     first_multiplier : mult_st_multiplier
       PORT MAP (
         CLK => clk,
@@ -245,7 +233,7 @@ begin
       );
 
     first_accum_in(i) <= first_mult_p(i);
-
+    first_load        <= valid(mult_st_multiplier_latency+1);
     first_accumulator : mult_st_accum
       PORT MAP (
         CLK    => clk,
@@ -255,12 +243,8 @@ begin
       );
   end generate first;
 
-  second_mult_a   <= delay_fifo_dout;
-  second_mult_b   <= inter_res(0);
-  second_accum_in <= second_mult_p;
-  second_load     <= valid(st_mul+st_acc+st_mul+1+n_bands);
-
-
+  second_mult_a <= delay_fifo_dout;
+  second_mult_b <= inter_res(0);
   second_multiplier : mult_nd_multiplier
     PORT MAP (
       CLK => clk,
@@ -268,6 +252,9 @@ begin
       B   => second_mult_b,
       P   => second_mult_p
     );
+
+  second_accum_in <= second_mult_p;
+  second_load     <= valid(st_mul+st_acc+st_mul+1+n_bands);
   second_accumulator : mult_nd_accum
     PORT MAP (
       CLK    => clk,
