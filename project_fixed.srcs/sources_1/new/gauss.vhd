@@ -98,170 +98,6 @@ architecture behavioral of gauss_module is
 
 begin
 
-  -- Load data in the cores and DSPs
-  operator_proc : process (state, counter_i, cov_doutb, row_i_cov, row_i_inv, quotient, div_ready, tempj_dout, mul_cov_p, inv_doutb, mul_inv_p)
-  begin
-    if (state = DIAGONAL) then
-      dividend <= one_div; -- A custom 1 to perform the correct shifted division
-    elsif(state = IDLE) then
-      dividend <= (others => '0'); -- Avoid errors in the Xilinx core loading a 0
-    else
-      dividend <= ram_to_array(cov_doutb)(counter_i);
-    end if;
-
-    tempj_din <= cov_doutb;
-
-    divisor <= row_i_cov(counter_i);
-
-    mul_cov_a <= ram_to_gauss_mul(row_i_cov);
-    mul_cov_b <= (others => quotient);
-    mul_inv_a <= ram_to_gauss_mul(row_i_inv);
-    mul_inv_b <= (others => quotient);
-
-    sub_cov_a <= ram_to_gauss_sub(tempj_dout);
-    sub_cov_b <= gauss_mul_to_gauss_sub(mul_cov_p);
-    sub_inv_a <= ram_to_gauss_sub(inv_doutb);
-    sub_inv_b <= gauss_mul_to_gauss_sub(mul_inv_p);
-  end process operator_proc;
-
-
-  -- Load the current i row in its signal
-  capture_i_proc : process (clk)
-  begin
-    if rising_edge(clk) then
-      i_ready_delay  <= i_ready;
-      i_ready_delay2 <= i_ready_delay;
-      stall_delay    <= stall;
-      stall_delay2   <= stall_delay;
-      stall_delay3   <= stall_delay2;
-
-      -- The delay from reading is the same, but when stalling we have to swap them
-      if (i_ready_delay2 = '1' or stall_delay2 = '1') then
-        row_i_inv <= ram_to_array(inv_doutb);
-      end if;
-      if (i_ready_delay2 = '1' or stall_delay3 = '1') then
-        row_i_cov <= ram_to_array(cov_doutb);
-      end if;
-    end if;
-  end process capture_i_proc;
-
-
-  -- Control writes with another clock
-  write_proc : process (clk)
-  begin
-    if rising_edge(clk) then
-      if (write_control = '0') then
-        cov_wea <= "0";
-        inv_wea <= "0";
-      else
-        -- Write only on the inverse, and from the multipliers
-        if (state = DIAGONAL) then
-          cov_wea  <= "0";
-          inv_wea  <= "1";
-          inv_dina <= gauss_mul_to_ram(mul_inv_p);
-
-        -- Load only the inverse
-        elsif (state = INITIALIZE or state = PRE_FORW) then
-          cov_wea  <= "0";
-          inv_wea  <= "1";
-          inv_dina <= (others => '0');
-          -- this line is to place the 1 in the correct position, no bit shifting
-          inv_dina(ram_precision*(n_bands-counter_write)-1 downto ram_precision*(n_bands-1-counter_write)) <= one_load;
-
-        -- Normal operation
-        else
-          cov_wea  <= "1";
-          inv_wea  <= "1";
-          cov_dina <= gauss_sub_to_ram(sub_cov_s);
-          inv_dina <= gauss_sub_to_ram(sub_inv_s);
-        end if;
-      end if;
-    end if;
-  end process write_proc;
-
-  -- Address renaming (simpler than it looks)
-  addr_proc : process (clk)
-  begin
-    if rising_edge(clk) then
-      --rename writes
-      cov_addra <= std_logic_vector(to_unsigned(rename(counter_write), cov_addra'length));
-      inv_addra <= std_logic_vector(to_unsigned(rename(counter_write), inv_addra'length));
-
-      --rename reads
-      cov_addrb <= std_logic_vector(to_unsigned(rename(counter_read_cov), cov_addrb'length));
-
-      if (stall = '0') then
-        --this is so it can simulate, since ranges are not contained in simulation
-        if (counter_read_inv >= 0 and counter_read_inv <= n_bands-1) then
-          inv_addrb <= std_logic_vector(to_unsigned(rename(counter_read_inv), inv_addrb'length));
-        else
-          inv_addrb <= (others => 'U');
-        end if;
-
-      elsif (stall = '1') then --we read the substituting line
-        inv_addrb <= std_logic_vector(to_unsigned(rename(counter_write), inv_addrb'length));
-      end if;
-
-    end if;
-  end process addr_proc;
-
-  -- Stall controller and writing on the address table
-  stall_proc : process (clk)
-  begin
-    if rising_edge(clk) then
-      case (state) is
-
-        -- init renaming table
-        when PRE_INIT =>
-          stall <= '0';
-          init_rename : for i in 0 to n_bands-1 loop
-            rename(i) <= i;
-          end loop init_rename;
-
-        -- rename registers
-        when FORWARDS =>
-          -- not writing anything
-          if (stall = '0' and write_control = '0') then
-            null; -- no need to do anything
-
-          -- writing, so have to check
-          elsif (stall = '0' and write_control = '1') then
-            if (counter_write = counter_i+1) then       -- on next line
-              if (sub_cov_s(counter_write) = zero) then -- check value
-                stall <= '1';
-              end if;
-            end if;
-
-          -- if stalled and writing new lines
-          elsif (stall = '1' and write_control = '1') then
-            -- check if we can swap
-            if (sub_cov_s(counter_i) /= zero) then
-              rename(counter_i)     <= counter_write;
-              rename(counter_write) <= counter_i;
-              stall                 <= '0';
-            end if;
-
-          -- if stalled but no new lines
-          elsif (stall = '1' and write_control = '0') then
-            null; -- have to mark this inversion as failed
-
-          else
-            null; -- all cases should be covered
-          end if;
-
-        -- reorder write addresses after everything has been read and is IN the pipeline
-        -- better in backwards since its pipeline is longer than diagonal
-        when BACKWARDS =>
-          if (counter_read_inv >= 0 and counter_read_inv <= n_bands-1) then
-            rename(counter_read_inv) <= counter_read_inv;
-          end if;
-
-        when others =>
-          null;
-      end case;
-    end if;
-  end process stall_proc;
-
   counter_proc : process (clk, rst)
     variable v : std_logic;
   begin
@@ -458,6 +294,174 @@ begin
       invert_div_result(1 to valid'length-1) <= invert_div_result(0 to valid'length-2);
     end if;
   end process counter_proc;
+
+
+  -- Load the current i row in its signal
+  capture_i_proc : process (clk)
+  begin
+    if rising_edge(clk) then
+      i_ready_delay  <= i_ready;
+      i_ready_delay2 <= i_ready_delay;
+      stall_delay    <= stall;
+      stall_delay2   <= stall_delay;
+      stall_delay3   <= stall_delay2;
+
+      -- The delay from reading is the same, but when stalling we have to swap them
+      if (i_ready_delay2 = '1' or stall_delay2 = '1') then
+        row_i_inv <= ram_to_array(inv_doutb);
+      end if;
+      if (i_ready_delay2 = '1' or stall_delay3 = '1') then
+        row_i_cov <= ram_to_array(cov_doutb);
+      end if;
+    end if;
+  end process capture_i_proc;
+
+
+  -- Control writes with another clock
+  write_proc : process (clk)
+  begin
+    if rising_edge(clk) then
+      if (write_control = '0') then
+        cov_wea <= "0";
+        inv_wea <= "0";
+      else
+        -- Write only on the inverse, and from the multipliers
+        if (state = DIAGONAL) then
+          cov_wea  <= "0";
+          inv_wea  <= "1";
+          inv_dina <= gauss_mul_to_ram(mul_inv_p);
+
+        -- Load only the inverse
+        elsif (state = INITIALIZE or state = PRE_FORW) then
+          cov_wea  <= "0";
+          inv_wea  <= "1";
+          inv_dina <= (others => '0');
+          -- this line is to place the 1 in the correct position, no bit shifting
+          inv_dina(ram_precision*(n_bands-counter_write)-1 downto ram_precision*(n_bands-1-counter_write)) <= one_load;
+
+        -- Normal operation
+        else
+          cov_wea  <= "1";
+          inv_wea  <= "1";
+          cov_dina <= gauss_sub_to_ram(sub_cov_s);
+          inv_dina <= gauss_sub_to_ram(sub_inv_s);
+        end if;
+      end if;
+    end if;
+  end process write_proc;
+
+
+  -- Address renaming (simpler than it looks)
+  addr_proc : process (clk)
+  begin
+    if rising_edge(clk) then
+      --rename writes
+      cov_addra <= std_logic_vector(to_unsigned(rename(counter_write), cov_addra'length));
+      inv_addra <= std_logic_vector(to_unsigned(rename(counter_write), inv_addra'length));
+
+      --rename reads
+      cov_addrb <= std_logic_vector(to_unsigned(rename(counter_read_cov), cov_addrb'length));
+
+      if (stall = '0') then
+        --this is so it can simulate, since ranges are not contained in simulation
+        if (counter_read_inv >= 0 and counter_read_inv <= n_bands-1) then
+          inv_addrb <= std_logic_vector(to_unsigned(rename(counter_read_inv), inv_addrb'length));
+        else
+          inv_addrb <= (others => 'U');
+        end if;
+
+      elsif (stall = '1') then --we read the substituting line
+        inv_addrb <= std_logic_vector(to_unsigned(rename(counter_write), inv_addrb'length));
+      end if;
+
+    end if;
+  end process addr_proc;
+
+
+  -- Stall controller and writing on the address table
+  stall_proc : process (clk)
+  begin
+    if rising_edge(clk) then
+      case (state) is
+
+        -- init renaming table
+        when PRE_INIT =>
+          stall <= '0';
+          init_rename : for i in 0 to n_bands-1 loop
+            rename(i) <= i;
+          end loop init_rename;
+
+        -- rename registers
+        when FORWARDS =>
+          -- not writing anything
+          if (stall = '0' and write_control = '0') then
+            null; -- no need to do anything
+
+          -- writing, so have to check
+          elsif (stall = '0' and write_control = '1') then
+            if (counter_write = counter_i+1) then       -- on next line
+              if (sub_cov_s(counter_write) = zero) then -- check value
+                stall <= '1';
+              end if;
+            end if;
+
+          -- if stalled and writing new lines
+          elsif (stall = '1' and write_control = '1') then
+            -- check if we can swap
+            if (sub_cov_s(counter_i) /= zero) then
+              rename(counter_i)     <= counter_write;
+              rename(counter_write) <= counter_i;
+              stall                 <= '0';
+            end if;
+
+          -- if stalled but no new lines
+          elsif (stall = '1' and write_control = '0') then
+            null; -- have to mark this inversion as failed
+
+          else
+            null; -- all cases should be covered
+          end if;
+
+        -- reorder write addresses after everything has been read and is IN the pipeline
+        -- better in backwards since its pipeline is longer than diagonal
+        when BACKWARDS =>
+          if (counter_read_inv >= 0 and counter_read_inv <= n_bands-1) then
+            rename(counter_read_inv) <= counter_read_inv;
+          end if;
+
+        when others =>
+          null;
+      end case;
+    end if;
+  end process stall_proc;
+
+
+  -- Load data in the cores and DSPs
+  operator_proc : process (state, counter_i, cov_doutb, row_i_cov, row_i_inv, quotient, div_ready, tempj_dout, mul_cov_p, inv_doutb, mul_inv_p)
+  begin
+    if (state = DIAGONAL) then
+      dividend <= one_div; -- A custom 1 to perform the correct shifted division
+    elsif(state = IDLE) then
+      dividend <= (others => '0'); -- Avoid errors in the Xilinx core loading a 0
+    else
+      dividend <= ram_to_array(cov_doutb)(counter_i);
+    end if;
+
+    tempj_din <= cov_doutb;
+
+    divisor <= row_i_cov(counter_i);
+
+    mul_cov_a <= ram_to_gauss_mul(row_i_cov);
+    mul_cov_b <= (others => quotient);
+    mul_inv_a <= ram_to_gauss_mul(row_i_inv);
+    mul_inv_b <= (others => quotient);
+
+    sub_cov_a <= ram_to_gauss_sub(tempj_dout);
+    sub_cov_b <= gauss_mul_to_gauss_sub(mul_cov_p);
+    sub_inv_a <= ram_to_gauss_sub(inv_doutb);
+    sub_inv_b <= gauss_mul_to_gauss_sub(mul_inv_p);
+  end process operator_proc;
+
 
   -- Control division signs
   -- There is a bug in Xilinxs division core. Although I have really constrained when it occurs,
