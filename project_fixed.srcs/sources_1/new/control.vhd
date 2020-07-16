@@ -61,10 +61,10 @@ architecture behavioral of control is
   signal inv_addrb, inv_addrb_inv, inv_addrb_mul : std_logic_vector(log_bands-1 downto 0);
   signal inv_doutb                               : std_logic_vector(n_bands*ram_precision-1 downto 0);
 
-  signal diff       : std_logic_vector(mean_sub_s_precision-1 downto 0);
-  signal diff_ready : std_logic;
+  signal deviation       : std_logic_vector(mean_sub_s_precision-1 downto 0);
+  signal dev_ready : std_logic;
 
-  signal sorter_start, sorter_valid0, sorter_valid1, sorter_valid2 : std_logic;
+  signal sorter_start, sorter_valid0, sorter_valid1 : std_logic;
   signal sorter_value0, sorter_value1, sorter_value2                : std_logic_vector(sorter_precision-1 downto 0);
   signal sorter_coord0, sorter_coord1, sorter_coord2                : std_logic_vector(log_pixels-1 downto 0);
   signal res                                                        : std_logic_vector(log_pixels-1 downto 0);
@@ -147,7 +147,7 @@ begin
           state      <= DIFF_CALC;
 
         when DIFF_CALC =>
-          if (diff_ready = '1') then
+          if (dev_ready = '1') then
             start_mul   <= '1';
             arb_inv_ram <= MAT_MULT;
             state       <= MUL_START;
@@ -274,8 +274,8 @@ begin
       mean_fifo_dout  => mean_fifo_dout,
       mean_fifo_empty => mean_fifo_empty,
 
-      deviation       => diff,
-      dev_ready => diff_ready
+      deviation => deviation,
+      dev_ready => dev_ready
     );
 
 
@@ -287,7 +287,7 @@ begin
       start => start_mul,
       ready => ready_mul,
 
-      deviation => diff,
+      deviation => deviation,
 
       inv_addrb => inv_addrb_mul,
       inv_doutb => inv_doutb,
@@ -304,10 +304,6 @@ begin
       sorter_value1 <= sorter_value0;
       sorter_valid1 <= sorter_valid0;
       sorter_coord1 <= sorter_coord0;
-
-      sorter_value2 <= sorter_value1;
-      sorter_valid2 <= sorter_valid1;
-      sorter_coord2 <= sorter_coord1;
     end if;
   end process sorter_delay;
 

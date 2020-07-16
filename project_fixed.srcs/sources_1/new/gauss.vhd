@@ -437,7 +437,7 @@ begin
 
 
   -- Load data in the cores and DSPs
-  operator_proc : process (state, counter_i, cov_doutb, row_i_cov, row_i_inv, quotient, div_ready, tempj_dout, mul_cov_p, inv_doutb, mul_inv_p)
+  operator_proc : process (state, counter_i, cov_doutb, row_i_cov, row_i_inv, quotient, tempj_dout, mul_cov_p, inv_doutb, mul_inv_p)
   begin
     if (state = DIAGONAL) then
       dividend <= one_div; -- A custom 1 to perform the correct shifted division
@@ -496,7 +496,7 @@ begin
 
 
   -- Shift results between division and multiplications to keep the highest resolution possible
-  shift_proc : process (quotient_core, mul_cov_p_core, mul_inv_p_core)
+  shift_proc : process (quotient_core, mul_cov_p_core, mul_inv_p_core, invert_div_result)
     variable quotient_sign_removed : std_logic_vector(78 downto 0);
     variable quotient_shifted      : std_logic_vector(quotient_precision-1 downto 0);
   begin
