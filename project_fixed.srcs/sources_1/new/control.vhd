@@ -163,13 +163,12 @@ begin
             cov_enb <= '0';
             inv_enb <= '0';
           end if;
-          res_fifo_wr_en <= res_valid;
-          res_fifo_din   <= res;
 
         when RES_READ =>
+          res_valid2 <= res_valid;
           res_fifo_wr_en <= res_valid;
           res_fifo_din   <= res;
-          if (res_valid = '0') then
+          if (res_valid = '0' and res_valid2 = '1') then
             state <= IDLE;
           end if;
       end case;

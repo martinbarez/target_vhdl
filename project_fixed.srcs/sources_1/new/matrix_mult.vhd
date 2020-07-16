@@ -9,6 +9,7 @@ use ieee.numeric_std.all;
 
 library work;
 use work.rx.all;
+
 entity matrix_mult is
   port(
     clk   : in  std_logic;
@@ -28,36 +29,40 @@ entity matrix_mult is
   );
 end matrix_mult;
 architecture behavioral of matrix_mult is
+  constant st_mul : natural := mult_st_multiplier_latency;
+  constant st_acc : natural := mult_st_accumulator_latency;
+  constant nd_mul : natural := mult_nd_multiplier_latency;
+  constant nd_acc : natural := mult_nd_accumulator_latency;
 
   signal delay_fifo_rd_en : std_logic;
   signal delay_fifo_dout  : std_logic_vector(precision-1 downto 0);
   signal delay_fifo_wr_en : std_logic;
   signal delay_fifo_din   : std_logic_vector(precision-1 downto 0);
 
-  type valid_array is array (20 downto 0) of std_logic;
+  type valid_array is array (20+n_bands downto 0) of std_logic;
   signal valid : valid_array;
 
   signal first_mult_a : mult_st_mul_a_array;
   signal first_mult_b : std_logic_vector(mult_st_mul_b_precision-1 downto 0);
   signal first_mult_p : mult_st_mul_p_array;
 
-  signal first_accum_in      : mult_st_accum_in_array;
-  signal first_accum_last_in : std_logic;
-  signal first_accum_out     : mult_st_accum_out_array;
+  signal first_accum_in  : mult_st_accum_in_array;
+  signal first_load      : std_logic;
+  signal first_accum_out : mult_st_accum_out_array;
 
   signal second_mult_a : std_logic_vector(mult_nd_mul_a_precision-1 downto 0);
   signal second_mult_b : std_logic_vector(mult_nd_mul_b_precision-1 downto 0);
   signal second_mult_p : std_logic_vector(mult_nd_mul_p_precision-1 downto 0);
 
-  signal second_accum_in      : std_logic_vector(mult_nd_accum_in_precision-1 downto 0);
-  signal second_accum_last_in : std_logic;
-  signal second_accum_out     : std_logic_vector(mult_nd_accum_out_precision-1 downto 0);
+  signal second_accum_in  : std_logic_vector(mult_nd_accum_in_precision-1 downto 0);
+  signal second_load      : std_logic;
+  signal second_accum_out : std_logic_vector(mult_nd_accum_out_precision-1 downto 0);
 
 
-  type first_state_t is (IDLE, CALC, LAST);
+  type first_state_t is (IDLE, CALC);
   signal first_state : first_state_t;
 
-  type second_state_t is (IDLE, CALC, LAST, REP);
+  type second_state_t is (CLEAN, LOAD, CALC, LAST, REP);
   signal second_state : second_state_t;
 
   type write_state_t is (IDLE, PREP, WRITING);
@@ -87,6 +92,7 @@ begin
       v := '0';
       case (first_state) is
         when IDLE =>
+          delay_fifo_wr_en  <= '0';
           if (start = '1') then
             first_dev_counter <= 0;
             inv_address       <= 0;
@@ -101,7 +107,6 @@ begin
           end if;
 
         when CALC =>
-
           if (inv_address = n_bands-1)then
             inv_address       <= 0;
             first_dev_counter <= first_dev_counter +1;
@@ -113,21 +118,12 @@ begin
 
           if (first_dev_counter = n_pixels)then
             delay_fifo_wr_en <= '0';
-            first_state      <= LAST;
+            first_state      <= IDLE;
           end if;
 
-        when LAST => --flush last results
-
-          if (inv_address = n_bands-1) then
-            first_state <= IDLE;
-            v           := '1';
-          else
-            inv_address <= inv_address +1;
-            v           := '0';
-          end if;
       end case;
-      valid               <= valid(valid'length-2 downto 0)&v;
-      first_accum_last_in <= valid(mult_st_multiplier_latency);
+      valid      <= valid(valid'length-2 downto 0)&v;
+      first_load <= valid(mult_st_multiplier_latency);
     end if;
   end process first_mac;
 
@@ -135,26 +131,28 @@ begin
   second_mac : process (clk, rst)
   begin
     if (rst = '1') then
-      second_state     <= IDLE;
-      inter_res     <= (others => (others => '-'));
-      inter_res(0)     <= (others => '0');
+      second_state <= CLEAN;
     elsif rising_edge(clk) then
       case (second_state) is
-        when IDLE =>
-          if (valid(mult_st_multiplier_latency+mult_st_accumulator_latency) = '1' and first_dev_counter = 0) then
-            delay_fifo_rd_en <= '1';
-          else
-            delay_fifo_rd_en <= '0';
-          end if;
-          if (valid(mult_st_multiplier_latency+mult_st_accumulator_latency) = '1' and first_dev_counter = 1) then
+        when CLEAN =>
+          delay_fifo_rd_en <= '0';
+          if (valid(st_mul+st_acc) = '1') then
             delay_fifo_rd_en   <= '1';
-            second_dev_counter <= 1;
+            second_dev_counter <= 0;
+            second_state       <= LOAD;
+          end if;
+
+        when LOAD =>
+          delay_fifo_rd_en <= '0';
+          if (valid(st_mul+st_acc) = '1') then
+            delay_fifo_rd_en   <= '1';
+            second_dev_counter <= second_dev_counter +1;
             inter_res          <= first_accum_out;
             second_state       <= CALC;
           end if;
 
         when CALC =>
-          if (valid(mult_st_multiplier_latency+mult_st_accumulator_latency) = '1') then
+          if (valid(st_mul+st_acc) = '1') then
             inter_res <= first_accum_out;
           else
             inter_res(0 to n_bands-2) <= inter_res(1 to n_bands-1);
@@ -168,16 +166,12 @@ begin
           end if;
 
         when LAST =>
-          if(second_dev_counter = n_bands-1) then
-            second_state <= IDLE;
-          else
-            second_state <= REP;
-          end if;
+          second_state <= REP;
 
         when REP =>
           second_dev_counter <= second_dev_counter +1;
-          if (second_dev_counter = n_bands-2) then
-            second_state <= LAST;
+          if (second_dev_counter = n_bands-1) then
+            second_state <= CLEAN;
           end if;
       end case;
     end if;
@@ -188,14 +182,15 @@ begin
     variable coord : natural range n_pixels-1 downto 0;
   begin
     if (rst = '1') then
-      sorter_valid <= '0';
+      write_state <= IDLE;
     elsif rising_edge(clk) then
       case (write_state) is
         when IDLE =>
           coord        := n_pixels-1;
           write_finish <= '1';
           sorter_start <= '0';
-          if (valid(14) = '1' and first_dev_counter = 1) then
+          sorter_valid <= '0';
+          if (valid(st_mul+st_acc+nd_mul+nd_acc) = '1' and first_dev_counter = 1) then
             write_state <= PREP;
           end if;
 
@@ -207,7 +202,7 @@ begin
         when WRITING =>
           sorter_start <= '0';
           sorter_valid <= '0';
-          if (valid(14) = '1') then
+          if (valid(st_mul+st_acc+nd_mul+nd_acc) = '1') then
             sorter_value <= second_accum_out;
             sorter_valid <= '1';
             if (coord = n_pixels-1) then
@@ -256,14 +251,14 @@ begin
         CLK    => clk,
         B      => first_accum_in(i),
         Q      => first_accum_out(i),
-        BYPASS => first_accum_last_in
+        BYPASS => first_load
       );
   end generate first;
 
-  second_mult_a        <= delay_fifo_dout;
-  second_mult_b        <= inter_res(0);
-  second_accum_in      <= second_mult_p;
-  second_accum_last_in <= valid(13);
+  second_mult_a   <= delay_fifo_dout;
+  second_mult_b   <= inter_res(0);
+  second_accum_in <= second_mult_p;
+  second_load     <= valid(st_mul+st_acc+st_mul+1+n_bands);
 
 
   second_multiplier : mult_nd_multiplier
@@ -278,7 +273,7 @@ begin
       CLK    => clk,
       B      => second_accum_in,
       Q      => second_accum_out,
-      BYPASS => second_accum_last_in
+      BYPASS => second_load
     );
 
 

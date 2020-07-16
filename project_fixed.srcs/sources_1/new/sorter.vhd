@@ -28,7 +28,7 @@ end sorter;
 
 architecture behavioral of sorter is
 
-  type state_t is (IDLE, INITIALIZE, READ);
+  type state_t is (IDLE, INITIALIZE, READ, WRITE);
   signal state : state_t;
 
   signal storage_ena, storage_enb     : std_logic;
@@ -78,11 +78,9 @@ begin
             storage_wea  <= "1";
             storage_dina <= compare;
             swap         <= storage_doutb;
-            res          <= compare(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
           else
             storage_wea <= "0";
             swap        <= compare;
-            res         <= storage_doutb(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
           end if;
 
           if (read_addr /= n_bands-1) then
@@ -96,12 +94,19 @@ begin
             write_addr <= 0;
           end if;
 
-          if (unsigned(coord) = n_pixels-1) then
+          if (unsigned(coord) = n_pixels-1 and read_addr = 0) then
+            state <= WRITE;
+          end if;
+          
+      when WRITE =>
             res_valid <= '1';
-            if (read_addr = n_bands-1) then
+            storage_wea <= "0";
+            res <= storage_doutb(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
+            if (read_addr /= n_bands-1) then
+              read_addr <= read_addr +1;
+            else
               state <= IDLE;
             end if;
-          end if;
       end case;
     end if;
   end process sort_proc;
