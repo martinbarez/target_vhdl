@@ -96,8 +96,6 @@ architecture behavioral of gauss_module is
   -- Some trash from the subtracters
   signal trash : std_logic_vector(5 downto 0);
 
-  signal quotient_sign_removed : std_logic_vector(78 downto 0);
-
 begin
 
   -- Load data in the cores and DSPs
@@ -462,21 +460,23 @@ begin
   end process counter_proc;
 
   -- Control division signs
-  -- There is a bug in Xilinxs division core. Although I have really constrained when it happens
+  -- There is a bug in Xilinxs division core. Although I have really constrained when it occurs,
   -- the solution here is a bit broader. I do not want it to happen in fabric under any case
-  divisor_proc : process (clk, divisor, dividend, quotient_core)
+  divisor_proc : process (clk)
   begin
     if (rising_edge(clk)) then
+
       if (signed(dividend) < 0) then
-        dividend_core        <= std_logic_vector(resize(signed(not(dividend))+1, dividend_core'length));
+        dividend_core <= std_logic_vector(resize(signed(not(dividend))+1, dividend_core'length));
       else
         dividend_core <= std_logic_vector(resize(signed(dividend), dividend_core'length));
       end if;
       if (signed(divisor) < 0) then
-        divisor_core        <= std_logic_vector(resize(signed(not(divisor))+1, divisor_core'length));
+        divisor_core <= std_logic_vector(resize(signed(not(divisor))+1, divisor_core'length));
       else
         divisor_core <= std_logic_vector(resize(signed(divisor), divisor_core'length));
       end if;
+
       if (signed(dividend) > 0 and signed(divisor) > 0) then
         invert_div_result(0) <= '0';
       elsif (signed(dividend) < 0 and signed(divisor) > 0) then
@@ -486,50 +486,49 @@ begin
       else --(signed(dividend) < 0 and signed(divisor) < 0) then
         invert_div_result(0) <= '0';
       end if;
+
     end if;
-    quotient_sign_removed <= quotient_core(quotient_core'length-1 downto 31)&quotient_core(29 downto 0);
   end process divisor_proc;
 
 
   -- Shift results between division and multiplications to keep the highest resolution possible
-  shift_proc : process (clk, state, quotient_sign_removed, mul_cov_p_core, mul_inv_p_core)
+  shift_proc : process (quotient_core, mul_cov_p_core, mul_inv_p_core)
+    variable quotient_sign_removed : std_logic_vector(78 downto 0);
+    variable quotient_shifted      : std_logic_vector(quotient_precision-1 downto 0);
   begin
+
+    quotient_sign_removed := quotient_core(quotient_core'length-1 downto 31)&quotient_core(29 downto 0);
+
     for I in 0 to n_bands-1 loop
       case (state) is
         when FORWARDS =>
-          if (invert_div_result(div_lat-div_pre) = '0') then
-            quotient <= quotient_sign_removed(quotient_precision+30-forw-1 downto 30-forw);
-          else
-            quotient <= std_logic_vector(signed(not(quotient_sign_removed(quotient_precision+30-forw-1 downto 30-forw)))+1);
-          end if;
-          mul_cov_p(I) <= mul_cov_p_core(I)(gauss_mul_p_precision+forw-1 downto forw);
-          mul_inv_p(I) <= mul_inv_p_core(I)(gauss_mul_p_precision+forw-1 downto forw);
+          quotient_shifted := quotient_sign_removed(quotient_precision+30-forw-1 downto 30-forw);
+          mul_cov_p(I)     <= mul_cov_p_core(I)(gauss_mul_p_precision+forw-1 downto forw);
+          mul_inv_p(I)     <= mul_inv_p_core(I)(gauss_mul_p_precision+forw-1 downto forw);
 
         when BACKWARDS =>
-          if (invert_div_result(div_lat-div_pre) = '0') then
-            quotient <= quotient_sign_removed(quotient_precision+30-back-1 downto 30-back);
-          else
-            quotient <= std_logic_vector(signed(not(quotient_sign_removed(quotient_precision+30-back-1 downto 30-back)))+1);
-          end if;
-          mul_cov_p(I) <= mul_cov_p_core(I)(gauss_mul_p_precision+back-1 downto back);
-          mul_inv_p(I) <= mul_inv_p_core(I)(gauss_mul_p_precision+back-1 downto back);
+          quotient_shifted := quotient_sign_removed(quotient_precision+30-back-1 downto 30-back);
+          mul_cov_p(I)     <= mul_cov_p_core(I)(gauss_mul_p_precision+back-1 downto back);
+          mul_inv_p(I)     <= mul_inv_p_core(I)(gauss_mul_p_precision+back-1 downto back);
 
         when DIAGONAL =>
-          if (invert_div_result(div_lat-div_pre) = '0') then
-            quotient <= quotient_sign_removed(quotient_precision+30-diag-1 downto 30-diag);
-          else
-            quotient <= std_logic_vector(signed(not(quotient_sign_removed(quotient_precision+30-diag-1 downto 30-diag)))+1);
-          end if;
-          mul_cov_p(I) <= mul_cov_p_core(I)(gauss_mul_p_precision+diag-1 downto diag);
-          mul_inv_p(I) <= mul_inv_p_core(I)(gauss_mul_p_precision+diag-1 downto diag);
+          quotient_shifted := quotient_sign_removed(quotient_precision+30-diag-1 downto 30-diag);
+          mul_cov_p(I)     <= mul_cov_p_core(I)(gauss_mul_p_precision+diag-1 downto diag);
+          mul_inv_p(I)     <= mul_inv_p_core(I)(gauss_mul_p_precision+diag-1 downto diag);
 
         when others =>
-          quotient     <= (others => '-');
-          mul_cov_p(I) <= (others => '-');
-          mul_inv_p(I) <= (others => '-');
-
+          quotient_shifted := (others => '-');
+          mul_cov_p(I)     <= (others => '-');
+          mul_inv_p(I)     <= (others => '-');
       end case;
     end loop;
+
+    if (invert_div_result(div_lat-div_pre) = '0') then
+      quotient <= quotient_shifted;
+    else
+      quotient <= std_logic_vector(signed(not(quotient_shifted))+1);
+    end if;
+
   end process shift_proc;
 
 
