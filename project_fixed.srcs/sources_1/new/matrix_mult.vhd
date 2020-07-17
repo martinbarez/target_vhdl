@@ -141,6 +141,7 @@ begin
           end if;
           if (valid(st_mul+st_acc+n_bands) = '1') then
             --delay_fifo_rd_en   <= '1';
+            inter_res <= first_accum_out;
             second_dev_counter <= 0;
             second_state       <= CALC;
           end if;
