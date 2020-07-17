@@ -38,6 +38,7 @@ architecture behavioral of matrix_mult is
   signal delay_fifo_dout  : std_logic_vector(precision-1 downto 0);
   signal delay_fifo_wr_en : std_logic;
   signal delay_fifo_din   : std_logic_vector(precision-1 downto 0);
+  signal delay_fifo_empty : std_logic;
 
   type valid_array is array (20+n_bands downto 0) of std_logic;
   signal valid : valid_array;
@@ -203,6 +204,13 @@ begin
     sorter_coord <= std_logic_vector(to_unsigned(coord, sorter_coord'length));
   end process write_proc;
 
+  assrt_proc : process (first_state, second_state)
+  begin
+  if (first_state = IDLE and second_state = IDLE) then
+    assert (delay_fifo_empty = '1') report "Delay FIFO in matrix_mult is not empty" severity FAILURE;
+  end if;
+  end process assrt_proc;
+
 
   -- To read the inverse
   inv_addrb <= std_logic_vector(to_unsigned(inv_address, inv_addrb'length));
@@ -275,7 +283,7 @@ begin
       rd_en => delay_fifo_rd_en,
       dout  => delay_fifo_dout,
       full  => open,
-      empty => open
+      empty => delay_fifo_empty
     );
 
 

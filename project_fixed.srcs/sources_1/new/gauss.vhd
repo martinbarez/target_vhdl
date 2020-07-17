@@ -50,6 +50,7 @@ architecture behavioral of gauss_module is
 
   signal tempj_din, tempj_dout    : std_logic_vector(ram_precision*n_bands-1 downto 0);
   signal tempj_wr_en, tempj_rd_en : std_logic;
+  signal tempj_empty : std_logic;
 
   signal dividend                    : std_logic_vector(dividend_precision-1 downto 0); -- the one I set (real one)
   signal divisor                     : std_logic_vector(divisor_precision-1 downto 0);  -- the one I set (real one)
@@ -125,6 +126,8 @@ begin
           tempj_wr_en   <= '0';
           tempj_rd_en   <= '0';
           write_control <= '0';
+          
+          assert (tempj_empty = '1') report "Temp J row FIFO in gauss is not empty" severity FAILURE;
 
         when PRE_INIT =>
           counter_i        <= 0;
@@ -569,7 +572,7 @@ begin
       rd_en => tempj_rd_en,
       dout  => tempj_dout,
       full  => open,
-      empty => open
+      empty => tempj_empty
     );
 
   divider_inst : divider

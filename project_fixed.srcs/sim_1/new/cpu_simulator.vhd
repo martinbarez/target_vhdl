@@ -11342,6 +11342,9 @@ start <= '0';
 wait until CLK = '1';
 
 wait until ready = '1';
+assert (cov_fifo_empty  = '1') report "Covariance FIFO from CPU is not empty" severity FAILURE;
+assert (mean_fifo_empty = '1') report "Mean FIFO from CPU is not empty" severity FAILURE;
+
 res_fifo_rd_en <= '1';
 
 wait until CLK = '1';
