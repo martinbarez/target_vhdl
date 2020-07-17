@@ -53,7 +53,7 @@ architecture behavioral of control is
   signal cov_addrb, cov_addrb_int, cov_addrb_inv : std_logic_vector(log_bands-1 downto 0);
   signal cov_doutb                               : std_logic_vector(n_bands*ram_precision-1 downto 0);
 
-  signal inv_wea, inv_wea_inv, inv_wea_mul       : std_logic_vector(0 downto 0);
+  signal inv_wea, inv_wea_inv       : std_logic_vector(0 downto 0);
   signal inv_addra, inv_addra_inv, inv_addra_mul : std_logic_vector(log_bands-1 downto 0);
   signal inv_dina, inv_dina_inv, inv_dina_mul    : std_logic_vector(n_bands*ram_precision-1 downto 0);
 
@@ -77,16 +77,9 @@ begin
   begin
     if (rst = '1') then
       state          <= IDLE;
-      start_inv      <= '0';
-      start_diff     <= '0';
-      start_mul      <= '0';
-      cov_fifo_rd_en <= '0';
-      res_fifo_wr_en <= '0';
     elsif rising_edge(clk) then
       case (state) is
         when IDLE =>
-          ready     <= '1';
-          start_inv <= '0';
           if (start = '1') then
             ready                <= '0';
             arb_cov_ram          <= INTERNAL;
@@ -96,8 +89,20 @@ begin
             cov_enb              <= '1';
             inv_enb              <= '1';
             state                <= READ;
+          else
+            ready     <= '1';
+            
+            cov_wea_int <= "0";
+            cov_enb <= '0';
+            inv_enb <= '0';
+            cov_fifo_rd_en <= '0';
+            res_fifo_wr_en <= '0';
+          
+            start_inv      <= '0';
+            start_diff     <= '0';
+            start_mul      <= '0';
           end if;
-
+          
         when READ =>
           if (cov_fifo_empty = '0') then
             cov_fifo_rd_en       <= '1';
@@ -128,6 +133,8 @@ begin
         when WRITE_LAST =>
           start_inv   <= '1';
           cov_wea_int <= "0";
+          cov_enb <= '1';
+          inv_enb <= '1';
           arb_cov_ram <= INVERSE;
           arb_inv_ram <= INVERSE;
           state       <= INV_START;
@@ -165,7 +172,6 @@ begin
           end if;
 
         when RES_READ =>
-          res_valid2 <= res_valid;
           res_fifo_wr_en <= res_valid;
           res_fifo_din   <= res;
           if (res_valid = '0' and res_valid2 = '1') then
@@ -179,7 +185,7 @@ begin
       cov_wea_int, cov_addra_int, cov_dina_int, cov_addrb_int,
       cov_wea_inv, cov_addra_inv, cov_dina_inv, cov_addrb_inv,
       inv_wea_inv, inv_addra_inv, inv_dina_inv, inv_addrb_inv,
-      inv_wea_mul, inv_addra_mul, inv_dina_mul, inv_addrb_mul)
+                   inv_addra_mul, inv_dina_mul, inv_addrb_mul)
   begin
     case (arb_cov_ram) is
       --read covariance from cpu to ram
@@ -204,7 +210,7 @@ begin
         inv_addrb <= inv_addrb_inv;
       --let matrix multiplier read inverse
       when others =>
-        inv_wea   <= inv_wea_mul;
+        inv_wea   <= "0";
         inv_addra <= inv_addra_mul;
         inv_dina  <= inv_dina_mul;
         inv_addrb <= inv_addrb_mul;
@@ -304,6 +310,8 @@ begin
       sorter_value1 <= sorter_value0;
       sorter_valid1 <= sorter_valid0;
       sorter_coord1 <= sorter_coord0;
+      
+      res_valid2 <= res_valid;
     end if;
   end process sorter_delay;
 

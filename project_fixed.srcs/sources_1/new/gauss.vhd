@@ -103,7 +103,6 @@ begin
   begin
     if (rst = '1') then
       state <= IDLE;
-      valid <= (others => '0');
     elsif rising_edge(clk) then
       v := '0'; -- goes high only when we read valid data from the covariance
       case (state) is
@@ -112,9 +111,16 @@ begin
             ready <= '0';
             state <= PRE_INIT;
           else
-            write_control <= '0';
             ready         <= '1';
           end if;
+          
+          valid <= (others => '0');
+          
+          write_control <= '0';
+          tempj_wr_en   <= '0';
+          tempj_rd_en   <= '0';
+          div_valid     <= '0';
+          i_ready       <= '0';
 
         when PRE_INIT =>
           counter_i        <= 0;
@@ -383,6 +389,8 @@ begin
   begin
     if rising_edge(clk) then
       case (state) is
+        when IDLE =>
+          stall <= '0';
 
         -- init renaming table
         when PRE_INIT =>

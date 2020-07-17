@@ -59,11 +59,14 @@ begin
         when IDLE =>
           if (start = '1') then
             addr            <= 0;
+            buffer_ena <= '1';
             mean_fifo_rd_en <= '1';
             state           <= FIFO_LAT;
           else
+            buffer_ena <= '0';
             mean_fifo_rd_en <= '0';
           end if;
+            buffer_wea      <= "0";
 
         when FIFO_LAT =>
           buffer_wea <= "1";
@@ -106,16 +109,6 @@ begin
       deviation       <= sub_p;
     end if;
   end process calc_proc;
-
-  buffer_enable : process (state)
-  begin
-    case (state) is
-      when IDLE =>
-        buffer_ena <= '0';
-      when others =>
-        buffer_ena <= '1';
-    end case;
-  end process buffer_enable;
 
   subtracter_inst : mean_subtracter
     PORT MAP (
