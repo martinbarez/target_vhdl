@@ -47,6 +47,8 @@ begin
   begin
     if (rst = '1') then
       state <= IDLE;
+      res <= (others => '-');
+      swap <= (others => '-');
     elsif rising_edge(clk) then
       case (state) is
         when IDLE =>

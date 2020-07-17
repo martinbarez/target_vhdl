@@ -67,6 +67,8 @@ begin
             mean_fifo_rd_en <= '0';
           end if;
             buffer_wea      <= "0";
+            sub_a <= (others => '0');
+            sub_b <= (others => '0');
 
         when FIFO_LAT =>
           buffer_wea <= "1";

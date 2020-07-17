@@ -103,6 +103,7 @@ begin
   begin
     if (rst = '1') then
       state <= IDLE;
+      valid <= (others => '0');
     elsif rising_edge(clk) then
       v := '0'; -- goes high only when we read valid data from the covariance
       case (state) is
@@ -114,13 +115,16 @@ begin
             ready         <= '1';
           end if;
           
-          valid <= (others => '0');
-          
-          write_control <= '0';
+          counter_i        <= 0;
+          counter_write    <= 0;
+          counter_read_cov <= 0;
+          counter_read_inv <= 0;
+
+          i_ready       <= '0';
+          div_valid     <= '0';
           tempj_wr_en   <= '0';
           tempj_rd_en   <= '0';
-          div_valid     <= '0';
-          i_ready       <= '0';
+          write_control <= '0';
 
         when PRE_INIT =>
           counter_i        <= 0;
@@ -297,15 +301,17 @@ begin
       end case;
 
       valid                                  <= v & valid(0 to valid'length-2);
-      invert_div_result(1 to valid'length-1) <= invert_div_result(0 to valid'length-2);
     end if;
   end process counter_proc;
 
 
   -- Load the current i row in its signal
-  capture_i_proc : process (clk)
+  capture_i_proc : process (rst, clk)
   begin
-    if rising_edge(clk) then
+    if (rst = '1') then
+      row_i_inv <= (others => (others => '-'));
+      row_i_cov <= (others => (others => '-'));
+    elsif rising_edge(clk) then
       i_ready_delay  <= i_ready;
       i_ready_delay2 <= i_ready_delay;
       stall_delay    <= stall;
@@ -330,6 +336,8 @@ begin
       if (write_control = '0') then
         cov_wea <= "0";
         inv_wea <= "0";
+        cov_dina <= (others => '-');
+        inv_dina <= (others => '-');
       else
         -- Write only on the inverse, and from the multipliers
         if (state = DIAGONAL) then
@@ -498,7 +506,11 @@ begin
       else --(signed(dividend) < 0 and signed(divisor) < 0) then
         invert_div_result(0) <= '0';
       end if;
-
+      if (state = FORWARDS or state = BACKWARDS or state = DIAGONAL) then
+        invert_div_result(1 to valid'length-1) <= invert_div_result(0 to valid'length-2);
+      else
+        invert_div_result <= (others => '0');
+      end if;
     end if;
   end process divisor_proc;
 
@@ -529,9 +541,9 @@ begin
           mul_inv_p(I)     <= mul_inv_p_core(I)(gauss_mul_p_precision+diag-1 downto diag);
 
         when others =>
-          quotient_shifted := (others => '-');
-          mul_cov_p(I)     <= (others => '-');
-          mul_inv_p(I)     <= (others => '-');
+          quotient_shifted := (others => '0');
+          mul_cov_p(I)     <= (others => '0');
+          mul_inv_p(I)     <= (others => '0');
       end case;
     end loop;
 

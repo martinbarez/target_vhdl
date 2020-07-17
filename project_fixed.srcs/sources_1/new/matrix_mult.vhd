@@ -132,6 +132,8 @@ begin
   begin
     if (rst = '1') then
       second_state <= IDLE;
+      inter_res <= (others => (others => '-'));
+      inter_res(0) <=(others => '0');
     elsif rising_edge(clk) then
       case (second_state) is
         when IDLE =>
@@ -167,6 +169,7 @@ begin
   begin
     if (rst = '1') then
       write_state <= IDLE;
+      sorter_value <= (others => '-');      
     elsif rising_edge(clk) then
       case (write_state) is
         when IDLE =>
@@ -214,8 +217,8 @@ begin
   end process deviation_delay;
 
 
-  first_mult_a <= ram_to_mult_mul(inv_doutb);
-  first_mult_b <= deviation_delay3;
+  first_mult_a <= ram_to_mult_mul(inv_doutb) when first_state /= IDLE else (others => (others => '0'));
+  first_mult_b <= deviation_delay3 when first_state /= IDLE else (others => '0');
   first : for i in 0 to n_bands-1 generate
     first_multiplier : mult_st_multiplier
       PORT MAP (
@@ -236,8 +239,8 @@ begin
       );
   end generate first;
 
-  second_mult_a <= delay_fifo_dout;
-  second_mult_b <= inter_res(0);
+  second_mult_a <= delay_fifo_dout when second_state /= IDLE else (others => '0');
+  second_mult_b <= inter_res(0) when second_state /= IDLE else (others => '0');
   second_multiplier : mult_nd_multiplier
     PORT MAP (
       CLK => clk,

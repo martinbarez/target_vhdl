@@ -54,8 +54,8 @@ architecture behavioral of control is
   signal cov_doutb                               : std_logic_vector(n_bands*ram_precision-1 downto 0);
 
   signal inv_wea, inv_wea_inv       : std_logic_vector(0 downto 0);
-  signal inv_addra, inv_addra_inv, inv_addra_mul : std_logic_vector(log_bands-1 downto 0);
-  signal inv_dina, inv_dina_inv, inv_dina_mul    : std_logic_vector(n_bands*ram_precision-1 downto 0);
+  signal inv_addra, inv_addra_inv : std_logic_vector(log_bands-1 downto 0);
+  signal inv_dina, inv_dina_inv    : std_logic_vector(n_bands*ram_precision-1 downto 0);
 
   signal inv_enb                                 : std_logic;
   signal inv_addrb, inv_addrb_inv, inv_addrb_mul : std_logic_vector(log_bands-1 downto 0);
@@ -64,9 +64,10 @@ architecture behavioral of control is
   signal deviation       : std_logic_vector(mean_sub_s_precision-1 downto 0);
   signal dev_ready : std_logic;
 
-  signal sorter_start, sorter_valid0, sorter_valid1 : std_logic;
-  signal sorter_value0, sorter_value1, sorter_value2                : std_logic_vector(sorter_precision-1 downto 0);
-  signal sorter_coord0, sorter_coord1, sorter_coord2                : std_logic_vector(log_pixels-1 downto 0);
+  signal sorter_start : std_logic;
+  signal sorter_valid0, sorter_valid1 : std_logic;
+  signal sorter_value0, sorter_value1                : std_logic_vector(sorter_precision-1 downto 0);
+  signal sorter_coord0, sorter_coord1                : std_logic_vector(log_pixels-1 downto 0);
   signal res                                                        : std_logic_vector(log_pixels-1 downto 0);
   signal res_valid, res_valid2                                      : std_logic;
 
@@ -93,6 +94,7 @@ begin
             ready     <= '1';
             
             cov_wea_int <= "0";
+            cov_addra_int <= (others => '-');
             cov_enb <= '0';
             inv_enb <= '0';
             cov_fifo_rd_en <= '0';
@@ -182,10 +184,10 @@ begin
   end process control;
 
   arbitrerproc : process (clk, rst, arb_cov_ram, arb_inv_ram,
-      cov_wea_int, cov_addra_int, cov_dina_int, cov_addrb_int,
-      cov_wea_inv, cov_addra_inv, cov_dina_inv, cov_addrb_inv,
+      cov_wea_int, cov_addra_int, cov_dina_int,
+      cov_wea_inv, cov_addra_inv, cov_dina_inv,
       inv_wea_inv, inv_addra_inv, inv_dina_inv, inv_addrb_inv,
-                   inv_addra_mul, inv_dina_mul, inv_addrb_mul)
+                                                inv_addrb_mul)
   begin
     case (arb_cov_ram) is
       --read covariance from cpu to ram
@@ -193,7 +195,7 @@ begin
         cov_wea   <= cov_wea_int;
         cov_addra <= cov_addra_int;
         cov_dina  <= cov_dina_int;
-        cov_addrb <= cov_addrb_int;
+        cov_addrb <= (others => '-');
       --let inverter use covariance ram
       when others =>
         cov_wea   <= cov_wea_inv;
@@ -211,8 +213,8 @@ begin
       --let matrix multiplier read inverse
       when others =>
         inv_wea   <= "0";
-        inv_addra <= inv_addra_mul;
-        inv_dina  <= inv_dina_mul;
+        inv_addra <= (others => '-');
+        inv_dina  <= (others => '-');
         inv_addrb <= inv_addrb_mul;
     end case;
   end process arbitrerproc;
