@@ -50,7 +50,7 @@ architecture behavioral of gauss_module is
 
   signal tempj_din, tempj_dout    : std_logic_vector(ram_precision*n_bands-1 downto 0);
   signal tempj_wr_en, tempj_rd_en : std_logic;
-  signal tempj_empty : std_logic;
+  signal tempj_empty              : std_logic;
 
   signal dividend                    : std_logic_vector(dividend_precision-1 downto 0); -- the one I set (real one)
   signal divisor                     : std_logic_vector(divisor_precision-1 downto 0);  -- the one I set (real one)
@@ -77,7 +77,7 @@ architecture behavioral of gauss_module is
 
   signal counter_i                              : natural range n_bands-1 downto 0;
   signal i_ready, i_ready_delay, i_ready_delay2 : std_logic;
-  signal row_i_cov, row_i_inv                   : ram_array; -- memory for current i
+  signal row_i_cov, row_i_inv                   : ram_array := (others => (others => '-')); -- memory for current i
 
   -- Controls for next cycle
   signal counter_read_cov, counter_read_inv : natural range n_bands-1 downto 0;
@@ -113,9 +113,9 @@ begin
             ready <= '0';
             state <= PRE_INIT;
           else
-            ready         <= '1';
+            ready <= '1';
           end if;
-          
+
           counter_i        <= 0;
           counter_write    <= 0;
           counter_read_cov <= 0;
@@ -126,7 +126,7 @@ begin
           tempj_wr_en   <= '0';
           tempj_rd_en   <= '0';
           write_control <= '0';
-          
+
           assert (tempj_empty = '1') report "Temp J row FIFO in gauss is not empty" severity FAILURE;
 
         when PRE_INIT =>
@@ -303,18 +303,15 @@ begin
           end if;
       end case;
 
-      valid                                  <= v & valid(0 to valid'length-2);
+      valid <= v & valid(0 to valid'length-2);
     end if;
   end process counter_proc;
 
 
   -- Load the current i row in its signal
-  capture_i_proc : process (rst, clk)
+  capture_i_proc : process (clk)
   begin
-    if (rst = '1') then
-      row_i_inv <= (others => (others => '-'));
-      row_i_cov <= (others => (others => '-'));
-    elsif rising_edge(clk) then
+    if rising_edge(clk) then
       i_ready_delay  <= i_ready;
       i_ready_delay2 <= i_ready_delay;
       stall_delay    <= stall;
@@ -337,8 +334,8 @@ begin
   begin
     if rising_edge(clk) then
       if (write_control = '0') then
-        cov_wea <= "0";
-        inv_wea <= "0";
+        cov_wea  <= "0";
+        inv_wea  <= "0";
         cov_dina <= (others => '-');
         inv_dina <= (others => '-');
       else
@@ -384,7 +381,7 @@ begin
         if (counter_read_inv >= 0 and counter_read_inv <= n_bands-1) then
           inv_addrb <= std_logic_vector(to_unsigned(rename(counter_read_inv), inv_addrb'length));
         else
-          inv_addrb <= (others => 'U');
+          inv_addrb <= (others => '-');
         end if;
 
       elsif (stall = '1') then --we read the substituting line

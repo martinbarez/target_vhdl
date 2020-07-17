@@ -133,18 +133,18 @@ begin
   begin
     if (rst = '1') then
       second_state <= IDLE;
-      inter_res <= (others => (others => '-'));
-      inter_res(0) <=(others => '0');
+      inter_res    <= (others => (others => '-'));
+      inter_res(0) <= (others => '0');
     elsif rising_edge(clk) then
       case (second_state) is
         when IDLE =>
           delay_fifo_rd_en <= '0';
           if (valid(st_mul+st_acc) = '1') then
-            delay_fifo_rd_en   <= '1';
+            delay_fifo_rd_en <= '1';
           end if;
           if (valid(st_mul+st_acc+n_bands) = '1') then
             --delay_fifo_rd_en   <= '1';
-            inter_res <= first_accum_out;
+            inter_res          <= first_accum_out;
             second_dev_counter <= 0;
             second_state       <= CALC;
           end if;
@@ -152,13 +152,13 @@ begin
         when CALC =>
           if (valid(st_mul+st_acc+n_bands) = '1') then
             second_dev_counter <= second_dev_counter +1;
-            inter_res <= first_accum_out;
+            inter_res          <= first_accum_out;
           else
             inter_res(0 to n_bands-2) <= inter_res(1 to n_bands-1);
             inter_res(n_bands-1)      <= (others => '-');
           end if;
           if (second_dev_counter = n_pixels) then
-            second_state       <= IDLE;
+            second_state <= IDLE;
           end if;
       end case;
     end if;
@@ -169,8 +169,8 @@ begin
     variable coord : natural range n_pixels-1 downto 0;
   begin
     if (rst = '1') then
-      write_state <= IDLE;
-      sorter_value <= (others => '-');      
+      write_state  <= IDLE;
+      sorter_value <= (others => '-');
     elsif rising_edge(clk) then
       case (write_state) is
         when IDLE =>
@@ -193,7 +193,7 @@ begin
             if (coord = n_pixels-1) then
               coord := 0;
             elsif (coord = n_pixels-2) then
-              coord := coord +1;
+              coord       := coord +1;
               write_state <= IDLE;
             else
               coord := coord +1;
@@ -206,9 +206,9 @@ begin
 
   assrt_proc : process (first_state, second_state)
   begin
-  if (first_state = IDLE and second_state = IDLE) then
-    assert (delay_fifo_empty = '1') report "Delay FIFO in matrix_mult is not empty" severity FAILURE;
-  end if;
+    if (first_state = IDLE and second_state = IDLE) then
+      assert not (delay_fifo_empty = '0') report "Delay FIFO in matrix_mult is not empty" severity FAILURE;
+    end if;
   end process assrt_proc;
 
 
@@ -226,7 +226,7 @@ begin
 
 
   first_mult_a <= ram_to_mult_mul(inv_doutb) when first_state /= IDLE else (others => (others => '0'));
-  first_mult_b <= deviation_delay3 when first_state /= IDLE else (others => '0');
+  first_mult_b <= deviation_delay3           when first_state /= IDLE else (others           => '0');
   first : for i in 0 to n_bands-1 generate
     first_multiplier : mult_st_multiplier
       PORT MAP (
@@ -248,7 +248,7 @@ begin
   end generate first;
 
   second_mult_a <= delay_fifo_dout when second_state /= IDLE else (others => '0');
-  second_mult_b <= inter_res(0) when second_state /= IDLE else (others => '0');
+  second_mult_b <= inter_res(0)    when second_state /= IDLE else (others    => '0');
   second_multiplier : mult_nd_multiplier
     PORT MAP (
       CLK => clk,

@@ -53,23 +53,23 @@ architecture behavioral of control is
   signal cov_addrb, cov_addrb_int, cov_addrb_inv : std_logic_vector(log_bands-1 downto 0);
   signal cov_doutb                               : std_logic_vector(n_bands*ram_precision-1 downto 0);
 
-  signal inv_wea, inv_wea_inv       : std_logic_vector(0 downto 0);
+  signal inv_wea, inv_wea_inv     : std_logic_vector(0 downto 0);
   signal inv_addra, inv_addra_inv : std_logic_vector(log_bands-1 downto 0);
-  signal inv_dina, inv_dina_inv    : std_logic_vector(n_bands*ram_precision-1 downto 0);
+  signal inv_dina, inv_dina_inv   : std_logic_vector(n_bands*ram_precision-1 downto 0);
 
   signal inv_enb                                 : std_logic;
   signal inv_addrb, inv_addrb_inv, inv_addrb_mul : std_logic_vector(log_bands-1 downto 0);
   signal inv_doutb                               : std_logic_vector(n_bands*ram_precision-1 downto 0);
 
-  signal deviation       : std_logic_vector(mean_sub_s_precision-1 downto 0);
+  signal deviation : std_logic_vector(mean_sub_s_precision-1 downto 0);
   signal dev_ready : std_logic;
 
-  signal sorter_start : std_logic;
+  signal sorter_start                 : std_logic;
   signal sorter_valid0, sorter_valid1 : std_logic;
-  signal sorter_value0, sorter_value1                : std_logic_vector(sorter_precision-1 downto 0);
-  signal sorter_coord0, sorter_coord1                : std_logic_vector(log_pixels-1 downto 0);
-  signal res                                                        : std_logic_vector(log_pixels-1 downto 0);
-  signal res_valid, res_valid2                                      : std_logic;
+  signal sorter_value0, sorter_value1 : std_logic_vector(sorter_precision-1 downto 0);
+  signal sorter_coord0, sorter_coord1 : std_logic_vector(log_pixels-1 downto 0);
+  signal res                          : std_logic_vector(log_pixels-1 downto 0);
+  signal res_valid, res_valid2        : std_logic;
 
 
 begin
@@ -77,34 +77,35 @@ begin
   control : process (clk, rst)
   begin
     if (rst = '1') then
-      state          <= IDLE;
+      state <= IDLE;
     elsif rising_edge(clk) then
       case (state) is
         when IDLE =>
           if (start = '1') then
-            ready                <= '0';
-            arb_cov_ram          <= INTERNAL;
-            write_counter        <= 0; --change to 1 if fifo is fwft
-            write_first          <= false;
-            fifo_read_last_cycle <= false;
-            cov_enb              <= '1';
-            inv_enb              <= '1';
-            state                <= READ;
+            ready   <= '0';
+            cov_enb <= '1';
+            inv_enb <= '1';
+            state   <= READ;
           else
-            ready     <= '1';
-            
-            cov_wea_int <= "0";
-            cov_addra_int <= (others => '-');
+            ready   <= '1';
             cov_enb <= '0';
             inv_enb <= '0';
-            cov_fifo_rd_en <= '0';
-            res_fifo_wr_en <= '0';
-          
-            start_inv      <= '0';
-            start_diff     <= '0';
-            start_mul      <= '0';
           end if;
-          
+
+          cov_addra_int        <= (others => '-');
+          cov_wea_int          <= "0";
+          arb_cov_ram          <= INTERNAL;
+          write_counter        <= 0; --change to 1 if fifo is fwft
+          write_first          <= false;
+          fifo_read_last_cycle <= false;
+
+          cov_fifo_rd_en <= '0';
+          res_fifo_wr_en <= '0';
+
+          start_inv  <= '0';
+          start_diff <= '0';
+          start_mul  <= '0';
+
         when READ =>
           if (cov_fifo_empty = '0') then
             cov_fifo_rd_en       <= '1';
@@ -135,8 +136,8 @@ begin
         when WRITE_LAST =>
           start_inv   <= '1';
           cov_wea_int <= "0";
-          cov_enb <= '1';
-          inv_enb <= '1';
+          cov_enb     <= '1';
+          inv_enb     <= '1';
           arb_cov_ram <= INVERSE;
           arb_inv_ram <= INVERSE;
           state       <= INV_START;
@@ -187,7 +188,7 @@ begin
       cov_wea_int, cov_addra_int, cov_dina_int,
       cov_wea_inv, cov_addra_inv, cov_dina_inv,
       inv_wea_inv, inv_addra_inv, inv_dina_inv, inv_addrb_inv,
-                                                inv_addrb_mul)
+      inv_addrb_mul)
   begin
     case (arb_cov_ram) is
       --read covariance from cpu to ram
@@ -301,9 +302,9 @@ begin
       inv_doutb => inv_doutb,
 
       sorter_start => sorter_start,
-      sorter_value  => sorter_value0,
-      sorter_valid  => sorter_valid0,
-      sorter_coord  => sorter_coord0
+      sorter_value => sorter_value0,
+      sorter_valid => sorter_valid0,
+      sorter_coord => sorter_coord0
     );
 
   sorter_delay : process (clk)
@@ -312,7 +313,7 @@ begin
       sorter_value1 <= sorter_value0;
       sorter_valid1 <= sorter_valid0;
       sorter_coord1 <= sorter_coord0;
-      
+
       res_valid2 <= res_valid;
     end if;
   end process sorter_delay;

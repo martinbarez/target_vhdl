@@ -4,9 +4,9 @@ use ieee.numeric_std.all;
 
 package rx is
 
---------------------------------------------------------------------------------
--- LATENCY VALUES
---------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+  -- LATENCY VALUES
+  --------------------------------------------------------------------------------
   -- Gauss-Jordan Inverse
   constant gauss_div_latency : natural := 77;
   constant gauss_mul_latency : natural := 6;
@@ -22,9 +22,9 @@ package rx is
   constant mult_nd_accumulator_latency : natural := 2;
 
 
---------------------------------------------------------------------------------
--- SIZE CONSTANTS
---------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+  -- SIZE CONSTANTS
+  --------------------------------------------------------------------------------
   --constant n_bands    : natural range 0 to 256  := 8;
   --constant n_pixels   : natural range 0 to 5000 := 32;
   --constant log_bands  : natural := 3;
@@ -41,11 +41,11 @@ package rx is
   --constant log_pixels : natural := 12;
 
 
---------------------------------------------------------------------------------
--- SHIFTING CONSTANTS
---------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+  -- SHIFTING CONSTANTS
+  --------------------------------------------------------------------------------
   --register to fill with zeros when shifting
-  constant fill      : std_logic_vector(63 downto 0) := (others => '0');
+  constant fill : std_logic_vector(63 downto 0) := (others => '0');
 
   -- the covariance and the 1 for the inverse get shifted left
   constant read_cov : natural := 20;
@@ -60,22 +60,22 @@ package rx is
   constant write_up : natural := 24;
   constant write_dw : natural := 3;
 
-  constant st_mult : natural := 0;
+  constant st_mult  : natural := 0;
   constant st_accum : natural := 0;
-  constant nd_mult : natural := 0;
+  constant nd_mult  : natural := 0;
 
 
---------------------------------------------------------------------------------
--- PRECISION CONSTANTS
---------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+  -- PRECISION CONSTANTS
+  --------------------------------------------------------------------------------
   constant precision        : natural := 24; --precision for the cpu
   constant ram_precision    : natural := 42;
   constant sorter_precision : natural := 48;
 
   -- Gaussian Inverse
-  constant dividend_precision : natural := ram_precision;
-  constant divisor_precision  : natural := ram_precision;
-  constant quotient_precision : natural := 35;
+  constant dividend_precision    : natural := ram_precision;
+  constant divisor_precision     : natural := ram_precision;
+  constant quotient_precision    : natural := 35;
   constant gauss_mul_a_precision : natural := ram_precision;
   constant gauss_mul_b_precision : natural := quotient_precision;
   constant gauss_mul_p_precision : natural := 48;
@@ -102,17 +102,17 @@ package rx is
   constant mult_nd_accum_out_precision : natural := sorter_precision;
 
 
---------------------------------------------------------------------------------
--- DATA CONSTANTS (they depend from other constants)
---------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+  -- DATA CONSTANTS (they depend from other constants)
+  --------------------------------------------------------------------------------
   constant one_load     : std_logic_vector(ram_precision-1 downto 0)         := (read_inv => '1', others => '0');
   constant one_div      : std_logic_vector(ram_precision-1 downto 0)         := (write_up => '1', others => '0');
-  constant zero         : std_logic_vector(gauss_sub_s_precision-1 downto 0) := (others              => '0');                --used to detect zeroes in the inverse
-  constant zero_control : std_logic_vector(precision-1 downto 0)             := (others              => '0');                --used to detect zeroes in control
+  constant zero         : std_logic_vector(gauss_sub_s_precision-1 downto 0) := (others   => '0'); --used to detect zeroes in the inverse
+  constant zero_control : std_logic_vector(precision-1 downto 0)             := (others   => '0'); --used to detect zeroes in control
 
---------------------------------------------------------------------------------
--- TYPE DEFINITIONS
---------------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+  -- TYPE DEFINITIONS
+  --------------------------------------------------------------------------------
   type ram_array is array (0 to n_bands-1) of std_logic_vector(ram_precision-1 downto 0);
   type gauss_mul_a_array is array (0 to n_bands-1) of std_logic_vector(gauss_mul_a_precision-1 downto 0);
   type gauss_mul_b_array is array (0 to n_bands-1) of std_logic_vector(gauss_mul_b_precision-1 downto 0);
@@ -159,8 +159,8 @@ package rx is
   function ram_to_mult_mul (
       s : in std_logic_vector
     ) return mult_st_mul_a_array;
-    
-    
+
+
   COMPONENT divider
     PORT (
       aclk                   : IN  STD_LOGIC;

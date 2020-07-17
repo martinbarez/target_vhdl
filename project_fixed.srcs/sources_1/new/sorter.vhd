@@ -47,19 +47,19 @@ begin
   begin
     if (rst = '1') then
       state <= IDLE;
-      res <= (others => '-');
-      swap <= (others => '-');
+      res   <= (others => '-');
+      swap  <= (others => '-');
     elsif rising_edge(clk) then
       case (state) is
         when IDLE =>
-          storage_wea <= "0";
-          res_valid   <= '0';
+          write_addr   <= 0;
+          read_addr    <= 1;
+          storage_wea  <= "0";
+          res_valid    <= '0';
+          storage_dina <= (others => '0');
           if (start = '1') then
-            write_addr   <= 0;
-            storage_wea  <= "1";
-            storage_dina <= (others => '0');
-            state        <= INITIALIZE;
-            read_addr    <= 1;
+            storage_wea <= "1";
+            state       <= INITIALIZE;
           end if;
 
         when INITIALIZE =>
@@ -81,8 +81,9 @@ begin
             storage_dina <= compare;
             swap         <= storage_doutb;
           else
-            storage_wea <= "0";
-            swap        <= compare;
+            storage_wea  <= "0";
+            storage_dina <= (others => '-');
+            swap         <= compare;
           end if;
 
           if (read_addr /= n_bands-1) then
@@ -99,16 +100,16 @@ begin
           if (unsigned(coord) = n_pixels-1 and read_addr = 0) then
             state <= WRITE;
           end if;
-          
-      when WRITE =>
-            res_valid <= '1';
-            storage_wea <= "0";
-            res <= storage_doutb(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
-            if (read_addr /= n_bands-1) then
-              read_addr <= read_addr +1;
-            else
-              state <= IDLE;
-            end if;
+
+        when WRITE =>
+          res_valid   <= '1';
+          storage_wea <= "0";
+          res         <= storage_doutb(storage_doutb'length-1 downto storage_doutb'length-log_pixels);
+          if (read_addr /= n_bands-1) then
+            read_addr <= read_addr +1;
+          else
+            state <= IDLE;
+          end if;
       end case;
     end if;
   end process sort_proc;

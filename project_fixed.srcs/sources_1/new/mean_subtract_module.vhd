@@ -20,7 +20,7 @@ entity mean_subtract_module is port(
     mean_fifo_dout  : in  std_logic_vector;
     mean_fifo_empty : in  std_logic;
 
-    deviation       : out std_logic_vector;
+    deviation : out std_logic_vector;
     dev_ready : out std_logic
   );
 end mean_subtract_module;
@@ -58,17 +58,17 @@ begin
       case (state) is
         when IDLE =>
           if (start = '1') then
-            addr            <= 0;
-            buffer_ena <= '1';
+            buffer_ena      <= '1';
             mean_fifo_rd_en <= '1';
             state           <= FIFO_LAT;
           else
-            buffer_ena <= '0';
+            buffer_ena      <= '0';
             mean_fifo_rd_en <= '0';
           end if;
-            buffer_wea      <= "0";
-            sub_a <= (others => '0');
-            sub_b <= (others => '0');
+          addr       <= 0;
+          buffer_wea <= "0";
+          sub_a      <= (others => '0');
+          sub_b      <= (others => '0');
 
         when FIFO_LAT =>
           buffer_wea <= "1";
@@ -108,7 +108,7 @@ begin
 
       valid     <= valid(valid'length-2 downto 0)&v;
       dev_ready <= valid(valid'length-1);
-      deviation       <= sub_p;
+      deviation <= sub_p;
     end if;
   end process calc_proc;
 
