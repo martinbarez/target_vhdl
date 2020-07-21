@@ -16,14 +16,14 @@ entity control is
     ready : out std_logic;
 
     cov_fifo_rd_en : out std_logic;
-    cov_fifo_dout  : in  std_logic_vector;
+    cov_fifo_dout  : in  std_logic_vector(precision*n_bands-1 downto 0);
     cov_fifo_empty : in  std_logic;
 
     mean_fifo_rd_en : out std_logic;
-    mean_fifo_dout  : in  std_logic_vector;
+    mean_fifo_dout  : in  std_logic_vector(precision-1 downto 0);
     mean_fifo_empty : in  std_logic;
 
-    res_fifo_din   : out std_logic_vector;
+    res_fifo_din   : out std_logic_vector(log_pixels-1 downto 0);
     res_fifo_wr_en : out std_logic
   );
 end control;
