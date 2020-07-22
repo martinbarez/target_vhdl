@@ -27,10 +27,10 @@ end mean_subtract_module;
 
 architecture behavioral of mean_subtract_module is
 
-  type state_t is (IDLE, FIFO_LAT, READ, RAM_LAT, CALC);
+  type state_t is (IDLE, FIFO_LAT1, FIFO_LAT2, READ, RAM_LAT, CALC);
   signal state : state_t;
 
-  type valid_array is array (mean_sub_latency downto 0) of std_logic;
+  type valid_array is array (10 downto 0) of std_logic;
   signal valid : valid_array;
 
   signal sub_a : std_logic_vector(mean_sub_a_precision-1 downto 0);
@@ -44,6 +44,11 @@ architecture behavioral of mean_subtract_module is
   signal buffer_addra : std_logic_vector(log_bands-1 downto 0);
   signal buffer_dina  : std_logic_vector(precision-1 downto 0);
   signal buffer_douta : std_logic_vector(precision-1 downto 0);
+  
+  -- a register between the fifo and the buffer to improve timing
+  signal middle_register  : std_logic_vector(precision-1 downto 0);
+  signal mean_fifo_empty_delay : std_logic;
+
 
 begin
 
@@ -60,7 +65,7 @@ begin
           if (start = '1') then
             buffer_ena      <= '1';
             mean_fifo_rd_en <= '1';
-            state           <= FIFO_LAT;
+            state           <= FIFO_LAT1;
           else
             buffer_ena      <= '0';
             mean_fifo_rd_en <= '0';
@@ -70,11 +75,16 @@ begin
           sub_a      <= (others => '0');
           sub_b      <= (others => '0');
 
-        when FIFO_LAT =>
+        when FIFO_LAT1 =>
+          state      <= FIFO_LAT2;
+          
+        when FIFO_LAT2 =>
+          middle_register <= mean_fifo_dout;
           buffer_wea <= "1";
           state      <= READ;
 
         when READ =>
+          middle_register <= mean_fifo_dout;
           if (addr /= n_bands-1) then
             addr <= addr +1;
           else
@@ -85,12 +95,13 @@ begin
           end if;
 
         when RAM_LAT =>
-          mean_fifo_rd_en <= '1';
-          addr            <= addr +1;
+          mean_fifo_rd_en <= '0';
+          addr            <= 0;
           state           <= CALC;
 
         when CALC =>
-          sub_a           <= std_logic_vector(resize(signed(mean_fifo_dout), mean_sub_a_precision));
+          middle_register <= mean_fifo_dout;
+          sub_a           <= std_logic_vector(resize(signed(middle_register), mean_sub_a_precision));
           sub_b           <= std_logic_vector(resize(signed(buffer_douta), mean_sub_b_precision));
           mean_fifo_rd_en <= '1';
           v               := '1';
@@ -101,14 +112,15 @@ begin
             addr <= 0;
           end if;
 
-          if(mean_fifo_empty = '1')then
+          if(mean_fifo_empty_delay = '1')then
             state <= IDLE;
           end if;
       end case;
 
       valid     <= valid(valid'length-2 downto 0)&v;
-      dev_ready <= valid(valid'length-1);
+      dev_ready <= valid(3);
       deviation <= sub_p;
+      mean_fifo_empty_delay <= mean_fifo_empty;
     end if;
   end process calc_proc;
 
@@ -121,7 +133,7 @@ begin
     );
 
 
-  buffer_dina  <= mean_fifo_dout;
+  buffer_dina  <= middle_register;
   buffer_addra <= std_logic_vector(to_unsigned(addr, buffer_addra'length));
 
   mean_buffer_instance : entity work.mean_buffer
