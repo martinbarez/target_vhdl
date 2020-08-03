@@ -1,71 +1,94 @@
 # Abstract
 
-En los últimos años se ha observado un resurgimiento de la carrera espacial motivado especialmente por empresas comerciales. Estas aeronaves son equipadas con una gran cantidad de sensores, siendo uno de ellos las cámaras hiperespectrales. Este tipo de cámaras toma imágenes en cientos de bandas espectrales diferentes, con el objetivo de proporcionar información sobre el terreno.
-A causa del gran tamaño de estas imágenes, estas son enviadas a la tierra para su procesado, con el consecuente uso de red. De manera óptima, estas imágenes deberían procesarse o comprimirse in situ para enviar solo parte de los datos obtenidos. Dados el entorno espacial, los requisitos de un sistema de este tipo y los parámetros de este tipo de operaciones como pueden ser su paralelismo y rigidez en torno a latencia y memoria, las FPGAs o ASICs se postulan como un sistema óptimo.
-Este trabajo presenta una implementación sobre FPGAs del algoritmo detector Reed-Xiaoli de anomalías en este tipo de imágenes. Para su implementación se ha realizado un análisis de las operaciones del algoritmo, centrada en una implementación en punto flotante y otra en fijo, sus requisitos en lógica, y de las repercusiones que tienen ciertas decisiones con la precisión que se alcanza. Finalmente se presenta una implementación óptima.
+En los últimos años se puede observar un resurgimiento de la carrera espacial motivado especialmente por empresas comerciales. Sus aeronaves son equipadas una multitud de sensores, siendo uno de ellos las cámaras hiperespectrales. Este tipo de cámaras toma imágenes en cientos de bandas espectrales diferentes, con el objetivo de proporcionar información sobre el terreno.
+A causa del gran tamaño de estas imágenes, estas son enviadas a la tierra para su procesado, con el consecuente uso de red. Preferentemente estas imágenes deberían procesarse o comprimirse in situ para enviar solo una parte de los datos obtenidos. Dados el entorno espacial y la rigidez y facilidad de ser paralelizado de este tipo de algoritmos, las FPGAs o ASICs se postulan como un sistema óptimo para su implementación.
+Este trabajo presenta una implementación sobre FPGAs del algoritmo detector Reed-Xiaoli de anomalías para imagenes hiperespectrales. Para su implementación se ha realizado un análisis de las operaciones del algoritmo, centrada en una implementación en punto flotante y otra en fijo, sus requisitos en lógica, y de las repercusiones que tienen ciertas decisiones con la precisión que se alcanza. Finalmente se presenta una implementación óptima.
 
 
 # Introduction
 
-Los vehículos espaciales son normalmente equipados con una gran cantidad de sensores, uno de ellos las cámaras hiperespectrales. Estas cámaras toman fotos en cientos de bandas distintas, con el objetivo de encontrar objetos, detectar materiales o identificar procesos. A medida que la tecnología avanza, estas naves son equipadas con sensores más potentes, que a su vez requieren de soluciones de procesado acordes para interpretar los datos o comprimirlos y enviarlos a tierra.
-Ejemplos de estos sistemas pueden ser Hydcies o Aviris.
-Las FPGAs han jugado siempre un papel importante en la industria espacial, por razones desde su resistencia a radiación hasta su bajo coste energético por operación de procesado. A medida que nuevas FPGAs llegan al mercado, nuevas aplicaciones permiten implementarse en ellas y ser traídas a la nave en vez de depender de bases terrestres.
-
-Hyperspectral imaging deals with high dimensionality matrixes (64, 64, 169 px) in the case of hydice that were impossible to implement in a single FPGA till now. 
-
-FPGAs have been consolidated as the go to device, as a balance of power and cost.
-Standard computing platforms as CPUs use much more power, https://arxiv.org/pdf/1906.11879.pdf- While this is not a problem in earth-based stations, some spacecrafts may not be able to keep up with their requirements.
-Compared to Asics, FPGAs bring field reconfigurability and faster time to launch. Field reconfigurability may not be really useful as the sensor on a spacecraft may not be upgraded, but bugs and errors can be fixed at any time. Also, they are cheaper and their difference in performance has shortened in the last years due to smaller node processes.
-GPUs share a lot of the parallel capabilities as FPGAs, they still suffer from some of the same disadvantages as CPUs.
-
 ## motivaciones y objetivos
-Los avances en sensores han aumentado la cantidad de datos que puede ser procesada. El envío de estos datos a la tierra satura los canales de comunicación. Una FPGA puede ser incluida en la nave para preprocesar estos datos y limitar la cantidad que tiene que ser enviada a la tierra. Los avances en FPGAs pueden permitir incluir algoritmos más complejos o mayor exactitud en esos cálculos.
-El objetivo es implementar el algoritmo RX en una FPGA para analizar imágenes de un satélite en órbita.
+
+La navegación espacial cumple muchos objetivos, el más obvio siendo recopilar información acerca de nuestro planeta y lo que le rodea. Para ello se crean sensores capaces de recopilar información, como por ejemplo antenas o telescopios que son usados tanto desde la Tierra como enviados a bordo de naves espaciales. Uno de ellos son las cámaras hiperespectrales, que toman fotos en cientos de bandas distintas. Estos datos permiten encontrar objetos, detectar materiales o identificar procesos. A medida que la tecnología avanza, estos sensores evolucionan requeriendo de soluciones de procesado acordes para interpretar los datos o comprimirlos y enviarlos a tierra.
+
+El objetivo de este trabajo es la implementación de uno de estos algoritmos de forma que resulte preferenta el procesado en la aeronave. Para ello se estudiarán diferentes tipos tanto de algoritmos como de plataformas.
 
 ## antecedentes
-artículos del uso de FPGAs en satélites, el artículo de hace 20 años que estaba guay, el trabajo de hace un par de años de estos chavales, lo de noise reduction de carlos
-Que hasta ahora se había hablado de ello, pero es gracias a nuevas y más grandes FPGAs cuando se puede hacer por fin
+https://eprints.ucm.es/15828/1/T33468.pdf
+https://www.researchgate.net/publication/220243592_Fast_real-time_onboard_processing_of_hyperspectral_imagery_for_detection_and_classification
+https://public.lanl.gov/jt/Papers/onboard-post.pdf
+Literalmente todos el procesamiento se realiza en fpgas. Claro que tengo que escribir algo pero no se me ocurre nada ahora.
 
 ### imagenes hiperespectrales
+Las camaras hiperespectrales son el producto de la convergencia de dos disciplinas, la espectrometria y la toma de imaganes remotas de las superfecies planetarias. La espectroscopia es el estudio de la luz emitida o reflejada por materiales y su variacion en energia con la longitud de onda. Aplicado al campo de la deteccion remota, permite el reconocimiento de materiales en la superficie terrestre como vegetación, depostos minerales o contaminantes.
+
+https://www.researchgate.net/figure/USGS-map-showing-the-location-of-different-minerals-in-the-Cuprite-mining-district-in_fig5_263532555
+En la imagen se puede observar como las imagenes hiperespectrales permiten la deteccion de minerales sobre la corteza terrestre
+
+Diferentes sensores tienen diferentes resoluciones. En este trabajo se han tomado como ejemplo los sensores de los projectos Hydice y Aviris.
+Hydice: Bands 	210
+Spectrum [nm] 	400-2500
+Spat.Res. [m] 	0-0 
+Aviris:
+Spectral range: 360 - 2500 nm with a total of 224 bands. 
+667\*667 px
+20m -> 12km
 
 
 ### hardware reconfigurable
 
+Field Programmable Gate Arrays (FPGAs) are semiconductor devices that are based around a matrix of configurable logic blocks (CLBs) connected via programmable interconnects. FPGAs can be reprogrammed to desired application or functionality requirements after manufacturing. This feature distinguishes FPGAs from Application Specific Integrated Circuits (ASICs), which are custom manufactured for specific design tasks. (he copiado este bloque de texto clavado de Xilinx).
+
+Esta flexibilidad permite diseñar circuitos más ajustados a los algoritmos y en el caso de el procesamiento de imagenes con mucho más ancho de banda que plataformas de uso general como cpus y gpus:
+ejemplo de operacion por watt
+https://arxiv.org/pdf/1906.11879.pdf-
+Además, estos circuitos pueden ser protegidos frente a radiaciones y a la vez, la posibilidad de diseñar una logica propia facilita la inclusión de metodos de correccion o comprobacion de errores propios.
+Estas ventajas son compartidas tanto por FPGAs como ASICs.
+
+Las ASICs proporcionan la misma flexibilidad que las fpga a la hora del diseño pero su rigidez a la hora de fabricacion les permite lograr un mejor rendimiento al solo incluir la logica del diseño, sin embargo, su coste es prohibitivo incluso a gran escala. Además, la felixibilidad de las FPGA permite la reconfiguración ya en la nave, permitiendo el uso de diferentes algoritmos.
+Además, puesto que la mayoría de algoritmos implementan almacenamiento u operaciones matemáticas de precisión alta, los fabricantes de FPGA incluyen ciertos bloques prefabricados en el circuito, que aunque quitan cierta flexibilidad proporcionan mejor rendimiento que la misma lógica en CLBs. Estos bloques son principalmente memorias RAM y DSPs que permiten variedad de operaciones, entre ellas multiplicaciones o acumulaciones. Así se permite implementar algoritmos de alto rendimiento donde sería imposible usando solo logica y acercan las FPGA un poco al ambito de las ASIC.
+
+
 ### detección de anomalías
 
-la detección de anomalías es un proceso que identifica valores atípicos dentro de un conjunto de datos. En nuestro caso basado en imágenes satelitales, estos valores pueden ser minerales en el terreno, enfermedades en cultivos, estructuras artificiales. Aunque muchos de estos algoritmos han sido propuestos en la literatura, el más conocido es el RX.
+La cantidad de datos que contienen estas imagenes y su gran variedad de usos da lugar a muchos tipos de algoritmos diferentes https://www.hindawi.com/journals/jece/2013/908906/
+
+La deteccion de anomalias es un tipo especial de tecnicas de deteccion de objetivos sin informacion previa de los objetivos. El principal obejtivo de este tipo de algoritmos es la deteccion de valores atípicos dentro de un conjunto de datos. La principal ventaja es que al no necesitar informacion previa de los obejtivos tampoco son necesarias correciones atmosfericas o radiometricas de ningun tipo.
+
 
 
 ## plan de trabajo
-Primero se realizará una implementación del algoritmo en software que será validada con programas comerciales como ENVI o Hyspy. Sobre esta base se diseccionarán los algoritmos para poder estudiarlos y acercarlos en la medida de lo posible a su implementación en hardware.
+Primero se realizará una implementación del algoritmo en software en punto flotante que será validada con programas comerciales como ENVI o Hyspy. Sobre esta base se diseccionarán los algoritmos para poder estudiarlos y acercarlos en la medida de lo posible a su implementación en hardware.
 
 Una vez el diseño final esté fijado, se procederá a su implementación en FPGA.
-Con la implementación en FPGA hecha, se volverá al software donde se estudiará la precisión requerida en cada una de las operaciones del algoritmo y como minimizarla manteniendo el error lo más pequeño posible.
+Con la implementación en FPGA hecha, se volverá al software donde se estudiará su conversión a punto fijo y la precisión requerida en cada una de las operaciones del algoritmo y como minimizarla manteniendo el error lo más pequeño posible.
 Una vez hecho el estudio, se transferirán los cambios realizados en software de vuelta a la implementación en hardware para su evaluación.
 
 
-# transformación del algoritmo RX a aritmética entera
-
-
 ## algoritmo RX
-El algoritmo RX caracteriza el fondo con un vector medio y una covarianza. El detector en si calcula la distancia entre el píxel under test y el fondo de la siguiente manera.
+Dentro de la deteccion de anomalias, el algoritmo Rx es el mas usado  y es conocido como el benchamrk de este tipo de algoritmos.
+El algoritmo Reed Xiaoli extrae los objetivos, es decir pixeles o regiones, que sean espectralmente distintos a sus circundantes o al conjunto de datos completo. Para que RX sea efectivo, las anomalias deben ser lo suficientemente pequeñas relativamente al fondo. Los resultados del algoritmo son no ambiguos.
+Además, aunque bandas o datos erroneos en el algoritmo se muestran como anomalos, no afectan a la deteccion de las anomalias reales.
+
+Explicar un poquito el algoritmo en detalle.
+
 
 ## estrategia de transformación de aritmética entera
 Una vez hecha la implementación en software se cambiará el tipo de datos de punto flotante a entero con 64 bits. Con este cambio se podrán observar en que pasos del algoritmo se pierde precisión por llegar a los limites representables con enteros con esa resolución -tanto por ser números cercanos al cero como llegar a los valores máximos y mínimos- y se intentará mejorar la precisión multiplicando y dividiendo por potencias de dos. Estas operaciones resultan triviales en una FPGA. Este proceso se repetirá limitando los bits, es decir, la precisión de los enteros hasta alcanzar los menores posibles antes de perder precisión de forma definitiva. Con los valores de precisión obtenidos se observará la precisión que otorgan a su vez los DSP de la FPGA. Aquí se muestra una tabla con el número de DSP que necesita una multiplicación según la precisión de sus operandos.
 Con los datos obtenidos de precisión y de uso de tejido, se elegirá una precisión para cada operación manteniendo estos dos valores en equilibrio.
 Aquí toca mencionar, que la operación con diferencia más sensible a la perdida de precisión e introducción de errores es la inversa, específicamente la división. Aquí se ha tenido especial cuidado tanto que se realizan diferentes desplazamientos según el paso en el que se realiza esta división.
+
 ## validación y precisión
-Con el fin de poder adaptar el algoritmo a diferentes sensores y a su vez testear el algoritmo con imágenes más pequeñas, se ha hecho especial hincapié en la modularidad del sistema. Vivado no ha permitido ejecutar tesbench sobre una imagen entera, solo secciones de ella. En implementación sí que se ha podido testear toda la imagen. Aquí tengo que poner graficas con más imágenes y mierdas.
+Mira, aquí ni idea que escribir y no ha sido por no echarle ganas.
 
 # implementación en FPGA del algoritmo RX
 ## visión general del sistema
-La cámara produce los datos de los pixeles de forma cruda. Las primeras transformaciones de estos datos serían calcular la media, la deviación y con ella la covarianza. Estas tres operaciones son muy simples, pero necesitan la matriz de la cámara entera. Puesto que trasferir todos estos datos a la FPGA solo añadiría latencia sin añadir ningún valor real, estos datos son calculados en la CPU. Una vez calculada la covarianza, esta es escrita fila por fila en FIFOs que actúan como tuberías entre la CPU y la FPGA.
-La FPGA recibe un comando de start para empezar a leer esta fifo y empieza el procesado cuando ha acabado de leer todos los datos.
-Posteriormente, la CPU escribirá la media y el valor de cada píxel uno por uno en una fifo diferente. En este segundo calculo no se controla el estado de llenado de las FIFOs, por lo tanto, es necesario que la CPU no pierda muchos ciclos entre empezar el cálculo y la escritura de estos datos. Por suerte, la inversa de la matriz es suficientemente larga como para permitir esto sin que dé lugar a problemas.
-Después de estas operaciones, la FPGA guardará los datos resultantes de cada pixel en un búfer circular en donde los mantendrá de mayor a menor, descartando estos últimos para quedarse con los más anómalos. El numero máximo de pixeles que puede mantener es igual al número de bandas, como lo más normal es tener 30 pixeles en una imagen con 169 bandas, esto no supondrá ningún problema.
+La camara saca los datos de banda en banda. Las primeras operaciones con estos datos serían calcular la media, con ella la deviación y con esta la covarianza. Estas tres operaciones son relativemente simples, pero actuan sobre una gran cantidad de datos. Resulta más eficiente procesar estos datos en una cpu y enviarlos posteriormente a la FPGA que su procesado completo en esta ultima. La única operación que requiere un poco más de procesado es el calculo de la covarianza puesto que se trata de una multiplicacion de dos matrices. La FPGA esperará por lo tanto a tener esta matriz entera hasta empezar el siguiente paso.
+Estos datos calculados por la CPU son introducidos en la FPGA a traves de FIFOs simples.
+La FPGA calculará entonces la inversa de la matriz. Mientras tanto la CPU tendrá que escribir las medias calculadas y los valores que había recibido anteriormente de la cámara, uno por uno. Cuando termine la inversa, la FPGA realizará las do´s últimas multiplicaciones de matrices y  guardará los datos resultantes de cada pixel en un búfer circular en donde los mantendrá de mayor a menor, descartando estos últimos para quedarse con los más anómalos. Con el ultimo pixel procesado, la FPGA escribirá estas anomaias en otra fifo para ser leida por la CPU.
 
 ## explicación por módulos
-### top_module
+### control
 El módulo superior sirve como árbitro para controlar el acceso a las RAMs de cada uno de los módulos inferiores. La inversa se calcula en su modulo, cuando este cálculo ha termino este acceso pasa a ser del multiplicador de matrices. También obtiene los datos de entrada de la fifo para la covarianza y lo escribe en una RAM, y los datos de salida de los pixeles ordenados que escribe en otra fifo para su salida.
 
 Aunque la razón se encuentra explicada en el módulo de la inversa, cabe mencionar que controla las escrituras de la covarianza para no escribir una fila en la primera fila de la RAM en la que se encuentre un 0 en la primera posición.
