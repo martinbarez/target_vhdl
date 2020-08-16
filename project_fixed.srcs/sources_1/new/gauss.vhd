@@ -95,7 +95,8 @@ architecture behavioral of gauss_module is
   signal stall, stall_delay, stall_delay2, stall_delay3 : std_logic;
 
   -- Some trash from the subtracters
-  signal trash1, trash2 : std_logic_vector(5 downto 0);
+  type trash is array (0 to n_bands) of std_logic_vector(5 downto 0);
+  signal trash1, trash2 : trash;
 
 begin
 
@@ -605,7 +606,7 @@ begin
         CLK                                => clk,
         A                                  => sub_cov_a(i),
         B                                  => sub_cov_b(i),
-        S(47 downto gauss_sub_s_precision) => trash1,
+        S(47 downto gauss_sub_s_precision) => trash1(i),
         S(gauss_sub_s_precision-1 downto 0) => sub_cov_s(i)
       );
 
@@ -614,7 +615,7 @@ begin
         CLK                                => clk,
         A                                  => sub_inv_a(i),
         B                                  => sub_inv_b(i),
-        S(47 downto gauss_sub_s_precision) => trash2,
+        S(47 downto gauss_sub_s_precision) => trash2(i),
         S(gauss_sub_s_precision-1 downto 0) => sub_inv_s(i)
       );
   end generate operations_array;
