@@ -1,17 +1,17 @@
 # Abstract
 
 En los últimos años ha ocurrido un resurgimiento de la carrera espacial motivado especialmente por empresas comerciales. Sus aeronaves son equipadas con una multitud de sensores, siendo uno de ellos las cámaras hiperespectrales. Este tipo de cámaras toma imágenes en cientos de bandas espectrales diferentes, con el objetivo de proporcionar información sobre el terreno.
-A causa del gran tamaño de estas imágenes, estas son enviadas a la tierra para su procesado, con el consecuente uso de red. Preferentemente estas imágenes deberían procesarse o comprimirse in situ para enviar solo una fracción de los datos obtenidos. Dados el entorno espacial y la rigidez y facilidad de ser paralelizado de este tipo de algoritmos, las FPGAs o ASICs se postulan como un sistema óptimo para su implementación.
-Este trabajo presenta una implementación sobre FPGAs del algoritmo detector Reed-Xiaoli de anomalías para imagenes hiperespectrales. Para su implementación se ha realizado un análisis de las operaciones del algoritmo, centrada en una implementación en punto flotante y otra en fijo, sus requisitos en lógica, y de las repercusiones que tienen ciertas decisiones con la precisión que se alcanza. Finalmente se presenta una implementación óptima.
+A causa del gran tamaño de estas imágenes, estas son enviadas a la tierra para su procesado, con el consecuente uso de red. Preferentemente estas imágenes deberían procesarse o comprimirse in situ para enviar solo una fracción de los datos obtenidos. Dados el entorno espacial y las caracteristicas este tipo de algoritmos, las FPGAs o ASICs se postulan como un sistema óptimo para su implementación.
+Este trabajo presenta una implementación sobre FPGAs del algoritmo detector Reed-Xiaoli de anomalías para imagenes hiperespectrales. Para su implementación se ha realizado un análisis de las operaciones del algoritmo, centrada en una implementación en punto flotante y otra en fijo, y de las repercusiones que tienen ciertas decisiones con la precisión que se alcanza. Finalmente se presenta una implementación óptima.
 
 
 # Introduction
 
 ## motivaciones y objetivos
 
-La navegación espacial cumple muchos objetivos, el más obvio siendo recopilar información acerca de nuestro planeta y lo que le rodea. Para ello se crean sensores capaces de recopilar información, como por ejemplo antenas o telescopios que son usados tanto desde la Tierra como enviados a bordo de naves espaciales. Uno de ellos son las cámaras hiperespectrales, que toman fotos en cientos de bandas distintas. Estos datos permiten encontrar objetos, detectar materiales o identificar procesos. A medida que la tecnología avanza, estos sensores evolucionan requeriendo de soluciones de procesado acordes para interpretar los datos o comprimirlos y enviarlos a tierra.
+La exploración espacial cumple muchos objetivos, el más obvio siendo recopilar información acerca de nuestro planeta y lo que le rodea. Para ello se crean sensores capaces de recopilar información, como por ejemplo antenas o telescopios que son usados tanto desde la Tierra como enviados a bordo de naves espaciales. Uno de ellos son las cámaras hiperespectrales, que toman fotos en cientos de bandas distintas. Estos datos permiten encontrar objetos, detectar materiales o identificar procesos. A medida que la tecnología avanza, estos sensores evolucionan requeriendo de soluciones de procesado acordes para interpretar los datos o comprimirlos y enviarlos a tierra. [referencia a fpga promise space]
 
-El objetivo de este trabajo es la implementación de uno de estos algoritmos de forma que resulte preferenta el procesado en la aeronave frente a la transmisión de los datos crudos. Para ello se estudiarán tanto diferentes tipos de algoritmos como de plataformas.
+El objetivo de este trabajo es la implementación de uno de estos algoritmos de forma que resulte preferenta el procesado en la aeronave frente a la transmisión de los datos crudos. Para ello se evaluarán diferentes algoritmos y se escogerá una plataforme acorde a los requisitos de la navegación a bordo.
 
 ## antecedentes
 https://eprints.ucm.es/15828/1/T33468.pdf
@@ -22,15 +22,19 @@ En el trabajo realizado por "los chavales que hicieron lo mismo" se realiza un e
 
 En https://public.lanl.gov/jt/Papers/onboard-post.pdf se propone el procesado de los datos a bordo de una FPGA. Uno de los pasos de este procesado es también el algoritmo RX que se implementará en este trabajo.
 
+tengo que buscar trabajos donde usen fpgas para el espacio, sin tener muy en cuenta esos que requieran real time aunque tampoco es un problema. Está el trabajo del japo en alemania y creo que algún trabajo más.
+
 ### imagenes hiperespectrales
-Las imagenes hiperespectrales son imagenes en las que un espectro continuo es meddo para cada pixel. 
-Estos espectros o bandas forman en su conjunto una especie de huella para cada pixelque permite reconocer materiales, diferentes tipos de vegetación, depostos minerales o contaminantes.
+Hyperspectral imaging es una tecnica que captura la reflectancia de cada pixel a traves de muchos espectros de luz.
+Estos espectros o bandas forman en su conjunto una especie de huella para cada pixel que permite reconocer materiales, diferentes tipos de vegetación, depostos minerales o contaminantes.
 
 https://www.researchgate.net/figure/USGS-map-showing-the-location-of-different-minerals-in-the-Cuprite-mining-district-in_fig5_263532555
 En la imagen se puede observar como las imagenes hiperespectrales permiten la deteccion de minerales sobre la corteza terrestre.
 
+
 En este tipo de imagenes podemos hablar de tres tipos de resoluciones espacial, temporal y espectral, siendo este ultimo unico en este tipo de camaras. Local se refiere a la cantidad de metros cubiertos por cada pixel, por lo que para una misma cámara podrá cambiar de una imagen a otra. Resolucion temporal se refiere a la cantidad de imagenes que es capaz de tomar una camara por unidad de tiempo, por lo que será principalmente relevante en el momento de captura de la foto. La ultima resolucion, la espetral, se refiere a la separacion entre differentes longitudes de onda medidos en un rango determinado, es decir cuantas mas bandas capturadas en un rango menor, mayor será la resolución espectral.
 https://www.sciencedirect.com/topics/computer-science/hyperspectral-image
+Conforme al avance de la tecnoologia, estas 3 resoluciones siguen aumentando realizando la necesidad de sistemas de procesado acordes.
 
 
 Diferentes sensores tienen diferentes resoluciones. En este trabajo se han tomado como ejemplo los sensores de los projectos Hydice y Aviris.
@@ -46,15 +50,17 @@ Spectral range: 360 - 2500 nm with a total of 224 bands.
 ### hardware reconfigurable
 
 Field Programmable Gate Arrays (FPGAs) are semiconductor devices that are based around a matrix of configurable logic blocks (CLBs) connected via programmable interconnects. FPGAs can be reprogrammed to desired application or functionality requirements after manufacturing. This feature distinguishes FPGAs from Application Specific Integrated Circuits (ASICs), which are custom manufactured for specific design tasks. (he copiado este bloque de texto clavado de Xilinx).
-
-Esta flexibilidad permite diseñar circuitos más ajustados a los algoritmos y en el caso de el procesamiento de imagenes con mucho más ancho de banda que plataformas de uso general como cpus y gpus:
+Esta arquitectura permite diseñar algoritmos con anchos de calculo arbitrarios, lo que resulta en muy buen rendimiento a la hora de procesar imagenes.
 ejemplo de operacion por watt
 https://arxiv.org/pdf/1906.11879.pdf-
-Además, estos circuitos pueden ser protegidos frente a radiaciones y a la vez, la posibilidad de diseñar una logica propia facilita la inclusión de metodos de correccion o comprobacion de errores propios.
+
+El entorno espacial no solo limita las capacidades energeticas, tambien presenta un desafio de cara a la radiacion ionizante. Al ser este uno de los mercados objetivo de los fabricantes de fpga, existen numerosos chips con las certificaciones de resistencia a radiacion necesarias.
+
 Estas ventajas son compartidas tanto por FPGAs como ASICs.
 
 Las ASICs proporcionan la misma flexibilidad que las fpga a la hora del diseño pero su rigidez a la hora de fabricacion les permite lograr un mejor rendimiento al solo incluir la logica expecifica del diseño, sin embargo, su coste en projectos de pequeña a mediana escala resulta prohibitivo. Además, la felixibilidad de las FPGA permite la reconfiguración ya en la nave, permitiendo el uso de diferentes algoritmos o el parcheo de bugs. (Mars Climate Orbiter)
-Además, puesto que la mayoría de algoritmos implementan almacenamiento u operaciones matemáticas de precisión alta, los fabricantes de FPGA incluyen ciertos bloques prefabricados en el circuito, que aunque quitan cierta flexibilidad proporcionan mejor rendimiento que la misma lógica en CLBs. Estos bloques son principalmente memorias RAM y DSPs que permiten variedad de operaciones, entre ellas multiplicaciones o acumulaciones. Así se permite implementar algoritmos de alto rendimiento donde sería imposible usando solo logica y acercan las FPGA un poco al ambito de las ASIC.
+
+Además, puesto que la mayoría de algoritmos comparten ciertas operaciones básicas como pueden ser almacenamiento u operaciones matemáticas de precisión alta, los fabricantes de FPGA incluyen ciertos bloques prefabricados en el circuito, que aunque quitan cierta flexibilidad proporcionan mejor rendimiento que la misma lógica en CLBs. Estos bloques son principalmente memorias RAM y DSPs que permiten variedad de operaciones, entre ellas multiplicaciones o acumulaciones. Así se permite implementar algoritmos de alto rendimiento donde sería imposible usando solo logica y acercan las FPGA un poco al ambito de las ASIC.
 [https://www.researchgate.net/figure/Heterogeneous-FPGA-platform-depicting-general-configurable-resources-hard-blocks-and_fig2_265125404]
 
 
@@ -73,8 +79,7 @@ A la vez, se estudiárá la posible conversión de estas operaciones a punto fij
 
 ## algoritmo RX
 Dentro de la deteccion de anomalias, el algoritmo Rx es el mas usado y es conocido como el benchamrk de este tipo de algoritmos.
-El algoritmo Reed Xiaoli extrae los objetivos, es decir pixeles o regiones, que sean espectralmente distintos a sus circundantes o al conjunto de datos completo. Para que RX sea efectivo, las anomalias deben ser lo suficientemente pequeñas relativamente al fondo.
-Además, aunque bandas o datos erroneos en el algoritmo se muestran como anomalos, no afectan a la deteccion de las anomalias reales.
+Los algoritmos de detecciñón de anomalias extraen los objetivos, es decir pixeles o regiones, que sean espectralmente distintos a sus circundantes o al conjunto de datos completo. Para que estos algoritmos sean efectivos, las anomalias deben ser lo suficientemente pequeñas relativamente al fondo. Estos algoritmos tienen la ventaja de no requerir información previa de los obejtivos ni compensación por la refraccion atmosferica. Los errores que pueda haber en la imagen 
 
 Explicar un poquito el algoritmo en detalle.
 (copiar el algoritmo rx de molero)
