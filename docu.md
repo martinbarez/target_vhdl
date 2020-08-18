@@ -67,20 +67,33 @@ La deteccion de anomalias es un tipo especial de tecnicas de deteccion de objeti
 
 
 ## plan de trabajo
-Primero se realizará una implementación del algoritmo en software en punto flotante que será validada con programas comerciales como ENVI o Hyspy. Sobre esta base se diseccionarán los algoritmos para poder estudiarlos y acercarlos en la medida de lo posible a su implementación en hardware. A la vez, se estudiárá la posible conversión de estas operaciones a punto fijo puesto que las fpgas tienen mejor rendimiento en ellas que las operaciones en ounto flotante. Este estudio incluye limitaciones de los DSP de la fpga y cual es la precision requerida para cada una de las operaciones para minimizar la acumulacion de errores en la medida de lo posible. Estos cambios se transferirán a la FPGA para analizar la mejora de rendimiento entre estos dos tipos de aritmetica.
+Primero se realizará una implementación del algoritmo en software en punto flotante que será validada con programas comerciales como ENVI o Hyspy. Sobre esta base se diseccionarán los algoritmos para poder estudiarlos y acercarlos en la medida de lo posible a su implementación en hardware.
+A la vez, se estudiárá la posible conversión de estas operaciones a punto fijo para lograr un mayor aprovechamiento de la logica de la fpga, en especial en los DSP. Además, el uso de DSP por operación es dependiente de la precision de los operandos. Es necesario prestar especial detalle para poder minimizar los erroes lo maximo posible sin exceder la capacidad del chip. Con este estudio hecho, se procederá a implementar la lgocia en punto fijo y comparar los resultados de las dos implementaciones.
 
 
 ## algoritmo RX
 Dentro de la deteccion de anomalias, el algoritmo Rx es el mas usado y es conocido como el benchamrk de este tipo de algoritmos.
-El algoritmo Reed Xiaoli extrae los objetivos, es decir pixeles o regiones, que sean espectralmente distintos a sus circundantes o al conjunto de datos completo. Para que RX sea efectivo, las anomalias deben ser lo suficientemente pequeñas relativamente al fondo. Los resultados del algoritmo son no ambiguos.
+El algoritmo Reed Xiaoli extrae los objetivos, es decir pixeles o regiones, que sean espectralmente distintos a sus circundantes o al conjunto de datos completo. Para que RX sea efectivo, las anomalias deben ser lo suficientemente pequeñas relativamente al fondo.
 Además, aunque bandas o datos erroneos en el algoritmo se muestran como anomalos, no afectan a la deteccion de las anomalias reales.
 
 Explicar un poquito el algoritmo en detalle.
 (copiar el algoritmo rx de molero)
+El algoritmo esta definido por la siguiente expresión [expresión]
+
+Donde x es x, e y es y. Es importante decir que los resultados generados por el algoritmo son imagenes en escala de grises. Las anomalias poseen un valor alto, así, la primera anomalia corresponde con el pixel con el valor más alto, y sucesivamente.
+
+El algoritmo está compuesto por lo tanto por los siguientes pasos:
+Calcular la media, la deviación y la covarianza de la imagen
+Calcular la inversa de esta covarianza
+Multiplicar la transposicion de todas las bandas de cada pixel por la inversa, y multiplicar este resultado otra vez por el pixel
+Repetir este ultimo paso para cada pixel
+
+La complejidad de cada paso está incluida dentro del parentesis, siendo n_pixeles el numero de pixeles y n_bandas el numero de espectros.
 
 
 ## estrategia de transformación de aritmética entera
-Una vez hecha la implementación en software se cambiará el tipo de datos de punto flotante a entero con 64 bits. Con este cambio se podrán observar en que pasos del algoritmo se pierde precisión por llegar a los limites representables con enteros con esa resolución -tanto por ser números cercanos al cero como llegar a los valores máximos y mínimos- y se intentará mejorar la precisión multiplicando y dividiendo por potencias de dos. Estas operaciones resultan triviales en una FPGA. Este proceso se repetirá limitando los bits, es decir, la precisión de los enteros hasta alcanzar los menores posibles antes de perder precisión de forma definitiva. Con los valores de precisión obtenidos se observará la precisión que otorgan a su vez los DSP de la FPGA. Aquí se muestra una tabla con el número de DSP que necesita una multiplicación según la precisión de sus operandos.
+Una vez hecha la implementación en software se cambiará el tipo de datos de punto flotante a entero con 64 bits. Con este cambio se podrán observar en que pasos del algoritmo se pierde precisión por llegar a los limites representables con enteros con esa resolución -tanto por ser números cercanos al cero como al desbordar por llegar a los valores máximos y mínimos- y se intentará mejorar la precisión desplazando, es decir multiplicando y dividiendo por potencias de dos. Así, si un valor se acerca a 0 será multiplicado para mantener más precisión y si se encuentra cerca del desbordamiento, será dividido para evitarlo. Al ser los resultados de cada pixel relativos al resto, el orden de anomalidad no sé ve afectado siempre que estás operaciones se apliquen a todo el conjunto de datos de manera simultanea. Además, estas operaciones resultan triviales en un afpga.
+Conforme se vaya mejorando la precisión, también se irá limitando la cantidad de bits usada con el obejtivo de usar menos bits en la fpga y ahorrar logica. Esto es de especial importancia en los dsp, donde al ser bloques definidos en fabricacion, tienen operandos de tamaños fijos. Aquí se muestra una tabla con el número de DSP que necesita una multiplicación según la precisión de sus operandos.
 Con los datos obtenidos de precisión y de uso de tejido, se elegirá una precisión para cada operación manteniendo estos dos valores en equilibrio.
 Aquí toca mencionar, que la operación con diferencia más sensible a la perdida de precisión e introducción de errores es la inversa, específicamente la división. Aquí se ha tenido especial cuidado tanto que se realizan diferentes desplazamientos según el paso en el que se realiza esta división.
 
@@ -91,7 +104,7 @@ Mira, aquí ni idea que escribir y no ha sido por no echarle ganas.
 ## visión general del sistema
 La camara proporciona los pixeles de la imagen por bandas. Las primeras operaciones a realizar con estos datos son calcular la media, con ella la deviación y con esta la covarianza. Dadas la relativa simpleza de estas operaciones pero sus altos requisitos en memoria, estas tres operaciones son realizadas en una CPU y sus resultados enviados a la FPGA. La FPGA comenzará el cálculo de las operaciones posteriores solo cuando tenga los resultados completos de la covarianza.
 Los datos calculados por la CPU son introducidos en la FPGA a traves de FIFOs.
-La FPGA calculará entonces la inversa de la matriz. Mientras tanto la CPU tendrá que escribir las medias calculadas y los valores que había recibido anteriormente de la cámara, uno por uno. Cuando termine la inversa, la FPGA realizará las dos últimas multiplicaciones de matrices y guardará los datos resultantes de cada pixel en un búfer circular en donde los mantendrá de mayor a menor, descartando estos últimos para quedarse con los más anómalos. Con el ultimo pixel procesado, la FPGA escribirá estas anomalias en otra fifo para ser leida por la CPU.
+La FPGA calculará entonces la inversa de la matriz. Mientras tanto la CPU tendrá que escribir las medias calculadas y los valores que había recibido anteriormente de la cámara, uno por uno. Cuando termine la inversa, la FPGA realizará las dos últimas multiplicaciones de matrices y guardará los datos resultantes. Con el ultimo pixel procesado, la FPGA escribirá las anomalias ordenadas de mayor a menor en otra fifo para ser leida por la CPU.
 
 ## explicación por módulos
 ### control
@@ -99,37 +112,40 @@ La FPGA calculará entonces la inversa de la matriz. Mientras tanto la CPU tendr
 [Y un diagrama de estados]
 El módulo superior sirve para controlar los modulos inferiores, tanto para controlar el transpaso de datos entre ellos como para arbitrar el acceso a las RAMS y las FIFOs que comunican con la CPU.
 
-Cabe mencionar que también realiza ciertas comprobaciones en la escritura de la covarianza para asegurar que la primera división de la inversa no se realiza con un 0, es decir, que la posicion 0, 0 en la matriz de covarianzas es /= 0.
+Cabe mencionar que también realiza ciertas comprobaciones en la escritura de la covarianza para asegurar que la primera división de la inversa no se realiza con un 0, es decir, que la posicion (0, 0) en la matriz de covarianzas es /= 0.
 
 ### inversa
-La inversa es con diferencia el módulo más complejo, con más gasto de recursos y con mayor susceptibilidad a introducción de errores. Por tanto, se ha hecho especial bincapién en su diseño.
+La inversa es con diferencia el módulo más complejo y con más gasto de recursos. Además, el estudio realizado en software ha mostrado que es con diferencia el paso más suspceptible a empeorar la precisión de los resultados finales. Por estas razones se ha hecho especial hincapié en su diseño.
 
 Elección del algoritmo.
-Antes de empezar la implementación se han estudiado varios algoritmos para realizar la inversa. 
-Otros estudios como el de este señor han llegado a la misma conclusión.
+Antes de empezar la implementación se han estudiado varios algoritmos para realizar la inversa.
+Otros estudios como el de este señor han llegado a la misma conclusión. Vaya mierda poner esto pero no el link al pdf. En fin, tengo que buscarlo.
+
 Decomposión QR:
 La decomposicion QR descompone la matriz A en el producto de dos matrices A = QR, siendo Q una matriz ortogonal y R una matriz triangular superior. A−1=R−1Q−1=R−1QT and R−1 Con esta matriz triangular resulta sencillo calcular la inversa. La conclusión de este estudio ha sido que la decomposicion QR puede ser beneficiosa mientras que se cuente con un modulo de multiplicacion matricial potente o varios modulos que puedan ser ejecutados de forma simultanea. Sin embargo, no aprovecha las ventajas proporcionadas por nuestro sistema como pueden ser un tamaño de matrices determinado.
 
 Inversa por Gauss:
 El metodo dde Gauss Jordan dicta que si tenemos una matriz A que puede ser transformada en la matriz identidad a través de operaciones elementales, estas mismas operaciones tranforman la matriz identidad en A-1. Puesto que es posible ejecutar estas operaciones de golpe e un fila entera y las operaciones entre filas son independientes, este metodo es fácilmente paralelizable.
+Por tanto, este fue el metodo elegido.
+
 A rasgos generales, la ejecucion del algoritmo transcurre tal que:
 	Se genera una matriz identidad
 	Se realizan las mismas operaciones sobre ambas matrices
 	El resultado se encuentra en la matriz generada
 
-
 Las operaciones elementales se realizan en 3 pasos, primero se transforma la matriz A en forma con triangulo superior, luego se resuelve el triangulo inferior para transformarla en diagonal y finalmente se divide la matriz entre si misma para conseguir la forma row echelon.
 También es posible convertir una fila a row echelon directamente realizando los 3 pasos seguidos, pero esta forma no permite la misma granularidad que permitirá más tarde reducir la acumulacion de error.
 
 Optimizaciones del algoritmo de cara a hardware.
-Las operaciones a realizar en los tres pasos son similares, así que con el fin de ahorrar recursos se han implementado sobre la misma lógica. Existe un proceso superior con los contadores para controlar el orden de su ejecución. (counter_proc).
+Las operaciones a realizar en los tres pasos - triangulo, superior y diagonal- son similares, así que con el fin de ahorrar recursos se han implementado sobre la misma lógica. Existe un proceso superior con los contadores para controlar el orden de su ejecución. (counter_proc). En el caso de la diagonal, se ha creado un cortociircuito para evitar el calculo de la resta.
 
-Para mejorar el rendimiento del modulo, las operaciones sobre la matriz A y la matriz I se ejecutan de forma simultanea. Además, mientras las operaciones de una fila se encuentran procesandose, las siguientes filas son procesadas. La unica espera ocurre cuando se necesita el resultado de una fila para el procesado de las siguientes. Esto es similar a loop unrolling. Para ello, se usan varios procesos para controlar la lectura, la escritura y la captura de la fila que actua como pivote (write_proc y capture_i_proc).
+Para mejorar el rendimiento del modulo, las operaciones sobre la matriz A y la matriz I se ejecutan de forma simultanea. Además, mientras las operaciones de una fila se encuentran procesandose, las siguientes filas son procesadas. La unica espera ocurre cuando se necesita el resultado de una fila para el procesado de las siguientes. Esto es similar a loop unrolling. Para ello, se usan varios procesos para controlar la lectura, la escritura y la captura de la fila que actua como pivote (write_proc y capture_i_proc). [igual debería incluir algún tipo de dibujito o flechitas en el algoritmo]
+
 Como se puede observar en el algoritmo, el elemento [i] es usado dos veces. Para poder realizar operaciones sobre filas posteriores sin retrasar lecturas, es necesario guardar este dato en una memoria auxiliar y leerlo en el momento en el que se vuelva a necesitar. Esta memoria está construida a partir de una fifo temp_convj.
 
-Además, se puede obervar que el algoritmo exige una comprobacion de un valor en la fila pivote y una psoible rotacion de filas. Este valor es posteriormente el dividendo, por lo que un 0 provocaría un fallo en el cálculo. En este diseño se ha optado por una tabla de renombramiento con el fin de minimizar las latencias en el caso del trueque. Estas comprobaciones se realizan a partir de la primera escritura. Al realizar las comprobaciones en las escrituras, se puede encontrar una fila válida simplemente observando las siguientes escrituras. Esta tabla de escrituras es local, por lo que los resultados tienen que ser reordenados antes de salir del modulo. Puesto que estos trueques solo ocurren en el calculo del triangulo superior, se puede aprovechar el triangulo inferior para reordenarlos. Esto también acontece en la escritura. Los resultados de este reordenamiento van a ser correctos siempre y cuando ambas filas que necesiten ser rotadas se encuentren en el pipeline de procesamiento, que en el caso de  punto fijo tiene aproximandamente un tamaño de 80. Resultados experimentales muestran que rara vez hay que rotar filas (aunque lo suficiente como para ser recomendabke la inclusión de un metodo que lidie con ello), pero que estas rotaciones rara vez exceden más una o dos posiciones en adelante.
+Además, se puede obervar que el algoritmo exige una comprobacion de un valor en la fila pivote y una psoible rotacion de filas. Esto es necesario ya que este valor es posteriormente el dividendo, por lo que un 0 provocaría un fallo en el cálculo. Par evitar latencias de lectura y escritura, se ha optado por una tabla de renombramiento. Estas comprobaciones se realizan a partir de la primera escritura. Al realizar las comprobaciones en las escrituras, se puede encontrar una fila válida simplemente observando las siguientes escrituras evitando. Esta tabla de escrituras es local, por lo que los resultados tienen que ser reordenados antes de salir del modulo. Puesto que estos trueques solo ocurren en el calculo del triangulo superior, se puede aprovechar el triangulo inferior para reordenarlos. Esto también acontece en la escritura. Los resultados de este reordenamiento van a ser correctos siempre y cuando ambas filas que necesiten ser rotadas se encuentren en el pipeline de procesamiento, que en el caso de  punto fijo tiene aproximandamente un tamaño de 80. Resultados experimentales muestran que rara vez hay que rotar filas (aunque lo suficiente como para ser recomendabke la inclusión de un metodo que lidie con ello), pero que estas rotaciones rara vez exceden más una o dos posiciones en adelante.
 
-En la transofrmación a aritmetica de punto fijo se descubrió que este calculo es que más error llega a introducir en los resultados finales del algoritmo, por lo tanto se ha hecho estudio exhaustivo en  sobre como minimizarlo. En la siguiente tabla se puede ver el uso de DSP frente a su precision. El objetivo ha sido encontrar el mejor balance entre DSP y menor error introducido en la operacion.
+En la transofrmación a aritmetica de punto fijo se descubrió que este calculo es que más error llega a introducir en los resultados finales del algoritmo, por lo tanto se ha hecho estudio exhaustivo en  sobre como minimizarlo. Con la tabla de uso de los dsp [referirse a la tabla mencionada anteriormente], se ha intentado econtar el mejor balance entre DSP y menor error introducido en la operacion.
 Para poder aprovechar este balance, ha sido necesario reducir los valores en los que la precision limitada producia desbordamientos y aumentar valores pequeños apra otorgales mas peso en las operaciones. Además, al realizar las operaciones de generacion de identidad, triangulo superior, inferior y diagonal de forma separada, se ha podido colocar diferentes multiplicadores para aumentar la precision todavia más. Estas operaciones se encuentran en el proceso (shift_proc)
 Tabla con los resultados con todo en 1, con la generacion de identidad en 29, y con todo metido. 
 
