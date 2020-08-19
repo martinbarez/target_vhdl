@@ -1,8 +1,8 @@
 # Abstract
 
-En los últimos años ha ocurrido un resurgimiento de la carrera espacial motivado especialmente por empresas comerciales. Sus aeronaves son equipadas con una multitud de sensores, siendo uno de ellos las cámaras hiperespectrales. Este tipo de cámaras toma imágenes en cientos de bandas espectrales diferentes, con el objetivo de proporcionar información sobre el terreno.
+En los últimos años ha ocurrido un resurgimiento de la carrera espacial motivado especialmente por empresas comerciales. (igual me estoy sacando el dato del rabo https://aerospace.csis.org/data/space-environment-total-launches-by-country/) Sus aeronaves son equipadas con una multitud de sensores, siendo uno de ellos las cámaras hiperespectrales. Este tipo de cámaras toma imágenes en cientos de bandas espectrales diferentes, con el objetivo de proporcionar información sobre el terreno.
 A causa del gran tamaño de estas imágenes, estas son enviadas a la tierra para su procesado, con el consecuente uso de red. Preferentemente estas imágenes deberían procesarse o comprimirse in situ para enviar solo una fracción de los datos obtenidos. Dados el entorno espacial y las caracteristicas este tipo de algoritmos, las FPGAs o ASICs se postulan como un sistema óptimo para su implementación.
-Este trabajo presenta una implementación sobre FPGAs del algoritmo detector Reed-Xiaoli de anomalías para imagenes hiperespectrales. Para su implementación se ha realizado un análisis de las operaciones del algoritmo, centrada en una implementación en punto flotante y otra en fijo, y de las repercusiones que tienen ciertas decisiones con la precisión que se alcanza. Finalmente se presenta una implementación óptima.
+Este trabajo presenta una implementación sobre FPGAs del algoritmo detector Reed-Xiaoli de anomalías para imagenes hiperespectrales. Para su implementación se ha realizado un análisis de las operaciones del algoritmo, centrada en una implementación en punto flotante y otra en punto fijo, y de las repercusiones que tienen ciertas decisiones con la precisión que se alcanza. Finalmente se presenta una implementación óptima.
 
 
 # Introduction
@@ -25,32 +25,25 @@ En https://public.lanl.gov/jt/Papers/onboard-post.pdf se propone el procesado de
 tengo que buscar trabajos donde usen fpgas para el espacio, sin tener muy en cuenta esos que requieran real time aunque tampoco es un problema. Está el trabajo del japo en alemania y creo que algún trabajo más.
 
 ### imagenes hiperespectrales
-Hyperspectral imaging es una tecnica que captura la reflectancia de cada pixel a traves de muchos espectros de luz.
+Hyperspectral imaging es una tecnica que captura la reflectancia de cada pixel a lo largo de muchos espectros de luz.
 Estos espectros o bandas forman en su conjunto una especie de huella para cada pixel que permite reconocer materiales, diferentes tipos de vegetación, depostos minerales o contaminantes.
 
 https://www.researchgate.net/figure/USGS-map-showing-the-location-of-different-minerals-in-the-Cuprite-mining-district-in_fig5_263532555
-En la imagen se puede observar como las imagenes hiperespectrales permiten la deteccion de minerales sobre la corteza terrestre.
+En la imagen se puede observar como al cotejar las imagenes hiperespectrales con huellas de minerales estos pueden ser detectados sobre la corteza terrestre.
 
 
-En este tipo de imagenes podemos hablar de tres tipos de resoluciones espacial, temporal y espectral, siendo este ultimo unico en este tipo de camaras. Local se refiere a la cantidad de metros cubiertos por cada pixel, por lo que para una misma cámara podrá cambiar de una imagen a otra. Resolucion temporal se refiere a la cantidad de imagenes que es capaz de tomar una camara por unidad de tiempo, por lo que será principalmente relevante en el momento de captura de la foto. La ultima resolucion, la espetral, se refiere a la separacion entre differentes longitudes de onda medidos en un rango determinado, es decir cuantas mas bandas capturadas en un rango menor, mayor será la resolución espectral.
+En este tipo de imagenes podemos hablar de tres tipos de resoluciones espacial, temporal y espectral, siendo esta última única en este tipo de cámaras. Local se refiere a la cantidad de metros cubiertos por cada pixel, por lo que para una misma cámara podrá cambiar de una imagen a otra. Resolucion temporal se refiere a la cantidad de imagenes que es capaz de tomar una camara por unidad de tiempo, por lo que será principalmente relevante en el momento de captura de la foto. La ultima resolucion, la espetral, se refiere a la separacion entre differentes longitudes de onda medidos en un rango determinado, es decir cuantas mas bandas capturadas en un rango menor, mayor será la resolución espectral.
 https://www.sciencedirect.com/topics/computer-science/hyperspectral-image
-Conforme al avance de la tecnoologia, estas 3 resoluciones siguen aumentando realizando la necesidad de sistemas de procesado acordes.
+Conforme al avance de la tecnoologia, estas 3 resoluciones siguen aumentando realzando la necesidad de sistemas de procesado acordes.
 
 
-Diferentes sensores tienen diferentes resoluciones. En este trabajo se han tomado como ejemplo los sensores de los projectos Hydice y Aviris.
-Hydice: Bands 	210
-Spectrum [nm] 	400-2500
-Spat.Res. [m] 	0-0 
-Aviris:
-Spectral range: 360 - 2500 nm with a total of 224 bands. 
-667\*667 px
-20m -> 12km
+Diferentes sensores tienen diferentes resoluciones. En este trabajo se han tomado como ejemplo los sensores de los projectos Hydice y Aviris que serán explicado en más detalle en la sección [conjunto de imagenes esprectrales analiadas]
 
 
 ### hardware reconfigurable
 
 Field Programmable Gate Arrays (FPGAs) are semiconductor devices that are based around a matrix of configurable logic blocks (CLBs) connected via programmable interconnects. FPGAs can be reprogrammed to desired application or functionality requirements after manufacturing. This feature distinguishes FPGAs from Application Specific Integrated Circuits (ASICs), which are custom manufactured for specific design tasks. (he copiado este bloque de texto clavado de Xilinx).
-Esta arquitectura permite diseñar algoritmos con anchos de calculo arbitrarios, lo que resulta en muy buen rendimiento a la hora de procesar imagenes.
+Al contrario que sistemas de proposito general como CPUs o GPUs, está arquitectura permite diseñar algoritmos con anchos de calculo arbitrarios, lo que resulta en muy buen rendimiento a la hora de procesar imagenes.
 ejemplo de operacion por watt
 https://arxiv.org/pdf/1906.11879.pdf-
 
@@ -74,12 +67,12 @@ La deteccion de anomalias es un tipo especial de tecnicas de deteccion de objeti
 
 ## plan de trabajo
 Primero se realizará una implementación del algoritmo en software en punto flotante que será validada con programas comerciales como ENVI o Hyspy. Sobre esta base se diseccionarán los algoritmos para poder estudiarlos y acercarlos en la medida de lo posible a su implementación en hardware.
-A la vez, se estudiárá la posible conversión de estas operaciones a punto fijo para lograr un mayor aprovechamiento de la logica de la fpga, en especial en los DSP. Además, el uso de DSP por operación es dependiente de la precision de los operandos. Es necesario prestar especial detalle para poder minimizar los erroes lo maximo posible sin exceder la capacidad del chip. Con este estudio hecho, se procederá a implementar la lgocia en punto fijo y comparar los resultados de las dos implementaciones.
+A la vez, se estudiárá la posible conversión de estas operaciones a punto fijo para lograr un mayor aprovechamiento de la logica de la fpga, en especial de los DSP. Además, el uso de DSP por operación es dependiente de la precision de los operandos[referencia a la tabla posterior]. Es necesario prestar especial detalle para poder minimizar los erroes lo maximo posible sin exceder la capacidad del chip. Con este estudio hecho, se procederá a implementar la logica en punto fijo y comparar los resultados de las dos implementaciones.
 
 
 ## algoritmo RX
 Dentro de la deteccion de anomalias, el algoritmo Rx es el mas usado y es conocido como el benchamrk de este tipo de algoritmos.
-Los algoritmos de detecciñón de anomalias extraen los objetivos, es decir pixeles o regiones, que sean espectralmente distintos a sus circundantes o al conjunto de datos completo. Para que estos algoritmos sean efectivos, las anomalias deben ser lo suficientemente pequeñas relativamente al fondo. Estos algoritmos tienen la ventaja de no requerir información previa de los obejtivos ni compensación por la refraccion atmosferica. Los errores que pueda haber en la imagen 
+Los algoritmos de detecciñón de anomalias extraen los objetivos, es decir pixeles o regiones, que sean espectralmente distintos a sus circundantes o al conjunto de datos completo. Para que estos algoritmos sean efectivos, las anomalias deben ser lo suficientemente pequeñas relativamente al fondo. Estos algoritmos tienen la ventaja de no requerir información previa de los obejtivos ni compensación por la refraccion atmosferica. Además, los errores que pueda haber en la imagen no afectan a la detección de anomalçias reales (creo que la mayor parte de esto ya lo he dicho arriba)
 
 Explicar un poquito el algoritmo en detalle.
 (copiar el algoritmo rx de molero)
@@ -95,6 +88,8 @@ Repetir este ultimo paso para cada pixel
 
 La complejidad de cada paso está incluida dentro del parentesis, siendo n_pixeles el numero de pixeles y n_bandas el numero de espectros.
 
+## creo que debería tener un apartado explicando las diferencias entre arimeticas
+Como está codificada cada una, ejemplos de uso de logica, y ya dentro un subapartado con la estrategia de transformacion
 
 ## estrategia de transformación de aritmética entera
 Una vez hecha la implementación en software se cambiará el tipo de datos de punto flotante a entero con 64 bits. Con este cambio se podrán observar en que pasos del algoritmo se pierde precisión por llegar a los limites representables con enteros con esa resolución -tanto por ser números cercanos al cero como al desbordar por llegar a los valores máximos y mínimos- y se intentará mejorar la precisión desplazando, es decir multiplicando y dividiendo por potencias de dos. Así, si un valor se acerca a 0 será multiplicado para mantener más precisión y si se encuentra cerca del desbordamiento, será dividido para evitarlo. Al ser los resultados de cada pixel relativos al resto, el orden de anomalidad no sé ve afectado siempre que estás operaciones se apliquen a todo el conjunto de datos de manera simultanea. Además, estas operaciones resultan triviales en un afpga.
@@ -144,7 +139,11 @@ También es posible convertir una fila a row echelon directamente realizando los
 Optimizaciones del algoritmo de cara a hardware.
 Las operaciones a realizar en los tres pasos - triangulo, superior y diagonal- son similares, así que con el fin de ahorrar recursos se han implementado sobre la misma lógica. Existe un proceso superior con los contadores para controlar el orden de su ejecución. (counter_proc). En el caso de la diagonal, se ha creado un cortociircuito para evitar el calculo de la resta.
 
-Para mejorar el rendimiento del modulo, las operaciones sobre la matriz A y la matriz I se ejecutan de forma simultanea. Además, mientras las operaciones de una fila se encuentran procesandose, las siguientes filas son procesadas. La unica espera ocurre cuando se necesita el resultado de una fila para el procesado de las siguientes. Esto es similar a loop unrolling. Para ello, se usan varios procesos para controlar la lectura, la escritura y la captura de la fila que actua como pivote (write_proc y capture_i_proc). [igual debería incluir algún tipo de dibujito o flechitas en el algoritmo]
+Debería poner un dibujito con todos los procesos
+
+Para mejorar el rendimiento del modulo, las operaciones sobre la matriz A y la matriz I se ejecutan de forma simultanea. Además, mientras las operaciones de una fila se encuentran procesandose, las siguientes filas son procesadas. La unica espera ocurre cuando se necesita el resultado de una fila para el procesado de las siguientes. Esto es similar a loop unrolling. Para ello, se usan varios procesos para controlar la lectura, la escritura y la captura de la fila que actua como pivote (write_proc y capture_i_proc). 
+
+Deberñia poner una rueda con colores con los calculos que están el pipeline, los encolados, etc
 
 Como se puede observar en el algoritmo, el elemento [i] es usado dos veces. Para poder realizar operaciones sobre filas posteriores sin retrasar lecturas, es necesario guardar este dato en una memoria auxiliar y leerlo en el momento en el que se vuelva a necesitar. Esta memoria está construida a partir de una fifo temp_convj.
 
@@ -225,6 +224,14 @@ que tengo que poner aqui
 # resutados experimentales
 ## plataforma reconfigurabke
 ## conjunto de images hiperespectrales
+
+Hydice: Bands 	210
+Spectrum [nm] 	400-2500
+Spat.Res. [m] 	0-0 
+Aviris:
+Spectral range: 360 - 2500 nm with a total of 224 bands. 
+667\*667 px
+20m -> 12km
 ## evaluacion de las anomalias detectadas
 ## evaluacion del rendimiento
 
