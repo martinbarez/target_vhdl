@@ -2,6 +2,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use ieee.math_real."ceil";
+use ieee.math_real."log2";
+
 package rx is
 
   --------------------------------------------------------------------------------
@@ -25,21 +28,21 @@ package rx is
   --------------------------------------------------------------------------------
   -- SIZE CONSTANTS
   --------------------------------------------------------------------------------
-  --constant n_bands    : natural range 0 to 256  := 8;
-  --constant n_pixels   : natural range 0 to 5000 := 32;
-  --constant log_bands  : natural := 3;
-  --constant log_pixels : natural := 5;
+--  constant n_bands    : natural := 8;
+--  constant n_pixels   : natural := 32;
 
-  constant n_bands    : natural range 0 to 256  := 55;
-  constant n_pixels   : natural range 0 to 5000 := 10*10;
-  constant log_bands  : natural                 := 6;
-  constant log_pixels : natural                 := 7;
+--  constant n_bands    : natural := 55;
+--  constant n_pixels   : natural := 10*10;
 
-  --constant n_bands    : natural range 0 to 256  := 169;
-  --constant n_pixels   : natural range 0 to 5000 := 64*64;
-  --constant log_bands  : natural := 8;
-  --constant log_pixels : natural := 12;
+  constant n_bands    : natural := 169;
+  constant n_pixels   : natural := 64*64;
 
+--  constant n_bands    : natural := 224;
+--  constant n_pixels   : natural := 512*614;
+  
+  
+  constant log_bands  : natural := integer(ceil(log2(real(n_bands))));
+  constant log_pixels : natural := integer(ceil(log2(real(n_pixels))));
 
   --------------------------------------------------------------------------------
   -- SHIFTING CONSTANTS
