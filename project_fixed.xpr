@@ -3,11 +3,11 @@
 <!--                                                         -->
 <!-- Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.   -->
 
-<Project Version="7" Minor="44" Path="/home/fpga/project_fixed/project_fixed.xpr">
+<Project Version="7" Minor="44" Path="C:/Users/marti/Documents/project_fixed/project_fixed.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
     <Option Name="Id" Val="1522ddc6e191430e98e62d0419e8262c"/>
-    <Option Name="Part" Val="xc7a200tfbg676-2"/>
+    <Option Name="Part" Val="xc7vx690tffg1761-2"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>
     <Option Name="CompiledLibDirModelSim" Val="$PCACHEDIR/compile_simlib/modelsim"/>
@@ -17,7 +17,7 @@
     <Option Name="CompiledLibDirVCS" Val="$PCACHEDIR/compile_simlib/vcs"/>
     <Option Name="CompiledLibDirRiviera" Val="$PCACHEDIR/compile_simlib/riviera"/>
     <Option Name="CompiledLibDirActivehdl" Val="$PCACHEDIR/compile_simlib/activehdl"/>
-    <Option Name="BoardPart" Val="xilinx.com:ac701:part0:1.4"/>
+    <Option Name="BoardPart" Val="xilinx.com:vc709:part0:1.8"/>
     <Option Name="ActiveSimSet" Val="sim_1"/>
     <Option Name="DefaultLib" Val="xil_defaultlib"/>
     <Option Name="ProjectType" Val="Default"/>
@@ -30,20 +30,20 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="ac701"/>
-    <Option Name="WTXSimLaunchSim" Val="565"/>
+    <Option Name="WTXSimLaunchSim" Val="584"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="43"/>
-    <Option Name="WTModelSimExportSim" Val="43"/>
-    <Option Name="WTQuestaExportSim" Val="43"/>
-    <Option Name="WTIesExportSim" Val="43"/>
-    <Option Name="WTVcsExportSim" Val="43"/>
-    <Option Name="WTRivieraExportSim" Val="43"/>
-    <Option Name="WTActivehdlExportSim" Val="43"/>
+    <Option Name="WTXSimExportSim" Val="44"/>
+    <Option Name="WTModelSimExportSim" Val="44"/>
+    <Option Name="WTQuestaExportSim" Val="44"/>
+    <Option Name="WTIesExportSim" Val="44"/>
+    <Option Name="WTVcsExportSim" Val="44"/>
+    <Option Name="WTRivieraExportSim" Val="44"/>
+    <Option Name="WTActivehdlExportSim" Val="44"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -59,6 +59,42 @@
   <FileSets Version="1" Minor="31">
     <FileSet Name="sources_1" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
       <Filter Type="Srcs"/>
+      <File Path="$PSRCDIR/sources_1/ip/mult_st_accum.xcix">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_accum.xcix"/>
+          <Attr Name="ImportTime" Val="1593630462"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/mult_st_accum/mult_st_accum.xci">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_accum/mult_st_accum.xci"/>
+          <Attr Name="ImportTime" Val="1593630402"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/mult_st_multiplier.xcix">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_multiplier.xcix"/>
+          <Attr Name="ImportTime" Val="1593610362"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/mult_st_multiplier/mult_st_multiplier.xci">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_multiplier/mult_st_multiplier.xci"/>
+          <Attr Name="ImportTime" Val="1593610316"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/ip/mult_nd_accum.xcix">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_nd_accum.xcix"/>
@@ -77,6 +113,85 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/ip/mult_nd_multiplier.xcix">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_nd_multiplier.xcix"/>
+          <Attr Name="ImportTime" Val="1593610386"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/mult_nd_multiplier/mult_nd_multiplier.xci">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_nd_multiplier/mult_nd_multiplier.xci"/>
+          <Attr Name="ImportTime" Val="1593610340"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/mean_subtracter.xcix">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mean_subtracter.xcix"/>
+          <Attr Name="ImportTime" Val="1593422548"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/mean_subtracter/mean_subtracter.xci">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mean_subtracter/mean_subtracter.xci"/>
+          <Attr Name="ImportTime" Val="1593422500"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/gauss_subtracter.xcix">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/gauss_subtracter.xcix"/>
+          <Attr Name="ImportTime" Val="1593422482"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/gauss_subtracter/gauss_subtracter.xci">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/gauss_subtracter/gauss_subtracter.xci"/>
+          <Attr Name="ImportTime" Val="1593422434"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/gauss_multiplier.xcix">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/gauss_multiplier.xcix"/>
+          <Attr Name="ImportTime" Val="1593512624"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/gauss_multiplier/gauss_multiplier.xci">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/gauss_multiplier/gauss_multiplier.xci"/>
+          <Attr Name="ImportTime" Val="1593512574"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/divider.xcix">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/ip/divider/divider.xci">
         <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/divider/divider.xci"/>
@@ -86,24 +201,24 @@
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
-      <File Path="$PSRCDIR/sources_1/new/rx_package.vhd">
-        <FileInfo SFType="VHDL2008">
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/rx_package.vhd"/>
-          <Attr Name="ImportTime" Val="1592897302"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
       <File Path="$PSRCDIR/sources_1/new/inference/STD_FIFO.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/inference/STD_FIFO.vhd"/>
           <Attr Name="ImportTime" Val="1592224706"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
       </File>
+      <File Path="$PSRCDIR/sources_1/new/rx_package.vhd">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/rx_package.vhd"/>
+          <Attr Name="ImportTime" Val="1592897302"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
       <File Path="$PSRCDIR/sources_1/new/inference/standard_fifo.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/inference/standard_fifo.vhd"/>
           <Attr Name="ImportTime" Val="1592223068"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -119,7 +234,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/inference/simple_dual_two_clocks_wf.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/inference/simple_dual_two_clocks_wf.vhd"/>
           <Attr Name="ImportTime" Val="1592220314"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -127,7 +242,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/inference/covariance_ram.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/inference/covariance_ram.vhd"/>
           <Attr Name="ImportTime" Val="1592221110"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -135,7 +250,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/inference/rams_sp_nc.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/inference/rams_sp_nc.vhd"/>
           <Attr Name="ImportTime" Val="1592221496"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -143,7 +258,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/inference/mean_buffer.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/inference/mean_buffer.vhd"/>
           <Attr Name="ImportTime" Val="1592221660"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -151,7 +266,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/mean_subtract_module.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/mean_subtract_module.vhd"/>
           <Attr Name="ImportTime" Val="1592221314"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -159,7 +274,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/matrix_mult.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/matrix_mult.vhd"/>
           <Attr Name="ImportTime" Val="1592227474"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -167,7 +282,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/inference/simple_dual_two_clocks_rf.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/inference/simple_dual_two_clocks_rf.vhd"/>
           <Attr Name="ImportTime" Val="1592220326"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -175,7 +290,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/inference/sorter_ram.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/inference/sorter_ram.vhd"/>
           <Attr Name="ImportTime" Val="1592224860"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -183,7 +298,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/sorter.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/sorter.vhd"/>
           <Attr Name="ImportTime" Val="1592052310"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -191,7 +306,7 @@
         </FileInfo>
       </File>
       <File Path="$PSRCDIR/sources_1/new/control.vhd">
-        <FileInfo SFType="VHDL2008">
+        <FileInfo>
           <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_1/project_1.srcs/sources_1/new/control.vhd"/>
           <Attr Name="ImportTime" Val="1592220502"/>
           <Attr Name="UsedIn" Val="synthesis"/>
@@ -206,7 +321,14 @@
     </FileSet>
     <FileSet Name="constrs_1" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
       <Filter Type="Constrs"/>
+      <File Path="$PSRCDIR/constrs_1/new/clock.xdc">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+        </FileInfo>
+      </File>
       <Config>
+        <Option Name="TargetConstrsFile" Val="$PSRCDIR/constrs_1/new/clock.xdc"/>
         <Option Name="ConstrsType" Val="XDC"/>
       </Config>
     </FileSet>
@@ -283,150 +405,6 @@
         <Option Name="TopAutoSet" Val="TRUE"/>
       </Config>
     </FileSet>
-    <FileSet Name="mult_st_multiplier" Type="BlockSrcs" RelSrcDir="$PSRCDIR/mult_st_multiplier">
-      <File Path="$PSRCDIR/sources_1/ip/mult_st_multiplier.xcix">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_multiplier.xcix"/>
-          <Attr Name="ImportTime" Val="1593610362"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/ip/mult_st_multiplier/mult_st_multiplier.xci">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_multiplier/mult_st_multiplier.xci"/>
-          <Attr Name="ImportTime" Val="1593610316"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="mult_st_multiplier"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
-    <FileSet Name="mult_nd_multiplier" Type="BlockSrcs" RelSrcDir="$PSRCDIR/mult_nd_multiplier">
-      <File Path="$PSRCDIR/sources_1/ip/mult_nd_multiplier.xcix">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_nd_multiplier.xcix"/>
-          <Attr Name="ImportTime" Val="1593610386"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/ip/mult_nd_multiplier/mult_nd_multiplier.xci">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_nd_multiplier/mult_nd_multiplier.xci"/>
-          <Attr Name="ImportTime" Val="1593610340"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="mult_nd_multiplier"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
-    <FileSet Name="gauss_subtracter" Type="BlockSrcs" RelSrcDir="$PSRCDIR/gauss_subtracter">
-      <File Path="$PSRCDIR/sources_1/ip/gauss_subtracter.xcix">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/gauss_subtracter.xcix"/>
-          <Attr Name="ImportTime" Val="1593422482"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/ip/gauss_subtracter/gauss_subtracter.xci">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/gauss_subtracter/gauss_subtracter.xci"/>
-          <Attr Name="ImportTime" Val="1593422434"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="gauss_subtracter"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
-    <FileSet Name="mean_subtracter" Type="BlockSrcs" RelSrcDir="$PSRCDIR/mean_subtracter">
-      <File Path="$PSRCDIR/sources_1/ip/mean_subtracter.xcix">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mean_subtracter.xcix"/>
-          <Attr Name="ImportTime" Val="1593422548"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/ip/mean_subtracter/mean_subtracter.xci">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mean_subtracter/mean_subtracter.xci"/>
-          <Attr Name="ImportTime" Val="1593422500"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="mean_subtracter"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
-    <FileSet Name="mult_st_accum" Type="BlockSrcs" RelSrcDir="$PSRCDIR/mult_st_accum">
-      <File Path="$PSRCDIR/sources_1/ip/mult_st_accum.xcix">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_accum.xcix"/>
-          <Attr Name="ImportTime" Val="1593630462"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/ip/mult_st_accum/mult_st_accum.xci">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/mult_st_accum/mult_st_accum.xci"/>
-          <Attr Name="ImportTime" Val="1593630402"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="mult_st_accum"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
-    <FileSet Name="gauss_multiplier" Type="BlockSrcs" RelSrcDir="$PSRCDIR/gauss_multiplier">
-      <File Path="$PSRCDIR/sources_1/ip/gauss_multiplier.xcix">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/gauss_multiplier.xcix"/>
-          <Attr Name="ImportTime" Val="1593512624"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <File Path="$PSRCDIR/sources_1/ip/gauss_multiplier/gauss_multiplier.xci">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PPRDIR/../Downloads/project_fixed/project_fixed.srcs/sources_1/ip/gauss_multiplier/gauss_multiplier.xci"/>
-          <Attr Name="ImportTime" Val="1593512574"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="gauss_multiplier"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
   </FileSets>
   <Simulators>
     <Simulator Name="XSim">
@@ -439,21 +417,15 @@
     <Simulator Name="Questa">
       <Option Name="Description" Val="Questa Advanced Simulator"/>
     </Simulator>
-    <Simulator Name="IES">
-      <Option Name="Description" Val="Incisive Enterprise Simulator (IES)"/>
-    </Simulator>
-    <Simulator Name="Xcelium">
-      <Option Name="Description" Val="Xcelium Parallel Simulator"/>
-    </Simulator>
-    <Simulator Name="VCS">
-      <Option Name="Description" Val="Verilog Compiler Simulator (VCS)"/>
-    </Simulator>
     <Simulator Name="Riviera">
       <Option Name="Description" Val="Riviera-PRO Simulator"/>
     </Simulator>
+    <Simulator Name="ActiveHDL">
+      <Option Name="Description" Val="Active-HDL Simulator"/>
+    </Simulator>
   </Simulators>
   <Runs Version="1" Minor="11">
-    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7a200tfbg676-2" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" IncludeInArchive="true">
+    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7vx690tffg1761-2" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" IncludeInArchive="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
         <Step Id="synth_design"/>
@@ -462,167 +434,7 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="mult_st_multiplier_synth_1" Type="Ft3:Synth" SrcSet="mult_st_multiplier" Part="xc7a200tfbg676-2" ConstrsSet="mult_st_multiplier" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/mult_st_multiplier_synth_1" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
-      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="mult_nd_multiplier_synth_1" Type="Ft3:Synth" SrcSet="mult_nd_multiplier" Part="xc7a200tfbg676-2" ConstrsSet="mult_nd_multiplier" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/mult_nd_multiplier_synth_1" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
-      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="gauss_subtracter_synth_1" Type="Ft3:Synth" SrcSet="gauss_subtracter" Part="xc7a200tfbg676-2" ConstrsSet="gauss_subtracter" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="mean_subtracter_synth_1" Type="Ft3:Synth" SrcSet="mean_subtracter" Part="xc7a200tfbg676-2" ConstrsSet="mean_subtracter" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="mult_st_accum_synth_1" Type="Ft3:Synth" SrcSet="mult_st_accum" Part="xc7a200tfbg676-2" ConstrsSet="mult_st_accum" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/mult_st_accum_synth_1" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
-      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="gauss_multiplier_synth_1" Type="Ft3:Synth" SrcSet="gauss_multiplier" Part="xc7a200tfbg676-2" ConstrsSet="gauss_multiplier" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/gauss_multiplier_synth_1" IncludeInArchive="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
-      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7a200tfbg676-2" ConstrsSet="constrs_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" SynthRun="synth_1" IncludeInArchive="true" GenFullBitstream="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2019"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design" EnableStepBool="1"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="mult_st_multiplier_impl_1" Type="Ft2:EntireDesign" Part="xc7a200tfbg676-2" ConstrsSet="mult_st_multiplier" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="mult_st_multiplier_synth_1" IncludeInArchive="false" GenFullBitstream="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2019"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design" EnableStepBool="1"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="mult_nd_multiplier_impl_1" Type="Ft2:EntireDesign" Part="xc7a200tfbg676-2" ConstrsSet="mult_nd_multiplier" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="mult_nd_multiplier_synth_1" IncludeInArchive="false" GenFullBitstream="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2019"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design" EnableStepBool="1"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="gauss_subtracter_impl_1" Type="Ft2:EntireDesign" Part="xc7a200tfbg676-2" ConstrsSet="gauss_subtracter" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="gauss_subtracter_synth_1" IncludeInArchive="false" GenFullBitstream="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2019"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design" EnableStepBool="1"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="mean_subtracter_impl_1" Type="Ft2:EntireDesign" Part="xc7a200tfbg676-2" ConstrsSet="mean_subtracter" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="mean_subtracter_synth_1" IncludeInArchive="false" GenFullBitstream="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2019"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design" EnableStepBool="1"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="mult_st_accum_impl_1" Type="Ft2:EntireDesign" Part="xc7a200tfbg676-2" ConstrsSet="mult_st_accum" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="mult_st_accum_synth_1" IncludeInArchive="false" GenFullBitstream="true">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2019"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design" EnableStepBool="1"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2019"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="gauss_multiplier_impl_1" Type="Ft2:EntireDesign" Part="xc7a200tfbg676-2" ConstrsSet="gauss_multiplier" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="gauss_multiplier_synth_1" IncludeInArchive="false" GenFullBitstream="true">
+    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7vx690tffg1761-2" ConstrsSet="constrs_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" SynthRun="synth_1" IncludeInArchive="true" GenFullBitstream="true">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2019"/>
         <Step Id="init_design"/>

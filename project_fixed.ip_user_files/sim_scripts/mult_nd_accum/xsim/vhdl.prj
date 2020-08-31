@@ -1,4 +1,0 @@
-vhdl xil_defaultlib  \
-"../../../ip/mult_nd_accum/sim/mult_nd_accum.vhd" \
-
-nosort

@@ -1,1 +1,0 @@
-mult_st_accum.vhd,vhdl,xil_defaultlib,../../../ip/mult_st_accum/sim/mult_st_accum.vhd,

@@ -1,1 +1,0 @@
-gauss_subtracter.vhd,vhdl,xil_defaultlib,../../../ip/gauss_subtracter/sim/gauss_subtracter.vhd,

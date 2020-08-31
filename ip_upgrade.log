@@ -1,0 +1,163 @@
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Mon Aug 31 11:57:24 2020
+| Host         : Funca-G14 running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xc7vx690tffg1761-2
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'mult_st_multiplier'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of mult_st_multiplier (xilinx.com:ip:mult_gen:12.0 (Rev. 16)) to Vivado generation flows.
+
+
+
+
+
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Mon Aug 31 11:57:16 2020
+| Host         : Funca-G14 running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xc7vx690tffg1761-2
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'mult_st_accum'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of mult_st_accum (xilinx.com:ip:c_accum:12.0 (Rev. 14)) to Vivado generation flows.
+
+
+
+
+
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Mon Aug 31 11:57:07 2020
+| Host         : Funca-G14 running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xc7vx690tffg1761-2
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'mult_nd_multiplier'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of mult_nd_multiplier (xilinx.com:ip:mult_gen:12.0 (Rev. 16)) to Vivado generation flows.
+
+
+
+
+
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Mon Aug 31 11:57:00 2020
+| Host         : Funca-G14 running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xc7vx690tffg1761-2
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'mult_nd_accum'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of mult_nd_accum (xilinx.com:ip:c_accum:12.0 (Rev. 14)) to Vivado generation flows.
+
+
+
+
+
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Mon Aug 31 11:56:55 2020
+| Host         : Funca-G14 running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xc7vx690tffg1761-2
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'mean_subtracter'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of mean_subtracter (xilinx.com:ip:c_addsub:12.0 (Rev. 14)) to Vivado generation flows.
+
+
+
+
+
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Mon Aug 31 11:56:49 2020
+| Host         : Funca-G14 running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xc7vx690tffg1761-2
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'gauss_subtracter'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of gauss_subtracter (xilinx.com:ip:c_addsub:12.0 (Rev. 14)) to Vivado generation flows.
+
+
+
+
+
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Mon Aug 31 11:56:44 2020
+| Host         : Funca-G14 running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xc7vx690tffg1761-2
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'gauss_multiplier'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of gauss_multiplier (xilinx.com:ip:mult_gen:12.0 (Rev. 16)) to Vivado generation flows.
+
+
+
+
+
+
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (win64) Build 2708876 Wed Nov  6 21:40:23 MST 2019
+| Date         : Mon Aug 31 11:56:26 2020
+| Host         : Funca-G14 running 64-bit major release  (build 9200)
+| Command      : upgrade_ip
+| Device       : xc7vx690tffg1761-2
+------------------------------------------------------------------------------------
+
+Upgrade Log for IP 'divider'
+
+1. Summary
+----------
+
+SUCCESS in the conversion of divider (xilinx.com:ip:div_gen:5.1 (Rev. 16)) to Vivado generation flows.
+

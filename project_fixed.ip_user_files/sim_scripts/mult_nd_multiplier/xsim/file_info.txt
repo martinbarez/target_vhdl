@@ -1,1 +1,0 @@
-mult_nd_multiplier.vhd,vhdl,xil_defaultlib,../../../ip/mult_nd_multiplier/sim/mult_nd_multiplier.vhd,

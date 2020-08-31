@@ -1,4 +1,0 @@
-vhdl xil_defaultlib  \
-"../../../ip/gauss_multiplier/sim/gauss_multiplier.vhd" \
-
-nosort
